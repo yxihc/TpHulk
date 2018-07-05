@@ -1,4 +1,4 @@
-package com.glavesoft.artauction.utils;
+package com.taopao.mvvmbase.utils;
 
 import android.app.Activity;
 import android.app.Application;
@@ -12,7 +12,7 @@ import android.util.DisplayMetrics;
 /**
  * @Author： 淘跑
  * @Date: 2018/6/29 14:33
- * @Use：
+ * @Use：并没有大面积测试 慎用
  */
 public class Density {
     private static float appDensity;

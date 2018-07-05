@@ -1,4 +1,4 @@
-package me.goldze.mvvmhabit.bus;
+package com.taopao.mvvmbase.bus;
 
 
 import io.reactivex.observers.DisposableObserver;

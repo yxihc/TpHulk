@@ -1,7 +1,9 @@
-package me.goldze.mvvmhabit.http.interceptor.logging;
+package com.taopao.mvvmbase.http.interceptor.logging;
 
 /**
- * @author ihsan on 21/02/2017.
+ * @Author： 淘跑
+ * @Date: 2018/7/5 11:43
+ * @Use：
  */
 
 public enum Level {

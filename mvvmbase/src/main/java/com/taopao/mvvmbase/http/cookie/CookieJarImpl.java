@@ -1,15 +1,17 @@
-package me.goldze.mvvmhabit.http.cookie;
+package com.taopao.mvvmbase.http.cookie;
 
+import com.taopao.mvvmbase.http.cookie.store.CookieStore;
 
 import java.util.List;
 
-import me.goldze.mvvmhabit.http.cookie.store.CookieStore;
 import okhttp3.Cookie;
 import okhttp3.CookieJar;
 import okhttp3.HttpUrl;
 
 /**
- * Created by goldze on 2017/5/13.
+ * @Author： 淘跑
+ * @Date: 2018/7/5 11:43
+ * @Use：
  */
 public class CookieJarImpl implements CookieJar {
 

@@ -1,6 +1,4 @@
-package me.goldze.mvvmhabit.binding.command;
-
-import me.goldze.mvvmhabit.R;
+package com.taopao.mvvmbase.binding.command;
 
 /**
  * Represents a function with zero arguments.

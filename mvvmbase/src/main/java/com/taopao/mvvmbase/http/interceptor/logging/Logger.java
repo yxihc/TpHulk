@@ -1,10 +1,12 @@
-package me.goldze.mvvmhabit.http.interceptor.logging;
+package com.taopao.mvvmbase.http.interceptor.logging;
 
 import okhttp3.internal.platform.Platform;
-
 /**
- * @author ihsan on 11/07/2017.
+ * @Author： 淘跑
+ * @Date: 2018/7/5 11:43
+ * @Use：
  */
+
 @SuppressWarnings({"WeakerAccess", "unused"})
 public interface Logger {
     void log(int level, String tag, String msg);

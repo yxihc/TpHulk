@@ -1,20 +1,5 @@
-/*
- * Copyright 2014-2017 Eduard Ereza Martínez
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- *
- * You may obtain a copy of the License at
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
-package me.goldze.mvvmhabit.crash;
+package com.taopao.mvvmbase.crash;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -33,7 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import me.goldze.mvvmhabit.R;
+import com.taopao.mvvmbase.R;
 
 
 public final class DefaultErrorActivity extends AppCompatActivity {
@@ -61,7 +46,7 @@ public final class DefaultErrorActivity extends AppCompatActivity {
 
         final CaocConfig config = CustomActivityOnCrash.getConfigFromIntent(getIntent());
 
-        if (config.isShowRestartButton() && config.getRestartActivityClass()!=null) {
+        if (config.isShowRestartButton() && config.getRestartActivityClass() != null) {
             restartButton.setText(R.string.customactivityoncrash_error_activity_restart_app);
             restartButton.setOnClickListener(new View.OnClickListener() {
                 @Override

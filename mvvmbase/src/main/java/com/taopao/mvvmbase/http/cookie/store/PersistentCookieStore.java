@@ -1,4 +1,4 @@
-package me.goldze.mvvmhabit.http.cookie.store;
+package com.taopao.mvvmbase.http.cookie.store;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -23,8 +23,11 @@ import okhttp3.Cookie;
 import okhttp3.HttpUrl;
 
 /**
- * Created by goldze on 2017/5/13.
+ * @Author： 淘跑
+ * @Date: 2018/7/5 11:43
+ * @Use：
  */
+
 public class PersistentCookieStore implements CookieStore {
 
     private static final String LOG_TAG = "PersistentCookieStore";

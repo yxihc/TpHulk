@@ -1,4 +1,4 @@
-package me.goldze.mvvmhabit.binding.command;
+package com.taopao.mvvmbase.binding.command;
 
 /**
  * A one-argument action.

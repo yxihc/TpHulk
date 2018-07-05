@@ -1,13 +1,16 @@
-package me.goldze.mvvmhabit.binding.viewadapter.checkbox;
+package com.taopao.mvvmbase.binding.viewadapter.checkbox;
 
 import android.databinding.BindingAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
-import me.goldze.mvvmhabit.binding.command.BindingCommand;
+import com.taopao.mvvmbase.binding.command.BindingCommand;
+
 
 /**
- * Created by goldze on 2017/6/16.
+ * @Author： 淘跑
+ * @Date: 2018/7/5 11:43
+ * @Use：
  */
 
 public class ViewAdapter {

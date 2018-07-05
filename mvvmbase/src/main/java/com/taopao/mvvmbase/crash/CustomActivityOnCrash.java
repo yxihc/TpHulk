@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package me.goldze.mvvmhabit.crash;
+package com.taopao.mvvmbase.crash;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;

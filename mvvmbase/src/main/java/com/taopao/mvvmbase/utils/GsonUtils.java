@@ -1,4 +1,4 @@
-package com.glavesoft.artauction.utils;
+package com.taopao.mvvmbase.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;

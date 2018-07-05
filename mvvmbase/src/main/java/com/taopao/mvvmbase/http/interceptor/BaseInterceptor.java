@@ -1,4 +1,4 @@
-package me.goldze.mvvmhabit.http.interceptor;
+package com.taopao.mvvmbase.http.interceptor;
 
 import java.io.IOException;
 import java.util.Map;
@@ -9,8 +9,11 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 /**
- * Created by goldze on 2017/5/10.
+ * @Author： 淘跑
+ * @Date: 2018/7/5 11:43
+ * @Use：
  */
+
 public class BaseInterceptor implements Interceptor {
     private Map<String, String> headers;
 

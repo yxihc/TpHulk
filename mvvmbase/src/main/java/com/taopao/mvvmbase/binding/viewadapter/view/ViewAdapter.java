@@ -1,19 +1,19 @@
-package me.goldze.mvvmhabit.binding.viewadapter.view;
+package com.taopao.mvvmbase.binding.viewadapter.view;
 
 import android.databinding.BindingAdapter;
 import android.view.View;
 
 import com.jakewharton.rxbinding2.view.RxView;
+import com.taopao.mvvmbase.binding.command.BindingCommand;
 
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.functions.Consumer;
-import me.goldze.mvvmhabit.binding.command.BindingCommand;
-
 /**
- * Created by goldze on 2017/6/16.
+ * @Author： 淘跑
+ * @Date: 2018/7/5 11:43
+ * @Use：
  */
-
 public class ViewAdapter {
     //防重复点击间隔(秒)
     public static final int CLICK_INTERVAL = 1;

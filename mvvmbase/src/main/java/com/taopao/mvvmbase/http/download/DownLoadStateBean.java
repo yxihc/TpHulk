@@ -1,4 +1,4 @@
-package me.goldze.mvvmhabit.http.download;
+package com.taopao.mvvmbase.http.download;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -6,9 +6,10 @@ import android.os.Parcelable;
 import java.io.Serializable;
 
 /**
- * Created by goldze on 2017/5/11.
+ * @Author： 淘跑
+ * @Date: 2018/7/5 11:43
+ * @Use：
  */
-
 public class DownLoadStateBean implements Serializable, Parcelable {
     long total; //  文件总大小
     long bytesLoaded; //已加载文件的大小

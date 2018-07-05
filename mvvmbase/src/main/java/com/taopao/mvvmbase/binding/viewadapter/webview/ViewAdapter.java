@@ -1,11 +1,13 @@
-package me.goldze.mvvmhabit.binding.viewadapter.webview;
+package com.taopao.mvvmbase.binding.viewadapter.webview;
 
 import android.databinding.BindingAdapter;
 import android.text.TextUtils;
 import android.webkit.WebView;
 
 /**
- * Created by goldze on 2017/6/18.
+ * @Author： 淘跑
+ * @Date: 2018/7/5 11:43
+ * @Use：
  */
 public class ViewAdapter {
     @BindingAdapter({"render"})

@@ -1,9 +1,10 @@
-package me.goldze.mvvmhabit.binding.viewadapter.viewgroup;
+package com.taopao.mvvmbase.binding.viewadapter.viewgroup;
 
 /**
- * Created by goldze on 2017/6/15.
+ * @Author： 淘跑
+ * @Date: 2018/7/5 11:43
+ * @Use：
  */
-
 import android.databinding.ViewDataBinding;
 
 public interface IBindingItemViewModel<V extends ViewDataBinding> {

@@ -1,12 +1,13 @@
-package me.goldze.mvvmhabit.utils;
+package com.taopao.mvvmbase.utils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
 /**
- * Created by goldze on 2017/5/14.
- * 常用工具类
+ * @Author： 淘跑
+ * @Date: 2018/7/5 11:43
+ * @Use： ui工具类
  */
 public final class Utils {
 

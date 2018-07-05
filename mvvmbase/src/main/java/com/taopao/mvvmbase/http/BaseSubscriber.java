@@ -1,15 +1,16 @@
-package me.goldze.mvvmhabit.http;
+package com.taopao.mvvmbase.http;
 
 import android.content.Context;
 import android.widget.Toast;
 
+import com.taopao.mvvmbase.utils.NetworkUtil;
+
 import io.reactivex.observers.DisposableObserver;
-import me.goldze.mvvmhabit.utils.KLog;
-import me.goldze.mvvmhabit.utils.ToastUtils;
 
 /**
- * Created by goldze on 2017/5/10.
- * 该类仅供参考，实际业务Code, 根据需求来定义，
+ * @Author： 淘跑
+ * @Date: 2018/7/5 11:43
+ * @Use：该类仅供参考，实际业务Code, 根据需求来定义，
  */
 public abstract class BaseSubscriber<T> extends DisposableObserver<T> {
     public abstract void onResult(T t);
@@ -23,7 +24,7 @@ public abstract class BaseSubscriber<T> extends DisposableObserver<T> {
 
     @Override
     public void onError(Throwable e) {
-        KLog.e(e.getMessage());
+//        KLog.e(e.getMessage());
         // todo error somthing
 
         if (e instanceof ResponseThrowable) {
@@ -61,14 +62,5 @@ public abstract class BaseSubscriber<T> extends DisposableObserver<T> {
     @Override
     public void onNext(Object o) {
         BaseResponse baseResponse = (BaseResponse) o;
-        if (baseResponse.getCode() == 200) {
-            onResult((T) baseResponse.getResult());
-        } else if (baseResponse.getCode() == 330) {
-            ToastUtils.showShort(baseResponse.getMessage());
-        } else if (baseResponse.getCode() == 503) {
-            KLog.e(baseResponse.getMessage());
-        } else {
-            ToastUtils.showShort("操作失败！错误代码:" + baseResponse.getCode());
-        }
     }
 }

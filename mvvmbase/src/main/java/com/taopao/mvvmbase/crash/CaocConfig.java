@@ -14,13 +14,16 @@
  * limitations under the License.
  */
 
-package me.goldze.mvvmhabit.crash;
+package com.taopao.mvvmbase.crash;
 
 import android.app.Activity;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+
+import com.taopao.mvvmbase.MainActivity;
+import com.taopao.mvvmbase.R;
 
 import java.io.Serializable;
 import java.lang.annotation.Retention;
@@ -29,6 +32,21 @@ import java.lang.reflect.Modifier;
 
 
 public class CaocConfig implements Serializable {
+
+    //使用网址
+//    CaocConfig.Builder.create()
+//            .backgroundMode(CaocConfig.BACKGROUND_MODE_SILENT) //背景模式,开启沉浸式
+//                .enabled(true) //是否启动全局异常捕获
+//                .showErrorDetails(true) //是否显示错误详细信息
+//                .showRestartButton(true) //是否显示重启按钮
+//                .trackActivities(true) //是否跟踪Activity
+//                .minTimeBetweenCrashesMs(2000) //崩溃的间隔时间(毫秒)
+//                .errorDrawable(R.drawable.customactivityoncrash_error_image) //错误图标
+//                .restartActivity(MainActivity.class) //重新启动后的activity
+////                .errorActivity(YourCustomErrorActivity.class) //崩溃后的错误activity
+////                .eventListener(new YourCustomEventListener()) //崩溃后的错误监听
+//                .apply();
+
 
     @IntDef({BACKGROUND_MODE_CRASH, BACKGROUND_MODE_SHOW_CUSTOM, BACKGROUND_MODE_SILENT})
     @Retention(RetentionPolicy.SOURCE)

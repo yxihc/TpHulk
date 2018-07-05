@@ -1,4 +1,4 @@
-package me.goldze.mvvmhabit.http.interceptor.logging;
+package com.taopao.mvvmbase.http.interceptor.logging;
 
 import android.text.TextUtils;
 
@@ -13,8 +13,11 @@ import okhttp3.Request;
 import okio.Buffer;
 
 /**
- * @author ihsan on 09/02/2017.
+ * @Author： 淘跑
+ * @Date: 2018/7/5 11:43
+ * @Use：
  */
+
 
 class Printer {
 

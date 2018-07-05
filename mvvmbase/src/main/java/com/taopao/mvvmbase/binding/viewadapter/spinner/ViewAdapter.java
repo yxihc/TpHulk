@@ -1,4 +1,4 @@
-package me.goldze.mvvmhabit.binding.viewadapter.spinner;
+package com.taopao.mvvmbase.binding.viewadapter.spinner;
 
 import android.databinding.BindingAdapter;
 import android.text.TextUtils;
@@ -7,13 +7,16 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.taopao.mvvmbase.binding.command.BindingCommand;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import me.goldze.mvvmhabit.binding.command.BindingCommand;
 
 /**
- * Created by goldze on 2017/6/18.
+ * @Author： 淘跑
+ * @Date: 2018/7/5 11:43
+ * @Use：
  */
 public class ViewAdapter {
     /**

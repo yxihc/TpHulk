@@ -1,6 +1,4 @@
-package me.goldze.mvvmhabit.bus;
-
-import org.reactivestreams.Subscription;
+package com.taopao.mvvmbase.bus;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;

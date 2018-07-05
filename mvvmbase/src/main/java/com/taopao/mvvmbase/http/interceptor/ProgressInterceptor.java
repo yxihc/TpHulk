@@ -1,13 +1,16 @@
-package me.goldze.mvvmhabit.http.interceptor;
+package com.taopao.mvvmbase.http.interceptor;
+
+import com.taopao.mvvmbase.http.download.ProgressResponseBody;
 
 import java.io.IOException;
 
-import me.goldze.mvvmhabit.http.download.ProgressResponseBody;
 import okhttp3.Interceptor;
 import okhttp3.Response;
 
 /**
- * Created by goldze on 2017/5/10.
+ * @Author： 淘跑
+ * @Date: 2018/7/5 11:43
+ * @Use：
  */
 
 public class ProgressInterceptor implements Interceptor {

@@ -1,21 +1,22 @@
-package me.goldze.mvvmhabit.http.interceptor;
+package com.taopao.mvvmbase.http.interceptor;
 
-import android.app.Activity;
 import android.content.Context;
-import android.widget.Toast;
+
+import com.taopao.mvvmbase.utils.NetworkUtil;
 
 import java.io.IOException;
 
-import me.goldze.mvvmhabit.http.NetworkUtil;
 import okhttp3.CacheControl;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 
 /**
- * Created by goldze on 2017/5/10.
- * 无网络状态下智能读取缓存的拦截器
+ * @Author： 淘跑
+ * @Date: 2018/7/5 11:43
+ * @Use：
  */
+
 public class CacheInterceptor implements Interceptor {
 
     private Context context;

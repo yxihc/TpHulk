@@ -1,9 +1,11 @@
-package me.goldze.mvvmhabit.http.download;
+package com.taopao.mvvmbase.http.download;
 
 import io.reactivex.observers.DisposableObserver;
 
 /**
- * Created by goldze on 2017/5/11.
+ * @Author： 淘跑
+ * @Date: 2018/7/5 11:43
+ * @Use：
  */
 
 public class DownLoadSubscriber<T> extends DisposableObserver<T> {

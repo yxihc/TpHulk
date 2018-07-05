@@ -1,7 +1,5 @@
-package me.goldze.mvvmhabit.binding.command;
+package com.taopao.mvvmbase.binding.command;
 
-
-import io.reactivex.exceptions.Exceptions;
 
 /**
  * About : kelin的ReplyCommand

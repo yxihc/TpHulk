@@ -1,17 +1,20 @@
-package me.goldze.mvvmhabit.binding.viewadapter.recyclerview;
+package com.taopao.mvvmbase.binding.viewadapter.recyclerview;
 
 import android.databinding.BindingAdapter;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.taopao.mvvmbase.binding.command.BindingCommand;
+
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.functions.Consumer;
 import io.reactivex.subjects.PublishSubject;
-import me.goldze.mvvmhabit.binding.command.BindingCommand;
 
 /**
- * Created by goldze on 2017/6/16.
+ * @Author： 淘跑
+ * @Date: 2018/7/5 11:43
+ * @Use：
  */
 public class ViewAdapter {
 

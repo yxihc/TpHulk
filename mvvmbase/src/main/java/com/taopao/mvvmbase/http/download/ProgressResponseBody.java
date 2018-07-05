@@ -1,8 +1,9 @@
-package me.goldze.mvvmhabit.http.download;
+package com.taopao.mvvmbase.http.download;
+
+import com.taopao.mvvmbase.bus.RxBus;
 
 import java.io.IOException;
 
-import me.goldze.mvvmhabit.bus.RxBus;
 import okhttp3.MediaType;
 import okhttp3.ResponseBody;
 import okio.Buffer;
@@ -12,9 +13,10 @@ import okio.Okio;
 import okio.Source;
 
 /**
- * Created by goldze on 2017/5/11.
+ * @Author： 淘跑
+ * @Date: 2018/7/5 11:43
+ * @Use：
  */
-
 public class ProgressResponseBody extends ResponseBody {
     private ResponseBody responseBody;
 

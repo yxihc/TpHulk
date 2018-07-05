@@ -1,16 +1,16 @@
-package me.goldze.mvvmhabit.binding.viewadapter.radiogroup;
+package com.taopao.mvvmbase.binding.viewadapter.radiogroup;
 
 import android.databinding.BindingAdapter;
 import android.support.annotation.IdRes;
-import android.text.TextUtils;
-import android.webkit.WebView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import me.goldze.mvvmhabit.binding.command.BindingCommand;
+import com.taopao.mvvmbase.binding.command.BindingCommand;
 
 /**
- * Created by goldze on 2017/6/18.
+ * @Author： 淘跑
+ * @Date: 2018/7/5 11:43
+ * @Use：
  */
 public class ViewAdapter {
     @BindingAdapter(value = {"onCheckedChangedCommand"}, requireAll = false)

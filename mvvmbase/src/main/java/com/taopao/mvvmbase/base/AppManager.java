@@ -1,4 +1,4 @@
-package me.goldze.mvvmhabit.base;
+package com.taopao.mvvmbase.base;
 
 import android.app.Activity;
 import android.support.v4.app.Fragment;
@@ -6,8 +6,9 @@ import android.support.v4.app.Fragment;
 import java.util.Stack;
 
 /**
- * Created by goldze on 2017/6/15.
- * activity堆栈式管理
+ * @Author： 淘跑
+ * @Date: 2018/7/5 11:43
+ * @Use：activity堆栈式管理
  */
 public class AppManager {
 
@@ -16,6 +17,7 @@ public class AppManager {
     private static AppManager instance;
 
     private AppManager() {
+
     }
 
     /**
@@ -23,7 +25,7 @@ public class AppManager {
      *
      * @return AppManager
      */
-    public static AppManager getAppManager() {
+    public static AppManager getInstance() {
         if (instance == null) {
             instance = new AppManager();
         }

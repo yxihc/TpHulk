@@ -1,5 +1,8 @@
-package me.goldze.mvvmhabit.bus;
+package com.taopao.mvvmbase.bus;
 
+
+import com.taopao.mvvmbase.binding.command.BindingAction;
+import com.taopao.mvvmbase.binding.command.BindingConsumer;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -7,9 +10,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-
-import me.goldze.mvvmhabit.binding.command.BindingAction;
-import me.goldze.mvvmhabit.binding.command.BindingConsumer;
 
 /**
  * About : kelin的Messenger

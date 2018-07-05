@@ -1,14 +1,17 @@
-package me.goldze.mvvmhabit.binding.viewadapter.scrollview;
+package com.taopao.mvvmbase.binding.viewadapter.scrollview;
 
 import android.databinding.BindingAdapter;
 import android.support.v4.widget.NestedScrollView;
 import android.view.ViewTreeObserver;
 import android.widget.ScrollView;
 
-import me.goldze.mvvmhabit.binding.command.BindingCommand;
+import com.taopao.mvvmbase.binding.command.BindingCommand;
+
 
 /**
- * Created by goldze on 2017/6/18.
+ * @Author： 淘跑
+ * @Date: 2018/7/5 11:43
+ * @Use：
  */
 public final class ViewAdapter {
 

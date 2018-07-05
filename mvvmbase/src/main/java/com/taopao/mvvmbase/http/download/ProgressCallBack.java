@@ -1,9 +1,10 @@
-package me.goldze.mvvmhabit.http.download;
+package com.taopao.mvvmbase.http.download;
 
 import android.os.Handler;
 import android.util.Log;
 
-import org.reactivestreams.Subscription;
+import com.taopao.mvvmbase.bus.RxBus;
+import com.taopao.mvvmbase.bus.RxSubscriptions;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,13 +14,12 @@ import java.io.InputStream;
 
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
-import io.reactivex.observers.DisposableObserver;
-import me.goldze.mvvmhabit.bus.RxBus;
-import me.goldze.mvvmhabit.bus.RxSubscriptions;
 import okhttp3.ResponseBody;
 
 /**
- * Created by goldze on 2017/9/26 0026.
+ * @Author： 淘跑
+ * @Date: 2018/7/5 11:43
+ * @Use：
  */
 
 public abstract class ProgressCallBack<T> {

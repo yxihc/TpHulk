@@ -1,9 +1,9 @@
-package me.goldze.mvvmhabit.http;
+package com.taopao.mvvmbase.http;
+
+import android.net.ParseException;
 
 import com.google.gson.JsonParseException;
 import com.google.gson.stream.MalformedJsonException;
-
-import android.net.ParseException;
 
 import org.apache.http.conn.ConnectTimeoutException;
 import org.json.JSONException;
@@ -14,7 +14,9 @@ import retrofit2.HttpException;
 
 
 /**
- * Created by goldze on 2017/5/11.
+ * @Author： 淘跑
+ * @Date: 2018/7/5 11:43
+ * @Use：
  */
 public class ExceptionHandle {
 

@@ -1,4 +1,4 @@
-package me.goldze.mvvmhabit.bus;
+package com.taopao.mvvmbase.bus;
 
 
 import java.util.Map;

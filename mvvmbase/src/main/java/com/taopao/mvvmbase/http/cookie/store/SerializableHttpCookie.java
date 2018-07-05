@@ -1,4 +1,4 @@
-package me.goldze.mvvmhabit.http.cookie.store;
+package com.taopao.mvvmbase.http.cookie.store;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -6,6 +6,11 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 import okhttp3.Cookie;
+/**
+ * @Author： 淘跑
+ * @Date: 2018/7/5 11:43
+ * @Use：
+ */
 
 public class SerializableHttpCookie implements Serializable {
     private static final long serialVersionUID = 6374381323722046732L;

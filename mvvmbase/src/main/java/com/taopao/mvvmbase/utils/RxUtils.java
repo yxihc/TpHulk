@@ -1,9 +1,10 @@
-package me.goldze.mvvmhabit.utils;
+package com.taopao.mvvmbase.utils;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
 
-
+import com.taopao.mvvmbase.http.BaseResponse;
+import com.taopao.mvvmbase.http.ExceptionHandle;
 import com.trello.rxlifecycle2.LifecycleProvider;
 import com.trello.rxlifecycle2.LifecycleTransformer;
 
@@ -13,12 +14,11 @@ import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
-import me.goldze.mvvmhabit.http.BaseResponse;
-import me.goldze.mvvmhabit.http.ExceptionHandle;
 
 /**
- * Created by goldze on 2017/6/19.
- * 有关Rx的工具类
+ * @Author： 淘跑
+ * @Date: 2018/7/5 11:43
+ * @Use： 有关Rx的工具类
  */
 public class RxUtils {
     /**
@@ -83,8 +83,8 @@ public class RxUtils {
         @Override
         public T apply(BaseResponse<T> response) {
             if (!response.isOk())
-                throw new RuntimeException(response.getCode() + "" + response.getMessage() != null ? response.getMessage() : "");
-            return response.getResult();
+                throw new RuntimeException(response.getErrorCode() + "" + response.getErrorMsg() != null ? response.getErrorMsg() : "");
+            return response.getData();
         }
     }
 

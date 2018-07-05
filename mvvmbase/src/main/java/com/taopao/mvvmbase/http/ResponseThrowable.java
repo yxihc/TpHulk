@@ -1,9 +1,10 @@
-package me.goldze.mvvmhabit.http;
+package com.taopao.mvvmbase.http;
 
 /**
- * Created by goldze on 2017/5/11.
+ * @Author： 淘跑
+ * @Date: 2018/7/5 11:43
+ * @Use：
  */
-
 public class ResponseThrowable extends Exception {
     public int code;
     public String message;

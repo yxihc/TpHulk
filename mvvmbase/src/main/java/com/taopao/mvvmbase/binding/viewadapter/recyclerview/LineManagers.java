@@ -1,9 +1,11 @@
-package me.goldze.mvvmhabit.binding.viewadapter.recyclerview;
+package com.taopao.mvvmbase.binding.viewadapter.recyclerview;
 
 import android.support.v7.widget.RecyclerView;
 
 /**
- * Created by goldze on 2017/6/16.
+ * @Author： 淘跑
+ * @Date: 2018/7/5 11:43
+ * @Use：
  */
 public class LineManagers {
     protected LineManagers() {

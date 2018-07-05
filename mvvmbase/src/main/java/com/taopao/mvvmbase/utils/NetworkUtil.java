@@ -9,8 +9,6 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.provider.Settings;
 
-import com.glavesoft.artauction.app.App;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -34,7 +32,7 @@ import java.lang.reflect.Method;
 //        <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
 //        <!-- 访问手机当前状态, 需要某些信息用于网络定位 -->
 //        <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-public class NetworkUtils {
+public class NetworkUtil {
     /**
      * 没有连接网络
      */
@@ -48,7 +46,7 @@ public class NetworkUtils {
      */
     public static final int NETWORK_WIFI = 1;
 
-    private NetworkUtils() {
+    private NetworkUtil() {
         /* cannot be instantiated */
         throw new UnsupportedOperationException("cannot be instantiated");
     }
@@ -109,8 +107,8 @@ public class NetworkUtils {
     /**
      * 检查WIFI是否连接
      */
-    public static boolean isWifiConnected() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) App.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+    public static boolean isWifiConnected(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo wifiInfo = connectivityManager
                 .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         return wifiInfo != null;
@@ -119,8 +117,8 @@ public class NetworkUtils {
     /**
      * 检查手机网络(4G/3G/2G)是否连接
      */
-    public static boolean isMobileNetworkConnected() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) App.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+    public static boolean isMobileNetworkConnected(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo mobileNetworkInfo = connectivityManager
                 .getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
         return mobileNetworkInfo != null;
@@ -129,8 +127,8 @@ public class NetworkUtils {
     /**
      * 检查是否有可用网络
      */
-    public static boolean isNetworkConnected() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) App.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+    public static boolean isNetworkConnected(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         return connectivityManager.getActiveNetworkInfo() != null;
     }
 

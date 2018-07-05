@@ -1,4 +1,4 @@
-package me.goldze.mvvmhabit.binding.viewadapter.edittext;
+package com.taopao.mvvmbase.binding.viewadapter.edittext;
 
 import android.content.Context;
 import android.databinding.BindingAdapter;
@@ -7,12 +7,14 @@ import android.text.TextWatcher;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
-import me.goldze.mvvmhabit.binding.command.BindingCommand;
+import com.taopao.mvvmbase.binding.command.BindingCommand;
+
 
 /**
- * Created by goldze on 2017/6/16.
+ * @Author： 淘跑
+ * @Date: 2018/7/5 11:43
+ * @Use：
  */
-
 public class ViewAdapter {
     /**
      * EditText重新获取焦点的事件绑定

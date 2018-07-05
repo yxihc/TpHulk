@@ -1,39 +1,52 @@
-package me.goldze.mvvmhabit.http;
+package com.taopao.mvvmbase.http;
 
 /**
- * Created by goldze on 2017/5/10.
- * 该类仅供参考，实际业务返回的固定字段, 根据需求来定义，
+ * @Author： 淘跑
+ * @Date: 2018/7/5 11:43
+ * @Use：
  */
 public class BaseResponse<T> {
-    private int code;
-    private String message;
-    private T result;
+    public static final int onResultOk = 200;//请求成功
+    public static final int tokenInvalid = 201;//token失效
+    private int errorCode;//错误码
+    private String errorMsg;//错误内容
 
-    public int getCode() {
-        return code;
+    public int getErrorCode() {
+        return errorCode;
     }
 
-    public void setCode(int code) {
-        this.code = code;
+    public void setErrorCode(int errorCode) {
+        this.errorCode = errorCode;
     }
 
-    public T getResult() {
-        return result;
+    public String getErrorMsg() {
+        return errorMsg;
     }
 
-    public void setResult(T result) {
-        this.result = result;
+    public void setErrorMsg(String errorMsg) {
+        this.errorMsg = errorMsg;
     }
 
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
+    }
+
+    private T data;
+
+    /**
+     * 是否请求成功
+     *
+     * @return
+     */
     public boolean isOk() {
-        return code == 0;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
+        if (errorCode == onResultOk) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

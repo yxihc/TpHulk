@@ -1,13 +1,15 @@
-package me.goldze.mvvmhabit.binding.viewadapter.swiperefresh;
+package com.taopao.mvvmbase.binding.viewadapter.swiperefresh;
 
 import android.databinding.BindingAdapter;
 import android.support.v4.widget.SwipeRefreshLayout;
 
-import me.goldze.mvvmhabit.binding.command.BindingCommand;
+import com.taopao.mvvmbase.binding.command.BindingCommand;
 
 
 /**
- * Created by goldze on 2017/6/18.
+ * @Author： 淘跑
+ * @Date: 2018/7/5 11:43
+ * @Use：
  */
 public class ViewAdapter {
     @BindingAdapter({"onRefreshCommand"})
