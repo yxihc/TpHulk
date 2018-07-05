@@ -24,31 +24,60 @@ dependencies {
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>通用>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.12'
+    //noinspection GradleCompatible
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<通用<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
     //把implementation 用api代替,它是对外部公开的, 所有其他的module就不需要添加该依赖
-    api rootProject.ext.dependencies.constraint_layout
-    api rootProject.ext.dependencies.appcompat_v7
-    api rootProject.ext.dependencies.recyclerview
 
+    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Support>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    api rootProject.ext.dependencies["constraint_layout"]
+    api rootProject.ext.dependencies["support_annotations"]
+    api rootProject.ext.dependencies["appcompat_v7"]
+    api rootProject.ext.dependencies["recyclerview"]
+    api rootProject.ext.dependencies["design"]
+    api rootProject.ext.dependencies["cardview"]
+    //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Support<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+    //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<网络请求<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    api rootProject.ext.dependencies["rxjava"]
+    api rootProject.ext.dependencies["rxandroid"]
+    api rootProject.ext.dependencies["retrofit2"]
+    api rootProject.ext.dependencies["converter_gson"]
+    api rootProject.ext.dependencies["adapter_rxjava"]
+    api rootProject.ext.dependencies["logging_interceptor"]
+    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>网络请求>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    //图片加载
+    api rootProject.ext.dependencies["picasso"]
+    //沉浸式
+    api rootProject.ext.dependencies["statusbarutil"]
 
-    api(rootProject.ext.dependencies.BaseRecyclerViewAdapterHelper) {
+    //底部导航栏or顶部导航栏
+    api rootProject.ext.dependencies["FlycoTabLayout_Lib"]
+
+    //Android6.0及以上权限管理  注意，easypermissions取决于Android支持库27.1.0所以你需要compilesdkversion 27或更高。这种变化应该是安全的compilesdkversion不会改变应用程序的行为。
+    api(rootProject.ext.dependencies["easypermissions"]) {
+        exclude group: 'com.android.support'
+    }
+    //下拉刷新
+    api(rootProject.ext.dependencies["smartRefreshLayout"]) {
+        exclude group: "com.android.support"
+    }
+    //recyclerview的adapter
+    api(rootProject.ext.dependencies["BaseRecyclerViewAdapterHelper"]) {
         exclude group: "com.android.support"
     }
 
-
-
+    //图片选择
+    api(rootProject.ext.dependencies["PictureSelector"]) {
+        exclude group: 'com.android.support'
+        exclude group: 'com.github.bumptech.glide'
+        exclude group: 'io.reactivex.rxjava2'
+    }
 
     implementation('com.airbnb.android:lottie:2.3.0') {
         exclude group: ['com.android.support', 'com.google']
     }
-
-//    api('com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30') {
-//        exclude group: 'com.android.support'
-//    }
-
 
 }
