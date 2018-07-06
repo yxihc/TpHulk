@@ -2,7 +2,10 @@ package com.taopao.mvvmbase.base;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 
 import com.taopao.mvvmbase.R;
 import com.taopao.mvvmbase.crash.CaocConfig;
@@ -15,6 +18,7 @@ import com.taopao.mvvmbase.crash.CaocConfig;
 
 public class BaseApplication extends Application {
     private static BaseApplication sInstance;
+    //以下属性应用于整个应用程序，合理利用资源，减少资源浪费
 
     @Override
     public void onCreate() {
@@ -33,7 +37,6 @@ public class BaseApplication extends Application {
     public static BaseApplication getInstance() {
         return sInstance;
     }
-
 
     private ActivityLifecycleCallbacks mCallbacks = new ActivityLifecycleCallbacks() {
 
@@ -67,6 +70,14 @@ public class BaseApplication extends Application {
             AppManager.getInstance().removeActivity(activity);
         }
     };
+
+
+
+
+
+
+
+
 
     /**
      * 初始化崩溃检测

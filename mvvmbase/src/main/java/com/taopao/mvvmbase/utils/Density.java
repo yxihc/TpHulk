@@ -12,7 +12,7 @@ import android.util.DisplayMetrics;
 /**
  * @Author： 淘跑
  * @Date: 2018/6/29 14:33
- * @Use：并没有大面积测试 慎用
+ * @Use：(尽可能的屏幕适配)并没有大面积测试 慎用 用法: Density.setDensity(this, 420);
  */
 public class Density {
     private static float appDensity;

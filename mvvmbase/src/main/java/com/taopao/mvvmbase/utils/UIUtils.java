@@ -1,4 +1,4 @@
-package com.glavesoft.artauction.utils;
+package com.taopao.mvvmbase.utils;
 
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -6,16 +6,14 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Toast;
 
-import com.glavesoft.artauction.app.App;
+import com.taopao.mvvmbase.base.MVVMBase;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -260,7 +258,7 @@ public class UIUtils {
      * @return
      */
     public static Context getContext() {
-        return App.getContext();
+        return MVVMBase.getContext();
     }
 
     /**
@@ -318,57 +316,6 @@ public class UIUtils {
      */
     public static String getPackageName() {
         return getContext().getPackageName();
-    }
-
-    /**
-     * 得到主线程Handler
-     *
-     * @return
-     */
-    public static Handler getMainThreadHandler() {
-        return App.getMainHandler();
-    }
-
-    /**
-     * 得到主线程id
-     *
-     * @return
-     */
-    public static long getMainThreadId() {
-        return App.getMainThreadId();
-    }
-
-    /**
-     * 安全的执行一个任务
-     *
-     * @param task
-     */
-    public static void postTaskSafely(Runnable task) {
-        int curThreadId = android.os.Process.myTid();
-        // 如果当前线程是主线程
-        if (curThreadId == getMainThreadId()) {
-            task.run();
-        } else {
-            // 如果当前线程不是主线程
-            getMainThreadHandler().post(task);
-        }
-    }
-
-    /**
-     * 延迟执行任务
-     *
-     * @param task
-     * @param delayMillis
-     */
-    public static void postTaskDelay(Runnable task, int delayMillis) {
-        getMainThreadHandler().postDelayed(task, delayMillis);
-    }
-
-    /**
-     * 移除任务
-     */
-    public static void removeTask(Runnable task) {
-        getMainThreadHandler().removeCallbacks(task);
     }
 
 

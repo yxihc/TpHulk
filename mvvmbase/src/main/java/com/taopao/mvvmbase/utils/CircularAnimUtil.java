@@ -1,4 +1,4 @@
-package com.glavesoft.artauction.utils;
+package com.taopao.mvvmbase.utils;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
