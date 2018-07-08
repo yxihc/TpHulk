@@ -11,6 +11,8 @@ android {
         versionCode rootProject.ext.android.versionCode
         versionName rootProject.ext.android.versionName
     }
+
+    //引入databinding支持
     dataBinding {
         enabled true
     }

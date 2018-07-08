@@ -18,7 +18,7 @@ import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
  */
 
 public abstract class BaseActivity<V extends ViewDataBinding> extends RxAppCompatActivity implements IBaseActivity {
-    protected V binding;
+    protected V mBinding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,7 +50,7 @@ public abstract class BaseActivity<V extends ViewDataBinding> extends RxAppCompa
      */
     private void initViewDataBinding() {
         //DataBindingUtil类需要在project的build中配置 dataBinding {enabled true }, 同步后会自动关联android.databinding包
-        binding = DataBindingUtil.setContentView(this, getContentView());
+        mBinding = DataBindingUtil.setContentView(this, getContentView());
 //        binding.setVariable(initVariableId(), viewModel = initViewModel());
     }
 

@@ -28,7 +28,8 @@
             android:initOrder="101" />
 
         <activity android:name=".DataBActivity" />
-        <activity android:name=".TAActivity"></activity>
+        <activity android:name=".TAActivity" />
+        <activity android:name=".TextBActivity"></activity>
     </application>
 
 </manifest>
