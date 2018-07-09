@@ -318,7 +318,8 @@ public final class CustomActivityOnCrash {
         //Added a space between line feeds to fix #18.
         //Ideally, we should not use this method at all... It is only formatted this way because of coupling with the default error activity.
         //We should move it to a method that returns a bean, and let anyone format it as they wish.
-        errorDetails += "Device: " + getDeviceModelName() + " \n \n";
+        errorDetails += "Device: " + getDeviceModelName() + " \n";
+        errorDetails += "Android: " + getSystemVersion() + " \n \n";
         errorDetails += "Stack trace:  \n";
         errorDetails += getStackTraceFromIntent(intent);
 
@@ -330,6 +331,7 @@ public final class CustomActivityOnCrash {
         }
         return errorDetails;
     }
+
 
     /**
      * Given an Intent, restarts the app and launches a startActivity to that intent.
@@ -474,6 +476,16 @@ public final class CustomActivityOnCrash {
             return "Unknown";
         }
     }
+
+    /**
+     * 获取当前手机系统版本号
+     *
+     * @return 系统版本号
+     */
+    public static String getSystemVersion() {
+        return android.os.Build.VERSION.RELEASE;
+    }
+
 
     /**
      * INTERNAL method that returns the device model name with correct capitalization.

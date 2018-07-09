@@ -15,16 +15,24 @@ public interface IBaseActivity {
      */
     void initParam(Bundle bundle);
 
+    /**
+     * 控件的一些常用操作
+     */
+    void initView();
 
     /**
-     * 初始化数据
+     * 请求数据等操作
      */
     void initData();
-
 
     /**
      * 设置沉浸式状态栏
      */
     void setStatusBar();
+
+    /**
+     * 刷新布局
+     */
+    void refreshLayout();
 
 }

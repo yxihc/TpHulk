@@ -1,21 +1,21 @@
 package com.taopao.mvvmbase;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.View;
+import com.taopao.mvvmbase.base.BaseActivity;
+import com.taopao.mvvmbase.databinding.ActivityMainBinding;
 
-import com.taopao.mvvmbase.crash.CaocConfig;
-
-import java.util.ArrayList;
-
-public class MainActivity extends AppCompatActivity {
-
+public class MainActivity extends BaseActivity<ActivityMainBinding, LoginViewModel> {
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    protected int getContentView() {
+        return R.layout.activity_main;
     }
 
-    public void c(View view) {
+    @Override
+    protected int initVariableId() {
+        return BR.viewModel;
+    }
+
+    @Override
+    protected LoginViewModel initViewModel() {
+        return new LoginViewModel(this);
     }
 }

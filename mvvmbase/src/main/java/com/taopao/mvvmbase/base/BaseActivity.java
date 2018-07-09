@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import com.taopao.mvvmbase.bus.Messenger;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 /**
@@ -17,8 +18,9 @@ import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
  * @Use： Activity基类
  */
 
-public abstract class BaseActivity<V extends ViewDataBinding> extends RxAppCompatActivity implements IBaseActivity {
+public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseViewModel> extends RxAppCompatActivity implements IBaseActivity {
     protected V mBinding;
+    protected VM mViewModel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,17 +34,15 @@ public abstract class BaseActivity<V extends ViewDataBinding> extends RxAppCompa
         //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<页面间传值<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
         //注入绑定
         initViewDataBinding();
-
         //设置沉浸式状态栏
         setStatusBar();
-
+        initView();
+        //防止空指针异常
+        if (mViewModel != null) {
+            mViewModel.onCreate();
+            mViewModel.registerRxBus();
+        }
         initData();
-
-    }
-
-    @Override
-    public void initParam(Bundle bundle) {
-
     }
 
     /**
@@ -51,14 +51,8 @@ public abstract class BaseActivity<V extends ViewDataBinding> extends RxAppCompa
     private void initViewDataBinding() {
         //DataBindingUtil类需要在project的build中配置 dataBinding {enabled true }, 同步后会自动关联android.databinding包
         mBinding = DataBindingUtil.setContentView(this, getContentView());
-//        binding.setVariable(initVariableId(), viewModel = initViewModel());
+        mBinding.setVariable(initVariableId(), mViewModel = initViewModel());
     }
-
-    @Override
-    public void initData() {
-
-    }
-
 
     /**
      * 初始化布局的id
@@ -74,11 +68,54 @@ public abstract class BaseActivity<V extends ViewDataBinding> extends RxAppCompa
      */
     protected abstract int initVariableId();
 
+    /**
+     * 初始化ViewModel
+     *
+     * @return 继承BaseViewModel的ViewModel
+     */
+    protected abstract VM initViewModel();
+
+
+    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>IBaseActivity接口方法重写:需要时重写>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    @Override
+    public void initParam(Bundle bundle) {
+
+    }
+
+    @Override
+    public void initView() {
+
+    }
+
+    @Override
+    public void initData() {
+
+    }
+
     @Override
     public void setStatusBar() {
 
     }
 
+    @Override
+    public void refreshLayout() {
+        if (mViewModel != null) {
+            mBinding.setVariable(initVariableId(), mViewModel);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Messenger.getDefault().unregister(this);
+        //防止空指针异常
+        if (mViewModel != null) {
+            mViewModel.removeRxBus();
+            mViewModel.onDestroy();
+            mViewModel = null;
+        }
+    }
+    //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<IBaseActivity接口方法重写:需要时重写<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
     //************************************** Activity跳转(兼容4.4) **************************************//
 
@@ -196,7 +233,7 @@ public abstract class BaseActivity<V extends ViewDataBinding> extends RxAppCompa
     }
 
     /**
-     * 有动画的Finnish掉界面
+     * 有动画的Finish掉界面
      */
     public void AnimationFinish() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

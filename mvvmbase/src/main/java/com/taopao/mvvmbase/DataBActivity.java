@@ -4,7 +4,7 @@ package com.taopao.mvvmbase;
 import com.taopao.mvvmbase.base.BaseActivity;
 import com.taopao.mvvmbase.databinding.ActivityDataBBinding;
 
-public class DataBActivity extends BaseActivity<ActivityDataBBinding> {
+public class DataBActivity extends BaseActivity<ActivityDataBBinding, LViewModel> {
 
     @Override
     protected int getContentView() {
@@ -13,6 +13,11 @@ public class DataBActivity extends BaseActivity<ActivityDataBBinding> {
 
     @Override
     protected int initVariableId() {
-        return 0;
+        return BR.viewModel;
+    }
+
+    @Override
+    protected LViewModel initViewModel() {
+        return null;
     }
 }

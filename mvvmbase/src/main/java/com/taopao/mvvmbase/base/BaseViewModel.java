@@ -12,9 +12,6 @@ import android.content.Context;
 public class BaseViewModel extends ViewModel implements IBaseViewModel {
     public Context mContext;
 
-    public BaseViewModel() {
-    }
-
     public BaseViewModel(Context context) {
         mContext = context;
     }

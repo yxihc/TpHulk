@@ -1,16 +1,24 @@
 package com.taopao.mvvmbase;
 
-import android.databinding.DataBindingUtil;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-
+import com.taopao.mvvmbase.base.BaseActivity;
+import com.taopao.mvvmbase.base.BaseViewModel;
 import com.taopao.mvvmbase.databinding.ActivityTaBinding;
 
-public class TAActivity extends AppCompatActivity {
+public class TAActivity extends BaseActivity<ActivityTaBinding, BaseViewModel> {
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ActivityTaBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_ta);
+    protected int getContentView() {
+        return R.layout.activity_ta;
+    }
+
+    @Override
+    protected int initVariableId() {
+        return BR.viewModel;
+    }
+
+    @Override
+    protected BaseViewModel initViewModel() {
+        return null;
     }
 }

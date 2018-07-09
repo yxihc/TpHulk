@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="user"
-            type="com.taopao.mvvmbase.User" />
+            name="viewModel"
+            type="com.taopao.mvvmbase.LoginViewModel" />
     </data>
 
     <android.support.constraint.ConstraintLayout
