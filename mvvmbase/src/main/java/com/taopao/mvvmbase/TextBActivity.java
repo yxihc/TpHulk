@@ -14,5 +14,6 @@ public class TextBActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mViewDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_text_b);
+        mViewDataBinding.setUser(new User("zhangs"));
     }
 }

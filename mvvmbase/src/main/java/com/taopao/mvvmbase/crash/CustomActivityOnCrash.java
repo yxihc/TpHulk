@@ -310,16 +310,21 @@ public final class CustomActivityOnCrash {
 
         String errorDetails = "";
 
-        errorDetails += "Build version: " + versionName + " \n";
+        errorDetails += "CrashTime: " + dateFormat.format(currentDate) + " \n";
+        errorDetails += "Device: " + getDeviceModelName() + " \n";
+        errorDetails += "Android: " + getSystemVersion() + " \n";
+
         if (buildDateAsString != null) {
-            errorDetails += "Build date: " + buildDateAsString + " \n";
+            errorDetails += "Build Date: " + buildDateAsString + " \n";
         }
-        errorDetails += "Current date: " + dateFormat.format(currentDate) + " \n";
         //Added a space between line feeds to fix #18.
         //Ideally, we should not use this method at all... It is only formatted this way because of coupling with the default error activity.
         //We should move it to a method that returns a bean, and let anyone format it as they wish.
-        errorDetails += "Device: " + getDeviceModelName() + " \n";
-        errorDetails += "Android: " + getSystemVersion() + " \n \n";
+
+        errorDetails += "isDebug: " + getIsDebug(context) + " \n";
+        errorDetails += "VersionCode: " + getAppVersionCode(context) + " \n";
+        errorDetails += "VersionName: " + versionName + " \n \n";
+
         errorDetails += "Stack trace:  \n";
         errorDetails += getStackTraceFromIntent(intent);
 
@@ -478,12 +483,30 @@ public final class CustomActivityOnCrash {
     }
 
     /**
-     * 获取当前手机系统版本号
+     * 判断当前是否是debug
      *
      * @return 系统版本号
      */
     public static String getSystemVersion() {
         return android.os.Build.VERSION.RELEASE;
+    }
+
+    public static boolean getIsDebug(Context context) {
+        try {
+            ApplicationInfo info = context.getApplicationInfo();
+            return (info.flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
+        } catch (Exception e) {
+        }
+        return false;
+    }
+
+    public static int getAppVersionCode(Context context) {
+        try {
+            PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+            return packageInfo.versionCode;
+        } catch (Exception e) {
+            return -1;
+        }
     }
 
 

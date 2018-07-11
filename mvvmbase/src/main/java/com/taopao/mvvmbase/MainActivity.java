@@ -15,6 +15,15 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, LoginViewMod
     }
 
     @Override
+    public void initView() {
+        mViewModel.title.set("1411125241");
+        mViewModel.mUser.set(new User("sadsadssa"));
+
+//        mBinding.setUser();
+
+    }
+
+    @Override
     protected LoginViewModel initViewModel() {
         return new LoginViewModel(this);
     }

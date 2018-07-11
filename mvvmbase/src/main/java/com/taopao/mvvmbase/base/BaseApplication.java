@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.airbnb.lottie.utils.Utils;
 import com.taopao.mvvmbase.R;
 import com.taopao.mvvmbase.crash.CaocConfig;
 
@@ -24,9 +25,10 @@ public class BaseApplication extends Application {
     public void onCreate() {
         super.onCreate();
         sInstance = this;
-
+        //初始化工具
+        MVVMBase.init(this);
+        //崩溃检测
         initCrash();
-
         //注册监听每个activity的生命周期,便于堆栈式管理
         registerActivityLifecycleCallbacks(mCallbacks);
     }
@@ -70,13 +72,6 @@ public class BaseApplication extends Application {
             AppManager.getInstance().removeActivity(activity);
         }
     };
-
-
-
-
-
-
-
 
 
     /**

@@ -9,6 +9,8 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.provider.Settings;
 
+import com.airbnb.lottie.utils.Utils;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -101,6 +103,19 @@ public class NetworkUtil {
 
         Intent intent = new Intent(Settings.ACTION_SETTINGS);
         activity.startActivity(intent);
+
+    }
+
+    /**
+     * 打开网络设置界面
+     * <p>3.0以下打开设置界面</p>
+     */
+    public static void openWirelessSettings(Context context) {
+        if (android.os.Build.VERSION.SDK_INT > 10) {
+            context.startActivity(new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+        } else {
+            context.startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+        }
     }
 
 

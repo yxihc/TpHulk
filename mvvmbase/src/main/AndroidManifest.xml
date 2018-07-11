@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.taopao.mvvmbase">
 
+
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+
     <application
         android:name=".base.BaseApplication"
         android:allowBackup="true"
@@ -19,7 +22,8 @@
         </activity>
         <activity
             android:name=".crash.DefaultErrorActivity"
-            android:process=":error_activity" />
+            android:process=":error_activity"
+            android:theme="@style/NoTitleDialog" />
 
         <provider
             android:name=".crash.CaocInitProvider"

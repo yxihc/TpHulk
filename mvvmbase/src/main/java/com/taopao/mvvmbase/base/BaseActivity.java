@@ -6,10 +6,10 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Messenger;
 import android.support.annotation.Nullable;
 import android.view.View;
 
-import com.taopao.mvvmbase.bus.Messenger;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 /**
@@ -107,7 +107,6 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Messenger.getDefault().unregister(this);
         //防止空指针异常
         if (mViewModel != null) {
             mViewModel.removeRxBus();

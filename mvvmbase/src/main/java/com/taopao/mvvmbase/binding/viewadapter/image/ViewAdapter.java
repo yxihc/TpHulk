@@ -22,6 +22,7 @@ public final class ViewAdapter {
 //                    .apply(new RequestOptions().placeholder(placeholderRes))
 //                    .into(imageView);
             Picasso.get().load(url).into(imageView);
+
         }
     }
 }
