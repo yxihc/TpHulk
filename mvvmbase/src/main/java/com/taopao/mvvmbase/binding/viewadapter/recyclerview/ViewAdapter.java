@@ -18,7 +18,6 @@ import io.reactivex.subjects.PublishSubject;
  */
 public class ViewAdapter {
 
-
     @BindingAdapter("layoutManagers")
     public static void setLayoutManager(RecyclerView recyclerView, LayoutManagers.LayoutManagerFactory layoutManagerFactory) {
         recyclerView.setLayoutManager(layoutManagerFactory.create(recyclerView));

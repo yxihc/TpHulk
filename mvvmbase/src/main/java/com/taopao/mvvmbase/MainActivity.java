@@ -1,8 +1,6 @@
 package com.taopao.mvvmbase;
 
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -25,14 +23,13 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, LoginViewMod
 
     @Override
     public void initView() {
-        mViewModel.title.set("1411125241");
         mViewModel.mUser.set(new User("sadsadssa"));
 
 //        mBinding.setUser();
 
 
         ArrayList<String> strings = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 30; i++) {
             strings.add("1111");
         }
 
