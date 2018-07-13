@@ -4,6 +4,7 @@ import android.databinding.BindingAdapter;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.taopao.mvvmbase.binding.command.BindingCommand;
 
 import java.util.concurrent.TimeUnit;
@@ -27,6 +28,12 @@ public class ViewAdapter {
     @BindingAdapter("lineManager")
     public static void setLineManager(RecyclerView recyclerView, LineManagers.LineManagerFactory lineManagerFactory) {
         recyclerView.addItemDecoration(lineManagerFactory.create(recyclerView));
+    }
+
+
+    @BindingAdapter("adapter")
+    public static void setAdapter(RecyclerView recyclerView, BaseQuickAdapter adapter) {
+        recyclerView.setAdapter(adapter);
     }
 
 

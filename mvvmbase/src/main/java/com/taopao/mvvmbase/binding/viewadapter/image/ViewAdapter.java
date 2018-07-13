@@ -7,6 +7,7 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
+
 /**
  * @Author： 淘跑
  * @Date: 2018/7/5 11:43
@@ -22,8 +23,10 @@ public final class ViewAdapter {
 //                    .apply(new RequestOptions().placeholder(placeholderRes))
 //                    .into(imageView);
             Picasso.get().load(url).into(imageView);
-
         }
+
+
     }
+
 }
 

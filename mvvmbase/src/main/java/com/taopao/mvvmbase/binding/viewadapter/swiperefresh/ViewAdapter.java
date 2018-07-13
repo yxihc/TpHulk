@@ -20,6 +20,7 @@ public class ViewAdapter {
                 if (onRefreshCommand != null) {
                     onRefreshCommand.execute();
                 }
+
             }
         });
     }

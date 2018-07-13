@@ -42,14 +42,24 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
+            isThrottleFirst="false"
+            onClickCommand="@{viewModel.netWorkClick1}"
             url="@{viewModel.imageUrl}"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:scaleType="center" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv"
-            layoutManagers="@{LayoutManagers.grid(2)}"
+        <android.support.v4.widget.SwipeRefreshLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+            onRefreshCommand="@{viewModel.f}"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv"
+                layoutManagers="@{LayoutManagers.linear()}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+        </android.support.v4.widget.SwipeRefreshLayout>
+
     </LinearLayout>
 </layout>

@@ -1,12 +1,25 @@
 package com.taopao.mvvmbase;
 
 import android.content.Context;
+import android.databinding.Observable;
+import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
+import android.databinding.ObservableShort;
+import android.support.annotation.Nullable;
+import android.util.Log;
+import android.widget.Adapter;
+import android.widget.Toast;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
+import com.taopao.mvvmbase.base.BaseApplication;
 import com.taopao.mvvmbase.base.BaseViewModel;
 import com.taopao.mvvmbase.binding.command.BindingAction;
 import com.taopao.mvvmbase.binding.command.BindingCommand;
+import com.taopao.mvvmbase.bus.RxBus;
+
+import java.util.List;
 
 /**
  * @Author： 淘跑
@@ -31,6 +44,10 @@ public class LoginViewModel extends BaseViewModel {
     //data
     public final ObservableField<String> imageUrl = new ObservableField<>();
     public final ObservableField<String> title = new ObservableField<>();
+
+    public ViewStyle mViewStyle = new ViewStyle();
+
+    public final ObservableArrayList<User> mUsers = new ObservableArrayList<>();
 
 
     public User user = new User("张三");
@@ -58,7 +75,55 @@ public class LoginViewModel extends BaseViewModel {
             mUser.set(sssadasdsa);
 
             user.setName("666");
+
+            mUsers.add(new User("我是战士"));
+            mUsers.add(new User("我是战士"));
+
+
+            mPage = 3;
+
+            CheckUpPage(mViewStyle.isRefreshing.get(), mUsers);
+
+            Toast.makeText(BaseApplication.getInstance().getApplicationContext(), mPage + "", Toast.LENGTH_SHORT).show();
         }
     });
+
+
+    public BindingCommand netWorkClick1 = new BindingCommand(new BindingAction() {
+        @Override
+        public void call() {
+
+            mUsers.add(new User("吾问无为谓"));
+            mUsers.add(new User("我是as撒所多撒多飒飒战士"));
+
+            mUsers.set(0, new User("吾问无为谓"));
+
+            RxBus.getDefault().post("1");
+
+        }
+    });
+
+
+    public BindingCommand<Integer> f = new BindingCommand<Integer>(new BindingAction() {
+        @Override
+        public void call() {
+
+            mUsers.add(new User("11111"));
+            mUsers.add(new User("22222"));
+            mUsers.add(new User("33333"));
+            mUsers.add(new User("44444"));
+
+        }
+    });
+
+
+    public BindingCommand<Integer> loadMore = new BindingCommand<Integer>(new BindingAction() {
+        @Override
+        public void call() {
+            Toast.makeText(BaseApplication.getInstance().getApplicationContext(), "萨达", Toast.LENGTH_SHORT).show();
+            Log.i("TAG", "222222222222222222222222222222222222");
+        }
+    });
+
 
 }

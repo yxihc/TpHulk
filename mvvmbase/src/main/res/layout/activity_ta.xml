@@ -17,8 +17,11 @@
         tools:context="com.taopao.mvvmbase.TAActivity">
 
         <TextView
+            android:id="@+id/tv"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:background="@android:color/black" />
+            android:layout_height="40dp"
+            android:text="萨达萨达撒多撒"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="20dp" />
     </android.support.constraint.ConstraintLayout>
 </layout>
