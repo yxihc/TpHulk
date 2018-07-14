@@ -31,8 +31,8 @@ public class ViewAdapter {
     }
 
 
-    @BindingAdapter("adapter")
-    public static void setAdapter(RecyclerView recyclerView, BaseQuickAdapter adapter) {
+    @BindingAdapter(value = "adapter")
+    public static void setAdapter(RecyclerView recyclerView, RecyclerView.Adapter adapter) {
         recyclerView.setAdapter(adapter);
     }
 

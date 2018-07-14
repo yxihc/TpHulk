@@ -6,15 +6,23 @@
     <data>
 
         <variable
-            name="user"
-            type="com.taopao.mvvmbase.User"></variable>
+            name="viewModel"
+            type="com.taopao.mvvmbase.TextBViewModel"></variable>
+
+        <import type="com.taopao.mvvmbase.binding.viewadapter.recyclerview.LayoutManagers"></import>
     </data>
 
-    <android.support.constraint.ConstraintLayout
-
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         tools:context="com.taopao.mvvmbase.TextBActivity">
 
-    </android.support.constraint.ConstraintLayout>
+        <android.support.v7.widget.RecyclerView
+            adapter="@{viewModel.mAdapter}"
+            layoutManagers="@{LayoutManagers.linear()}"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+
+    </LinearLayout>
 </layout>

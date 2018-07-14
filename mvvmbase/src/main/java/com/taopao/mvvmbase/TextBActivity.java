@@ -1,19 +1,22 @@
 package com.taopao.mvvmbase;
 
-import android.databinding.DataBindingUtil;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-
+import com.taopao.mvvmbase.base.BaseActivity;
 import com.taopao.mvvmbase.databinding.ActivityTextBBinding;
 
-public class TextBActivity extends AppCompatActivity {
-
-    private ActivityTextBBinding mViewDataBinding;
+public class TextBActivity extends BaseActivity<ActivityTextBBinding, TextBViewModel> {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mViewDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_text_b);
-        mViewDataBinding.setUser(new User("zhangs"));
+    protected int getContentView() {
+        return R.layout.activity_text_b;
+    }
+
+    @Override
+    protected int initVariableId() {
+        return BR.viewModel;
+    }
+
+    @Override
+    protected TextBViewModel initViewModel() {
+        return new TextBViewModel(this);
     }
 }
