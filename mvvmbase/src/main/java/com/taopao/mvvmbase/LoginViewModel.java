@@ -86,11 +86,30 @@ public class LoginViewModel extends BaseViewModel {
     public BindingCommand<Integer> f = new BindingCommand<Integer>(new BindingAction() {
         @Override
         public void call() {
-//            mUsers.add(new User("11111"));
-//            mUsers.add(new User("22222"));
-//            mUsers.add(new User("33333"));
-//            mUsers.add(new User("44444"));
-
+            mUsers.add(new User("11111"));
+            mUsers.add(new User("22222"));
+            mUsers.add(new User("33333"));
+            mUsers.add(new User("44444"));
+            mUsers.add(new User("11111"));
+            mUsers.add(new User("22222"));
+            mUsers.add(new User("33333"));
+            mUsers.add(new User("44444"));
+            mUsers.add(new User("11111"));
+            mUsers.add(new User("22222"));
+            mUsers.add(new User("33333"));
+            mUsers.add(new User("44444"));
+            mUsers.add(new User("11111"));
+            mUsers.add(new User("22222"));
+            mUsers.add(new User("33333"));
+            mUsers.add(new User("44444"));
+            mUsers.add(new User("11111"));
+            mUsers.add(new User("22222"));
+            mUsers.add(new User("33333"));
+            mUsers.add(new User("44444"));
+            mUsers.add(new User("11111"));
+            mUsers.add(new User("22222"));
+            mUsers.add(new User("33333"));
+            mUsers.add(new User("44444"));
 
             mUsers.add(1, new User("44444"));
             new android.os.Handler() {
@@ -106,14 +125,6 @@ public class LoginViewModel extends BaseViewModel {
         }
     });
 
-
-    public BindingCommand<Integer> loadMore = new BindingCommand<Integer>(new BindingAction() {
-        @Override
-        public void call() {
-            Toast.makeText(BaseApplication.getInstance().getApplicationContext(), "萨达", Toast.LENGTH_SHORT).show();
-            Log.i("TAG", "222222222222222222222222222222222222");
-        }
-    });
 
 
 }

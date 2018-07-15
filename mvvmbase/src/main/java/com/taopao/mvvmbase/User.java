@@ -11,6 +11,23 @@ import android.databinding.Bindable;
 public class User extends BaseObservable {
     private String name;
 
+    @Bindable
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
+        notifyPropertyChanged(BR.age);
+    }
+
+    public User(String name, String age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    private String age;
+
     public User(String name) {
         this.name = name;
     }

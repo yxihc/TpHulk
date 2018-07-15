@@ -6,69 +6,78 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Messenger;
 import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.taopao.mvvmbase.BR;
-import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
+import com.trello.rxlifecycle2.components.support.RxFragment;
 
 /**
- * @Author： 淘跑
- * @Date: 2018/7/5 15:09
- * @Use： Activity基类
+ * @Author：淘跑
+ * @Date: 2018/7/15 16:49
+ * @Use：
  */
 
-public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseViewModel> extends RxAppCompatActivity implements IBaseActivity {
+public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseViewModel> extends RxFragment implements IBaseActivity {
     protected V mBinding;
     protected VM mViewModel;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>页面间传值>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         if (savedInstanceState != null) {
             initParam(savedInstanceState);
-        } else if (getIntent() != null && getIntent().getExtras() != null) {
-            initParam(getIntent().getExtras());
+        } else if (getArguments() != null) {
+            initParam(getArguments());
         }
-        //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<页面间传值<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-        //注入绑定
-        initViewDataBinding();
-        //设置沉浸式状态栏
-        setStatusBar();
-        initView();
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mBinding = DataBindingUtil.inflate(inflater, getContentView(inflater, container), container, false);
+        mBinding.setVariable(initVariableId(), mViewModel = initViewModel());
+        return mBinding.getRoot();
+    }
+
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        mViewModel.onCreate();
+        mViewModel.registerRxBus();
+
+        initData();
+        initViewObservable();
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
         //防止空指针异常
         if (mViewModel != null) {
-            mViewModel.onCreate();
-            mViewModel.registerRxBus();
+            mViewModel.removeRxBus();
+            mViewModel.onDestroy();
+            mViewModel = null;
         }
-        initData();
+        if (mBinding != null) {
+            mBinding.unbind();
+        }
     }
 
-    /**
-     * 注入绑定
-     */
-    private void initViewDataBinding() {
-        //DataBindingUtil类需要在project的build中配置 dataBinding {enabled true }, 同步后会自动关联android.databinding包
-        mBinding = DataBindingUtil.setContentView(this, getContentView());
-        mBinding.setVariable(initVariableId(), mViewModel = initViewModel());
-    }
 
+    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>子类必须实现>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
     /**
      * 初始化布局的id
      *
      * @return 布局的id
      */
-    protected abstract int getContentView();
-
-    /**
-     * 初始化ViewModel的id
-     *
-     * @return BR的id
-     */
-//    protected abstract int initVariableId();
+    protected abstract int getContentView(LayoutInflater inflater, @Nullable ViewGroup container);
 
     /**
      * 初始化ViewModel
@@ -77,7 +86,9 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
      */
     protected abstract VM initViewModel();
 
+    //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<子类必须实现<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+    //刷新布局
     @Override
     public void refreshLayout() {
         if (mViewModel != null) {
@@ -85,23 +96,15 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        //防止空指针异常
-        if (mViewModel != null) {
-            mViewModel.removeRxBus();
-            mViewModel.onDestroy();
-            mViewModel = null;
-
-        }
-        if (mBinding != null) {
-            mBinding.unbind();
-        }
-
-    }
-
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>IBaseActivity接口方法重写:需要时重写>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+    @Override
+    public void initParam(Bundle bundle) {
+        if (mViewModel != null) {
+            mViewModel.initParam(bundle);
+        }
+    }
 
     /**
      * 布局文件默命名viewModel
@@ -112,14 +115,6 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
     @Override
     public int initVariableId() {
         return BR.viewModel;
-    }
-
-
-    @Override
-    public void initParam(Bundle bundle) {
-        if (mViewModel != null) {
-            mViewModel.initParam(bundle);
-        }
     }
 
     @Override
@@ -141,8 +136,8 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
     public void initViewObservable() {
 
     }
-
     //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<IBaseActivity接口方法重写:需要时重写<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
 
     //************************************** Activity跳转(兼容4.4) **************************************//
 
@@ -152,7 +147,7 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
      * @param clz 要跳转的Activity的类名
      */
     public void startActivity(Class<?> clz) {
-        startActivity(new Intent(this, clz));
+        startActivity(new Intent(getActivity(), clz));
     }
 
 
@@ -163,7 +158,7 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
      * @param bundle bundle
      */
     public void startActivity(Class<?> clz, Bundle bundle) {
-        Intent intent = new Intent(this, clz);
+        Intent intent = new Intent(getActivity(), clz);
         if (bundle != null) {
             intent.putExtras(bundle);
         }
@@ -177,7 +172,7 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
      */
     public void startActivityAnimation(Class<?> clz) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            startActivity(new Intent(this, clz), ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+            startActivity(new Intent(getActivity(), clz), ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
         } else {
             startActivity(clz);
         }
@@ -190,7 +185,7 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
      */
     public void startActivityAnimation(Class<?> clz, View view, String shareView) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            startActivity(new Intent(this, clz), ActivityOptions.makeSceneTransitionAnimation(this, view, shareView).toBundle());
+            startActivity(new Intent(getActivity(), clz), ActivityOptions.makeSceneTransitionAnimation(getActivity(), view, shareView).toBundle());
         } else {
             startActivity(clz);
         }
@@ -202,12 +197,12 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
      * @param clz 要跳转的Activity的类名
      */
     public void startActivityAnimation(Class<?> clz, View view, String shareView, Bundle bundle) {
-        Intent intent = new Intent(this, clz);
+        Intent intent = new Intent(getActivity(), clz);
         if (bundle != null) {
             intent.putExtras(bundle);
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this, view, shareView).toBundle());
+            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity(), view, shareView).toBundle());
         } else {
             startActivity(intent);
         }
@@ -219,12 +214,12 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
      * @param clz 要跳转的Activity的类名
      */
     public void startActivityAnimation(Class<?> clz, Bundle bundle) {
-        Intent intent = new Intent(this, clz);
+        Intent intent = new Intent(getActivity(), clz);
         if (bundle != null) {
             intent.putExtras(bundle);
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
         } else {
             startActivity(intent);
         }
@@ -238,7 +233,7 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
      * @param requestCode
      */
     public void startActivityForResult(Class<?> cls, int requestCode) {
-        startActivityForResult(new Intent(this, cls), requestCode);
+        startActivityForResult(new Intent(getActivity(), cls), requestCode);
     }
 
     /**
@@ -252,7 +247,7 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
                                        int requestCode) {
         Intent intent = new Intent();
 
-        intent.setClass(this, cls);
+        intent.setClass(getActivity(), cls);
         if (bundle != null) {
             intent.putExtras(bundle);
         }
@@ -264,9 +259,9 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
      */
     public void AnimationFinish() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            finishAfterTransition();
+            getActivity().finishAfterTransition();
         } else {
-            finish();
+            getActivity().finish();
         }
     }
 

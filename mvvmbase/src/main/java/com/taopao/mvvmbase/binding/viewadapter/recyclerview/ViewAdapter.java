@@ -65,7 +65,7 @@ public class ViewAdapter {
     }
 
     @SuppressWarnings("unchecked")
-    @BindingAdapter({"onLoadMoreCommand"})
+    @BindingAdapter({"onRvLoadMoreCommand"})
     public static void onLoadMoreCommand(final RecyclerView recyclerView, final BindingCommand<Integer> onLoadMoreCommand) {
         RecyclerView.OnScrollListener listener = new OnScrollListener(onLoadMoreCommand);
         recyclerView.addOnScrollListener(listener);
@@ -84,7 +84,7 @@ public class ViewAdapter {
                     .subscribe(new Consumer<Integer>() {
                         @Override
                         public void accept(Integer integer) throws Exception {
-                            onLoadMoreCommand.execute(integer);
+                           onLoadMoreCommand.execute(integer);
                         }
                     });
         }

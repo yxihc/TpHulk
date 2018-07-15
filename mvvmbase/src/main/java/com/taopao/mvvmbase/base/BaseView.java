@@ -17,10 +17,6 @@ public interface BaseView {
      */
     void hideLoadingDialog();
 
-    /**
-     * 结束刷新
-     */
-    void finishResRefresh();
 
     /**
      * 加载失败返回的错误码以及错误信息
@@ -32,10 +28,8 @@ public interface BaseView {
      */
     void showNoNetworkView();
 
-    /**
-     * 有网络时隐藏没有网络界面
-     */
-    void hideNoNetworkView();
+
+
 
     /**
      * 显示错误界面

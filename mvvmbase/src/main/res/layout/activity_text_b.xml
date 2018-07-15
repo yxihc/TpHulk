@@ -18,11 +18,18 @@
         android:orientation="vertical"
         tools:context="com.taopao.mvvmbase.TextBActivity">
 
-        <android.support.v7.widget.RecyclerView
-            adapter="@{viewModel.mAdapter}"
-            layoutManagers="@{LayoutManagers.linear()}"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/srl"
+            finishRefresh="@{viewModel.mViewStyle.isRefreshing}"
+            onRefreshCommand="@{viewModel.f}"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+            android:layout_height="wrap_content">
 
+            <android.support.v7.widget.RecyclerView
+                adapter="@{viewModel.mMyAdapter}"
+                layoutManagers="@{LayoutManagers.linear()}"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+        </android.support.v4.widget.SwipeRefreshLayout>
     </LinearLayout>
 </layout>

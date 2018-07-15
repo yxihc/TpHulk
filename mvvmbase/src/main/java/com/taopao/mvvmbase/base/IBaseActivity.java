@@ -35,4 +35,15 @@ public interface IBaseActivity {
      */
     void refreshLayout();
 
+
+    /**
+     * 初始化ViewModel的id
+     *
+     * @return BR的id
+     */
+    int initVariableId();
+
+
+    void initViewObservable();
+
 }

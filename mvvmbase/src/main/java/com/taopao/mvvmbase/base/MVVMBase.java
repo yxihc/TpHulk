@@ -15,7 +15,7 @@ public class MVVMBase {
     private static Context context;
 
     private MVVMBase() {
-        throw new UnsupportedOperationException("u can't instantiate me...");
+        throw new UnsupportedOperationException("you can't instantiate me...");
     }
 
     /**
@@ -36,6 +36,6 @@ public class MVVMBase {
         if (context != null) {
             return context;
         }
-        throw new NullPointerException("should be initialized in application");
+        throw new NullPointerException("should be initialized in application: MVVMBase.init(this);");
     }
 }

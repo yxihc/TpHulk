@@ -1,17 +1,20 @@
 package com.taopao.mvvmbase.base;
 
-import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableList;
 import android.databinding.ViewDataBinding;
-import android.support.annotation.IntRange;
 import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+
+import com.chad.library.adapter.base.*;
+import com.chad.library.adapter.base.BaseViewHolder;
+import com.taopao.mvvmbase.BR;
+import com.taopao.mvvmbase.R;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,18 +22,42 @@ import java.util.List;
  * @Date: 2018/7/14 16:02
  * @Use：
  */
-public abstract class BaseBindingRvAdapter<T, BM extends BaseItemViewModel> extends RecyclerView.Adapter<BaseBindingRvAdapter.BindingViewHolder> {
-    protected Context mContext;
-    protected int mLayoutResId;
-    protected LayoutInflater mLayoutInflater;
-    protected ObservableList<T> mData = new ObservableArrayList<T>();
+public abstract class BaseBindingRvAdapter<T> extends BaseQuickAdapter<T, BaseBindingRvAdapter.BindingViewHolder> {
+
+    public ObservableList<T> mTObservableList;
+
+    @Override
+    protected void convert(BindingViewHolder helper, T item) {
+        ViewDataBinding binding = helper.getBinding();
+        binding.setVariable(BR.item, item);
+        binding.executePendingBindings();
+        convert(helper, binding, item);
+    }
+
+    protected abstract void convert(BindingViewHolder helper, ViewDataBinding binding, T item);
+
+    @Override
+    protected View getItemView(int layoutResId, ViewGroup parent) {
+        ViewDataBinding binding = DataBindingUtil.inflate(mLayoutInflater, layoutResId, parent, false);
+        if (binding == null) {
+            return super.getItemView(layoutResId, parent);
+        }
+        View view = binding.getRoot();
+        view.setTag(R.id.BaseQuickAdapter_databinding_support, binding);
+        return view;
+    }
+
+    public BaseBindingRvAdapter(@Nullable List<T> data) {
+        this(0, data);
+    }
 
     public BaseBindingRvAdapter(@LayoutRes int layoutResId, @Nullable List<T> data) {
-        this.mData = data == null ? new ObservableArrayList<T>() : (ObservableList<T>) data;
+        super(layoutResId, data);
+        this.mTObservableList = data == null ? new ObservableArrayList<T>() : (ObservableList<T>) data;
         if (layoutResId != 0) {
             this.mLayoutResId = layoutResId;
         }
-        mData.addOnListChangedCallback(new ObservableList.OnListChangedCallback<ObservableList<T>>() {
+        mTObservableList.addOnListChangedCallback(new ObservableList.OnListChangedCallback<ObservableList<T>>() {
             @Override
             public void onChanged(ObservableList<T> ts) {
                 notifyDataSetChanged();
@@ -60,70 +87,13 @@ public abstract class BaseBindingRvAdapter<T, BM extends BaseItemViewModel> exte
         });
     }
 
-    public BaseBindingRvAdapter(@Nullable List<T> data) {
-        this(0, data);
-    }
-
-    public BaseBindingRvAdapter(@LayoutRes int layoutResId) {
-        this(layoutResId, null);
-    }
-
-    @NonNull
-    @Override
-    public BindingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        mContext = parent.getContext();
-        if (mLayoutInflater == null) {
-            mLayoutInflater = LayoutInflater.from(mContext);
+    public static class BindingViewHolder extends BaseViewHolder {
+        public BindingViewHolder(View view) {
+            super(view);
         }
-        ViewDataBinding binding = DataBindingUtil.inflate(mLayoutInflater, mLayoutResId, parent, false);
-        return new BindingViewHolder(binding);
-    }
 
-
-    @Override
-    public void onBindViewHolder(@NonNull BaseBindingRvAdapter.BindingViewHolder holder, int position) {
-        ViewDataBinding binding = DataBindingUtil.getBinding(holder.itemView);
-        BM bm = initViewModel();
-        bm.setData(getItem(position));
-        binding.setVariable(initVariableId(), bm);
-        binding.executePendingBindings();
-    }
-
-    protected abstract int initVariableId();
-
-    protected abstract BM initViewModel();
-
-
-    @Override
-    public int getItemCount() {
-        return mData == null ? 0 : mData.size();
-    }
-
-    /**
-     * 得到item
-     *
-     * @param position
-     * @return
-     */
-    @Nullable
-    public T getItem(@IntRange(from = 0) int position) {
-        if (position >= 0 && position < mData.size())
-            return mData.get(position);
-        else
-            return null;
-    }
-
-    /**
-     * @return 列表数据
-     */
-    @NonNull
-    public List<T> getData() {
-        return mData;
-    }
-
-    public class BindingViewHolder extends RecyclerView.ViewHolder {
-        public BindingViewHolder(ViewDataBinding binding) {
-            super(binding.getRoot());
+        public ViewDataBinding getBinding() {
+            return (ViewDataBinding) itemView.getTag(R.id.BaseQuickAdapter_databinding_support);
         }
     }
 
