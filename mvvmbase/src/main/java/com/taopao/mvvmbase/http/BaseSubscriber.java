@@ -4,6 +4,7 @@ import android.content.Context;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.JsonParseException;
@@ -53,6 +54,7 @@ public abstract class BaseSubscriber<T> extends DisposableObserver<T> {
      */
     private boolean isShowNetError = false;
 
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>构造函数>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
     /**
      * @param context           上下文
@@ -63,16 +65,61 @@ public abstract class BaseSubscriber<T> extends DisposableObserver<T> {
         mContext = context;
         mViewState = viewState;
         this.showCodeOrMessage = showCodeOrMessage;
-
         isShowDialog = false;
-
     }
+
+    /**
+     * @param context           上下文
+     * @param viewState         界面的显示状态
+     * @param showCodeOrMessage 服务器返回的错误
+     * @param showLoadingDialog 是否显示dialog(传入false就表示显示 否则就是不显示)
+     */
+    public BaseSubscriber(Context context, ObservableInt viewState, ObservableField<EventData> showCodeOrMessage, ObservableBoolean showLoadingDialog) {
+        mContext = context;
+        mViewState = viewState;
+        this.showLoadingDialog = showLoadingDialog;
+        this.showCodeOrMessage = showCodeOrMessage;
+        if (showLoadingDialog.get()) {
+            isShowDialog = false;
+        } else {
+            isShowDialog = true;
+        }
+    }
+
+
+    /**
+     * @param context           上下文
+     * @param viewState         界面的显示状态
+     * @param showCodeOrMessage 服务器返回的错误
+     * @param showLoadingDialog 是否显示dialog(传入false就表示显示 否则就是不显示)
+     * @param isShowError       是否显示错误界面
+     * @param isShowNetError    是否显示网络错误界面
+     */
+    public BaseSubscriber(Context context, ObservableInt viewState, ObservableField<EventData> showCodeOrMessage, ObservableBoolean showLoadingDialog, boolean isShowError, boolean isShowNetError) {
+        mContext = context;
+        mViewState = viewState;
+        this.showLoadingDialog = showLoadingDialog;
+        this.showCodeOrMessage = showCodeOrMessage;
+        this.isShowError = isShowError;
+        this.isShowNetError = isShowNetError;
+
+        if (showLoadingDialog.get()) {
+            isShowDialog = false;
+        } else {
+            isShowDialog = true;
+        }
+    }
+
+    //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<构造函数<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
     @Override
     public void onError(Throwable e) {
         //通用处理
         // 隐藏正在显示的dialog
         showLoadingDialog.set(false);
+
+
+        Log.i("TAG", "=================================onError");
 
         //TODO 关闭刷新动画(考虑当中)
         //TODO 显示加载错误的界面(考虑当中)
@@ -100,8 +147,10 @@ public abstract class BaseSubscriber<T> extends DisposableObserver<T> {
     public void onStart() {
         super.onStart();
         if (isShowDialog) {
-            showLoadingDialog.set(false);
+            showLoadingDialog.set(true);
         }
+
+        Log.i("TAG", "=================================onStart");
 
         if (!NetworkUtil.isNetworkAvailable(mContext)) {
             Toast.makeText(mContext, "无网络，请检查网络设置", Toast.LENGTH_SHORT).show();
@@ -156,8 +205,11 @@ public abstract class BaseSubscriber<T> extends DisposableObserver<T> {
 
     @Override
     public void onComplete() {
+        Log.i("TAG", "=================================onComplete");
         // 隐藏正在显示的dialog
-        showLoadingDialog.set(false);
+        if (isShowDialog) {
+            showLoadingDialog.set(false);
+        }
         //TODO 关闭刷新动画(考虑当中)
     }
 

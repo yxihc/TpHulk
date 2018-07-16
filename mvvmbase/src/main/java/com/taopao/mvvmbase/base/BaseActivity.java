@@ -7,10 +7,9 @@ import android.databinding.Observable;
 import android.databinding.ViewDataBinding;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Messenger;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.taopao.mvvmbase.BR;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
@@ -182,6 +181,21 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
                 }
             }
         });
+
+        mViewModel.showLoadingDialog.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable observable, int i) {
+
+
+                Log.i("TAG", "================================showLoadingDialog=onPropertyChanged");
+
+                if (!mViewModel.showLoadingDialog.get()) {
+                    showLoadingDialog();
+                } else {
+                    hideLoadingDialog();
+                }
+            }
+        });
     }
 
     //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<IBaseActivity接口方法重写:需要时重写<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -211,7 +225,7 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
 
     @Override
     public void showLoadingDialog() {
-
+        Log.i("TAG", "=================================显示弹出");
     }
 
     @Override
@@ -231,7 +245,7 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
 
     @Override
     public void hideLoadingDialog() {
-
+        Log.i("TAG", "=================================隐藏弹出");
     }
 
     //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<BaseView中的方法:需要时重写<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

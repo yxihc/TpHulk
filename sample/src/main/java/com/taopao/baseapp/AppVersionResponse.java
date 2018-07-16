@@ -1,4 +1,5 @@
-package com.taopao.mvvmbase;
+package com.taopao.baseapp;
+
 
 import java.io.Serializable;
 
@@ -7,13 +8,7 @@ import java.io.Serializable;
  * @Date: 2018/6/6 14:56
  * @Use： app版本
  */
-public class AppVersionResponse implements Serializable{
-
-    private String info;
-    private int isFlag;
-    private String url;
-    private String version;
-
+public class AppVersionResponse implements Serializable {
     public String getInfo() {
         return info;
     }
@@ -21,6 +16,12 @@ public class AppVersionResponse implements Serializable{
     public void setInfo(String info) {
         this.info = info;
     }
+
+    private String info;
+    private int isFlag;
+    private String url;
+    private String version;
+
 
     public int getIsFlag() {
         return isFlag;

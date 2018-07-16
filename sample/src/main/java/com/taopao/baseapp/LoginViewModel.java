@@ -1,39 +1,23 @@
-package com.taopao.mvvmbase;
+package com.taopao.baseapp;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.content.Context;
-import android.content.Intent;
-import android.databinding.Observable;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
-import android.databinding.ObservableInt;
-import android.databinding.ObservableShort;
 import android.os.Message;
-import android.support.annotation.Nullable;
 import android.util.Log;
-import android.widget.Adapter;
 import android.widget.Toast;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
 import com.taopao.mvvmbase.base.BaseActivity;
-import com.taopao.mvvmbase.base.BaseApplication;
 import com.taopao.mvvmbase.base.BaseViewModel;
 import com.taopao.mvvmbase.base.EventData;
-import com.taopao.mvvmbase.base.ViewState;
 import com.taopao.mvvmbase.binding.command.BindingAction;
 import com.taopao.mvvmbase.binding.command.BindingCommand;
-import com.taopao.mvvmbase.bus.RxBus;
 import com.taopao.mvvmbase.http.BaseResponse;
 import com.taopao.mvvmbase.http.BaseSubscriber;
+import com.taopao.mvvmbase.http.RetrofitProvider;
 import com.taopao.mvvmbase.http.RxTransformer;
-import com.taopao.mvvmbase.utils.RxUtils;
 
 import java.util.HashMap;
-import java.util.List;
-import java.util.logging.Handler;
 
 /**
  * @Author： 淘跑
@@ -70,20 +54,24 @@ public class LoginViewModel extends BaseViewModel {
     public BindingCommand netWorkClick = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
-//            Toast.makeText(mContext, "666", Toast.LENGTH_SHORT).show();
-//            Log.d("LoginViewModel", "call: " + "111111111");
-//            throw new NullPointerException("不可以为null");
             title.set("666");
             imageUrl.set("https://upload.jianshu.io/users/upload_avatars/10151120/48708602-542d-40cd-91f4-897d127dcc4a.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/114/h/114");
 
-
-            mUsers.add(new User("我是战士"));
-            mUsers.add(new User("我是战士"));
-
-            mPage = 3;
-            CheckUpPage(false, mUsers);
-
-            Toast.makeText(BaseApplication.getInstance().getApplicationContext(), mPage + "", Toast.LENGTH_SHORT).show();
+            HashMap<String, Object> hashMap = new HashMap<>();
+            hashMap.put("22222", "wocao");
+            hashMap.put("deviceType", "周年我国");
+            hashMap.put("22222s", 1111);
+            RetrofitProvider.getInstance(Api.BASE_URL)
+                    .create(Api.class)
+                    .getAppVersion(1)
+                    .compose(mActivity.<BaseResponse<AppVersionResponse>>bindToLifecycle())
+                    .compose(RxTransformer.<BaseResponse<AppVersionResponse>>switchSchedulers())
+                    .subscribe(new BaseSubscriber<BaseResponse<AppVersionResponse>>(mContext, mViewState, mEvent, showLoadingDialog) {
+                        @Override
+                        public void onResult(BaseResponse<AppVersionResponse> appVersionResponseBaseResponse) {
+                            Toast.makeText(mContext, appVersionResponseBaseResponse.getData().getUrl(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
         }
     });
 
@@ -120,16 +108,33 @@ public class LoginViewModel extends BaseViewModel {
     public BindingCommand loginView = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
-            ApiRetrofit.getInstance()
-                    .getAppVersion(1)
+//            ApiRetrofit.getInstance()
+//                    .getAppVersion(1)
+//                    .compose(mActivity.<BaseResponse<AppVersionResponse>>bindToLifecycle())
+//                    .compose(RxTransformer.<BaseResponse<AppVersionResponse>>switchSchedulers())
+//                    .subscribe(new BaseSubscriber<BaseResponse<AppVersionResponse>>(mContext, mViewState, mEvent, showLoadingDialog) {
+//                        @Override
+//                        public void onResult(BaseResponse<AppVersionResponse> appVersionResponseBaseResponse) {
+//                            Toast.makeText(mContext, appVersionResponseBaseResponse.getData().getUrl(), Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
+
+            HashMap<String, Object> hashMap = new HashMap<>();
+            hashMap.put("22222", "wocao");
+            hashMap.put("deviceType", "周年我国");
+            hashMap.put("22222s", 1111);
+            RetrofitProvider.getInstance(Api.BASE_URL)
+                    .create(Api.class)
+                    .getAppVersion1(hashMap)
                     .compose(mActivity.<BaseResponse<AppVersionResponse>>bindToLifecycle())
                     .compose(RxTransformer.<BaseResponse<AppVersionResponse>>switchSchedulers())
-                    .subscribe(new BaseSubscriber<BaseResponse<AppVersionResponse>>(mContext, mViewState) {
+                    .subscribe(new BaseSubscriber<BaseResponse<AppVersionResponse>>(mContext, mViewState, mEvent, showLoadingDialog) {
                         @Override
                         public void onResult(BaseResponse<AppVersionResponse> appVersionResponseBaseResponse) {
                             Toast.makeText(mContext, appVersionResponseBaseResponse.getData().getUrl(), Toast.LENGTH_SHORT).show();
                         }
                     });
+
         }
     });
 
@@ -146,7 +151,6 @@ public class LoginViewModel extends BaseViewModel {
                     mViewStyle.isRefreshing.set(!mViewStyle.isRefreshing.get());
                 }
             }.sendEmptyMessageDelayed(1, 2000);
-            mContext.startActivity(new Intent(mContext, TextBActivity.class));
         }
     });
 

@@ -1,4 +1,4 @@
-package com.taopao.mvvmbase;
+package com.taopao.baseapp;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

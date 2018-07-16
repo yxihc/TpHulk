@@ -1,4 +1,4 @@
-package com.taopao.mvvmbase;
+package com.taopao.baseapp;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;

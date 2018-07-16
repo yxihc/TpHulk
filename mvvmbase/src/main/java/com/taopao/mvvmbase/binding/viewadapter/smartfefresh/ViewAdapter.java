@@ -1,7 +1,7 @@
 package com.taopao.mvvmbase.binding.viewadapter.smartfefresh;
 
-
 import android.databinding.BindingAdapter;
+import android.databinding.ObservableBoolean;
 import android.support.annotation.NonNull;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -33,5 +33,11 @@ public class ViewAdapter {
                 }
             }
         });
+    }
+
+    @BindingAdapter(value = "finishRefreshOrLoadMore")
+    public static void finishRefreshOrLoadMore(SmartRefreshLayout layout, boolean f) {
+        layout.finishRefresh();
+        layout.finishLoadMore();
     }
 }

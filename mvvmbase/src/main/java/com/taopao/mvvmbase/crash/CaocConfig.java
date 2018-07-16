@@ -22,9 +22,6 @@ import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.taopao.mvvmbase.MainActivity;
-import com.taopao.mvvmbase.R;
-
 import java.io.Serializable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

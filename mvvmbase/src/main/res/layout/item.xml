@@ -1,35 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-
     <data>
 
         <variable
-            name="item"
-            type="com.taopao.mvvmbase.User"></variable>
+            name="viewModel"
+            type="com.taopao.mvvmbase.base.BaseViewModel"></variable>
 
+        <variable
+            name="item"
+            type="com.taopao.mvvmbase.http.BaseResponse"></variable>
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="10dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{item.name}"
-            android:textColor="@android:color/holo_red_dark"
-            android:textSize="18dp" />
-
-        <TextView
-            android:id="@+id/age"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{item.age}"
-            android:textColor="@android:color/holo_red_dark"
-            android:textSize="18dp" />
-    </LinearLayout>
+        android:layout_height="wrap_content"></LinearLayout>
 </layout>
