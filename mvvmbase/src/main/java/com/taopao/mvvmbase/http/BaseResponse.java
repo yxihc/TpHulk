@@ -3,7 +3,7 @@ package com.taopao.mvvmbase.http;
 /**
  * @Author： 淘跑
  * @Date: 2018/7/5 11:43
- * @Use：
+ * @Use： 该类仅供参考
  */
 public class BaseResponse<T> {
     public static final int onResultOk = 200;//请求成功
@@ -43,10 +43,7 @@ public class BaseResponse<T> {
      * @return
      */
     public boolean isOk() {
-        if (errorCode == onResultOk) {
-            return true;
-        } else {
-            return false;
-        }
+        return errorCode == onResultOk ? true : false;
     }
+
 }

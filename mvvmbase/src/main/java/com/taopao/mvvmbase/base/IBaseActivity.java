@@ -35,7 +35,6 @@ public interface IBaseActivity {
      */
     void refreshLayout();
 
-
     /**
      * 初始化ViewModel的id
      *
@@ -43,7 +42,10 @@ public interface IBaseActivity {
      */
     int initVariableId();
 
-
+    /**
+     * 观察数据变化
+     */
     void initViewObservable();
+
 
 }

@@ -3,12 +3,14 @@ package com.taopao.mvvmbase.base;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.databinding.Observable;
 import android.databinding.ViewDataBinding;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Messenger;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.Toast;
 
 import com.taopao.mvvmbase.BR;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
@@ -18,8 +20,7 @@ import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
  * @Date: 2018/7/5 15:09
  * @Use： Activity基类
  */
-
-public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseViewModel> extends RxAppCompatActivity implements IBaseActivity {
+public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseViewModel> extends RxAppCompatActivity implements IBaseActivity, BaseView {
     protected V mBinding;
     protected VM mViewModel;
 
@@ -44,6 +45,7 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
             mViewModel.registerRxBus();
         }
         initData();
+        initViewObservable();
     }
 
     /**
@@ -79,13 +81,6 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
 
 
     @Override
-    public void refreshLayout() {
-        if (mViewModel != null) {
-            mBinding.setVariable(initVariableId(), mViewModel);
-        }
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
         //防止空指针异常
@@ -93,7 +88,6 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
             mViewModel.removeRxBus();
             mViewModel.onDestroy();
             mViewModel = null;
-
         }
         if (mBinding != null) {
             mBinding.unbind();
@@ -102,6 +96,12 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
     }
 
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>IBaseActivity接口方法重写:需要时重写>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    @Override
+    public void refreshLayout() {
+        if (mViewModel != null) {
+            mBinding.setVariable(initVariableId(), mViewModel);
+        }
+    }
 
     /**
      * 布局文件默命名viewModel
@@ -113,7 +113,6 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
     public int initVariableId() {
         return BR.viewModel;
     }
-
 
     @Override
     public void initParam(Bundle bundle) {
@@ -139,10 +138,104 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
 
     @Override
     public void initViewObservable() {
-
+        //界面的几种布局显示
+        mViewModel.getViewState().addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable observable, int i) {
+                switch (mViewModel.getViewState().get()) {
+                    case ViewState.Error_view:
+                        showErrorView();
+                        break;
+                    case ViewState.Normal_view:
+                        showNormalView();
+                        break;
+                    case ViewState.NoNetwork_view:
+                        showNoNetworkView();
+                        break;
+                    case ViewState.Login_view:
+                        showLoginView();
+                        break;
+                }
+            }
+        });
+        //加载中dialog的显示
+        mViewModel.getShowLoadingDialog().addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable observable, int i) {
+                if (mViewModel.getShowLoadingDialog().get()) {
+                    showLoadingDialog();
+                } else {
+                    hideLoadingDialog();
+                }
+            }
+        });
+        //服务器返回普通错误
+        mViewModel.getEvent().addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable observable, int i) {
+                EventData eventData = mViewModel.getEvent().get();
+                if (eventData.getState() == 0) {
+                    //服务器返回普通错误
+                    onErrorMsg(eventData.getErrorCode(), eventData.getErrorMessage());
+                } else if (eventData.getState() == 1) {
+                    showLoginDialog(eventData.getErrorCode(), eventData.getErrorMessage());
+                }
+            }
+        });
     }
 
     //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<IBaseActivity接口方法重写:需要时重写<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>BaseView中的方法:需要时重写>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+    @Override
+    public void showNoNetworkView() {
+
+    }
+
+    @Override
+    public void showLoginDialog(int errorCode, String msg) {
+
+    }
+
+    @Override
+    public void showLoginView() {
+
+    }
+
+    @Override
+    public void showErrorView() {
+
+    }
+
+    @Override
+    public void showLoadingDialog() {
+
+    }
+
+    @Override
+    public void showLogoutView() {
+
+    }
+
+    @Override
+    public void showNormalView() {
+
+    }
+
+    @Override
+    public void onErrorMsg(int errorCode, String errorMsg) {
+
+    }
+
+    @Override
+    public void hideLoadingDialog() {
+
+    }
+
+    //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<BaseView中的方法:需要时重写<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
 
     //************************************** Activity跳转(兼容4.4) **************************************//
 

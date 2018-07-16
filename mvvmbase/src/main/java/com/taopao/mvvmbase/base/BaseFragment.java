@@ -3,6 +3,7 @@ package com.taopao.mvvmbase.base;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.databinding.Observable;
 import android.databinding.ViewDataBinding;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,7 +21,7 @@ import com.trello.rxlifecycle2.components.support.RxFragment;
  * @Use：
  */
 
-public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseViewModel> extends RxFragment implements IBaseActivity {
+public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseViewModel> extends RxFragment implements IBaseActivity, BaseView {
     protected V mBinding;
     protected VM mViewModel;
 
@@ -88,6 +89,9 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
 
     //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<子类必须实现<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>IBaseActivity接口方法重写:需要时重写>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
     //刷新布局
     @Override
     public void refreshLayout() {
@@ -95,9 +99,6 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
             mBinding.setVariable(initVariableId(), mViewModel);
         }
     }
-
-    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>IBaseActivity接口方法重写:需要时重写>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
 
     @Override
     public void initParam(Bundle bundle) {
@@ -134,9 +135,102 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
 
     @Override
     public void initViewObservable() {
-
+        //界面的几种布局显示
+        mViewModel.getViewState().addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable observable, int i) {
+                switch (mViewModel.getViewState().get()) {
+                    case ViewState.Error_view:
+                        showErrorView();
+                        break;
+                    case ViewState.Normal_view:
+                        showNormalView();
+                        break;
+                    case ViewState.NoNetwork_view:
+                        showNoNetworkView();
+                        break;
+                    case ViewState.Login_view:
+                        showLoginView();
+                        break;
+                }
+            }
+        });
+        //加载中dialog的显示
+        mViewModel.getShowLoadingDialog().addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable observable, int i) {
+                if (mViewModel.getShowLoadingDialog().get()) {
+                    showLoadingDialog();
+                } else {
+                    hideLoadingDialog();
+                }
+            }
+        });
+        //服务器返回普通错误
+        mViewModel.getEvent().addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable observable, int i) {
+                EventData eventData = mViewModel.getEvent().get();
+                if (eventData.getState() == 0) {
+                    //服务器返回普通错误
+                    onErrorMsg(eventData.getErrorCode(), eventData.getErrorMessage());
+                } else if (eventData.getState() == 1) {
+                    showLoginDialog(eventData.getErrorCode(), eventData.getErrorMessage());
+                }
+            }
+        });
     }
     //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<IBaseActivity接口方法重写:需要时重写<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>BaseView中的方法:需要时重写>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+    @Override
+    public void showNoNetworkView() {
+
+    }
+
+    @Override
+    public void showLoginDialog(int errorCode, String msg) {
+
+    }
+
+    @Override
+    public void showLoginView() {
+
+    }
+
+    @Override
+    public void showErrorView() {
+
+    }
+
+    @Override
+    public void showLoadingDialog() {
+
+    }
+
+    @Override
+    public void showLogoutView() {
+
+    }
+
+    @Override
+    public void showNormalView() {
+
+    }
+
+    @Override
+    public void onErrorMsg(int errorCode, String errorMsg) {
+
+    }
+
+    @Override
+    public void hideLoadingDialog() {
+
+    }
+
+    //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<BaseView中的方法:需要时重写<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
     //************************************** Activity跳转(兼容4.4) **************************************//

@@ -1,11 +1,14 @@
 package com.taopao.mvvmbase;
 
+import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.Observable;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
+import android.databinding.ObservableInt;
 import android.databinding.ObservableShort;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -15,12 +18,20 @@ import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.taopao.mvvmbase.base.BaseActivity;
 import com.taopao.mvvmbase.base.BaseApplication;
 import com.taopao.mvvmbase.base.BaseViewModel;
+import com.taopao.mvvmbase.base.EventData;
+import com.taopao.mvvmbase.base.ViewState;
 import com.taopao.mvvmbase.binding.command.BindingAction;
 import com.taopao.mvvmbase.binding.command.BindingCommand;
 import com.taopao.mvvmbase.bus.RxBus;
+import com.taopao.mvvmbase.http.BaseResponse;
+import com.taopao.mvvmbase.http.BaseSubscriber;
+import com.taopao.mvvmbase.http.RxTransformer;
+import com.taopao.mvvmbase.utils.RxUtils;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Handler;
 
@@ -31,11 +42,12 @@ import java.util.logging.Handler;
  */
 
 public class LoginViewModel extends BaseViewModel {
-    public LoginViewModel(Context context) {
-        super(context);
-    }
 
     public ViewStyle mViewStyle = new ViewStyle();
+
+    public LoginViewModel(BaseActivity activity) {
+        super(activity);
+    }
 
     public class ViewStyle {
         public final ObservableBoolean isRefreshing = new ObservableBoolean(false);
@@ -46,11 +58,13 @@ public class LoginViewModel extends BaseViewModel {
     public final ObservableField<String> imageUrl = new ObservableField<>();
     public final ObservableField<String> title = new ObservableField<>("厉害啊");
 
-
     public final ObservableArrayList<User> mUsers = new ObservableArrayList<>();
+
+    public final ObservableField<EventData> mEvent = new ObservableField<>(new EventData());
 
     @Override
     public void onCreate() {
+
     }
 
     public BindingCommand netWorkClick = new BindingCommand(new BindingAction() {
@@ -83,33 +97,47 @@ public class LoginViewModel extends BaseViewModel {
     });
 
 
+    public BindingCommand nonetErrorView = new BindingCommand(new BindingAction() {
+        @Override
+        public void call() {
+            mEvent.set(new EventData(11, "萨达", 0));
+        }
+    });
+
+    public BindingCommand normalView = new BindingCommand(new BindingAction() {
+        @Override
+        public void call() {
+            Log.i("TAG", "111111111111111111111111111111");
+
+        }
+    });
+
+    public BindingCommand errorView = new BindingCommand(new BindingAction() {
+        @Override
+        public void call() {
+        }
+    });
+    public BindingCommand loginView = new BindingCommand(new BindingAction() {
+        @Override
+        public void call() {
+            ApiRetrofit.getInstance()
+                    .getAppVersion(1)
+                    .compose(mActivity.<BaseResponse<AppVersionResponse>>bindToLifecycle())
+                    .compose(RxTransformer.<BaseResponse<AppVersionResponse>>switchSchedulers())
+                    .subscribe(new BaseSubscriber<BaseResponse<AppVersionResponse>>(mContext, mViewState) {
+                        @Override
+                        public void onResult(BaseResponse<AppVersionResponse> appVersionResponseBaseResponse) {
+                            Toast.makeText(mContext, appVersionResponseBaseResponse.getData().getUrl(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+    });
+
     public BindingCommand<Integer> f = new BindingCommand<Integer>(new BindingAction() {
         @Override
         public void call() {
             mUsers.add(new User("11111"));
             mUsers.add(new User("22222"));
-            mUsers.add(new User("33333"));
-            mUsers.add(new User("44444"));
-            mUsers.add(new User("11111"));
-            mUsers.add(new User("22222"));
-            mUsers.add(new User("33333"));
-            mUsers.add(new User("44444"));
-            mUsers.add(new User("11111"));
-            mUsers.add(new User("22222"));
-            mUsers.add(new User("33333"));
-            mUsers.add(new User("44444"));
-            mUsers.add(new User("11111"));
-            mUsers.add(new User("22222"));
-            mUsers.add(new User("33333"));
-            mUsers.add(new User("44444"));
-            mUsers.add(new User("11111"));
-            mUsers.add(new User("22222"));
-            mUsers.add(new User("33333"));
-            mUsers.add(new User("44444"));
-            mUsers.add(new User("11111"));
-            mUsers.add(new User("22222"));
-            mUsers.add(new User("33333"));
-            mUsers.add(new User("44444"));
 
             mUsers.add(1, new User("44444"));
             new android.os.Handler() {
@@ -118,13 +146,9 @@ public class LoginViewModel extends BaseViewModel {
                     mViewStyle.isRefreshing.set(!mViewStyle.isRefreshing.get());
                 }
             }.sendEmptyMessageDelayed(1, 2000);
-
-
             mContext.startActivity(new Intent(mContext, TextBActivity.class));
-
         }
     });
-
 
 
 }

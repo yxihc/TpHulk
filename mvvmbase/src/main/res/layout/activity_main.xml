@@ -49,6 +49,39 @@
             android:layout_height="wrap_content"
             android:scaleType="center" />
 
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                onClickCommand="@{viewModel.errorView}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ErrorView" />
+
+            <Button
+                onClickCommand="@{viewModel.normalView}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NormalView" />
+
+            <Button
+                onClickCommand="@{viewModel.loginView}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="LoginView" />
+
+            <Button
+                onClickCommand="@{viewModel.nonetErrorView}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NoNetView" />
+
+        </LinearLayout>
+
+
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/srl"
             finishRefresh="@{viewModel.mViewStyle.isRefreshing}"

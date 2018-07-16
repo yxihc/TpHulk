@@ -17,10 +17,10 @@ public interface BaseView {
      */
     void hideLoadingDialog();
 
-
     /**
      * 加载失败返回的错误码以及错误信息
      */
+
     void onErrorMsg(int errorCode, String errorMsg);
 
     /**
@@ -28,18 +28,16 @@ public interface BaseView {
      */
     void showNoNetworkView();
 
-
-
-
     /**
-     * 显示错误界面
+     * 显示加载错误界面
      */
     void showErrorView();
 
+
     /**
-     * 隐藏错误界面
+     * 显示正常显示的状态
      */
-    void hideErrorView();
+    void showNormalView();
 
     /**
      * 显示手机登录的页面
@@ -54,7 +52,7 @@ public interface BaseView {
     /**
      * 显示登录错误或者登录失效的Dialog
      */
-    void showLoginDialog(String msg);
+    void showLoginDialog(int errorCode, String msg);
 
 
 }

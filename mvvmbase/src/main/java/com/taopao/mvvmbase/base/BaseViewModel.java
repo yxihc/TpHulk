@@ -5,6 +5,11 @@ import android.app.ActivityOptions;
 import android.arch.lifecycle.ViewModel;
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.Observable;
+import android.databinding.ObservableBoolean;
+import android.databinding.ObservableField;
+import android.databinding.ObservableInt;
+import android.databinding.PropertyChangeRegistry;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -17,13 +22,90 @@ import java.util.List;
  * @Use：
  */
 
-public class BaseViewModel extends ViewModel implements IBaseViewModel {
+public class BaseViewModel extends ViewModel implements Observable, IBaseViewModel {
+
+    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>常用的界面显示>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    public ObservableInt mViewState = new ObservableInt(ViewState.Normal_view);//界面的显示状态
+    public ObservableBoolean showLoadingDialog = new ObservableBoolean(false);//加载中动画
+    public ObservableField<EventData> mEvent = new ObservableField<>(new EventData());
+
+    /**
+     * @return 服务器常见的错误码
+     */
+    public ObservableField<EventData> getEvent() {
+        if (mEvent == null) {
+            mEvent = new ObservableField<EventData>(new EventData());
+
+        }
+        return mEvent;
+    }
+
+    /**
+     * 界面的显示状态
+     */
+    public ObservableInt getViewState() {
+        if (mViewState == null) {
+            mViewState = new ObservableInt(ViewState.Normal_view);
+        }
+        return mViewState;
+    }
+
+    /**
+     * dialog的显示状态
+     *
+     * @return
+     */
+    public ObservableBoolean getShowLoadingDialog() {
+        if (showLoadingDialog == null) {
+            showLoadingDialog = new ObservableBoolean(false);
+        }
+        return showLoadingDialog;
+    }
+
+
+    public final ObservableBoolean isRefreshing = new ObservableBoolean(false);
+
+
+    //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<常用的界面显示<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>通知刷新>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+    private PropertyChangeRegistry callbacks = new PropertyChangeRegistry();
+
+    public void notifyChange() {
+        callbacks.notifyCallbacks(this, 0, null);
+    }
+
+    public void notifyPropertyChanged(int fieldId) {
+        callbacks.notifyCallbacks(this, fieldId, null);
+    }
+
+    @Override
+    public void addOnPropertyChangedCallback(OnPropertyChangedCallback onPropertyChangedCallback) {
+        callbacks.add(onPropertyChangedCallback);
+    }
+
+    @Override
+    public void removeOnPropertyChangedCallback(OnPropertyChangedCallback onPropertyChangedCallback) {
+        callbacks.remove(onPropertyChangedCallback);
+    }
+    //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<通知刷新<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
 
     public int mPage = 1;
     public Context mContext;
+    public BaseActivity mActivity;
+    public BaseFragment mFragment;
 
-    public BaseViewModel(Context context) {
-        mContext = context;
+    public BaseViewModel(BaseActivity activity) {
+        mActivity = activity;
+        mContext = activity;
+    }
+
+    public BaseViewModel(BaseFragment fragment) {
+        mFragment = fragment;
+        mContext = fragment.getContext();
     }
 
     @Override
@@ -184,6 +266,7 @@ public class BaseViewModel extends ViewModel implements IBaseViewModel {
             ((Activity) mContext).finish();
         }
     }
+
 
     //************************************** Activity跳转 **************************************//
 

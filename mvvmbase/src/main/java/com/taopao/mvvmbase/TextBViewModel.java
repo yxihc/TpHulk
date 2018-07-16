@@ -10,6 +10,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import com.taopao.mvvmbase.base.BaseActivity;
 import com.taopao.mvvmbase.base.BaseBindingRvAdapter;
 import com.taopao.mvvmbase.base.BaseViewModel;
 import com.taopao.mvvmbase.binding.command.BindingAction;
@@ -25,14 +26,15 @@ import java.util.List;
  */
 
 public class TextBViewModel extends BaseViewModel {
-    public TextBViewModel(Context context) {
-        super(context);
-    }
 
     public ObservableList<User> mUsers = new ObservableArrayList<>();
 
 
     public ViewStyle mViewStyle = new ViewStyle();
+
+    public TextBViewModel(BaseActivity activity) {
+        super(activity);
+    }
 
     public class ViewStyle {
         public final ObservableBoolean isRefreshing = new ObservableBoolean(false);
