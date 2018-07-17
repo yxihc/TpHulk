@@ -3,18 +3,14 @@ package com.taopao.baseapp.ui.viewmodel;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
-import android.text.TextUtils;
 import android.view.View;
-import android.widget.Toast;
 
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.taopao.baseapp.base.BaseViewModel;
 import com.taopao.baseapp.ui.activity.MainActivity;
 import com.taopao.mvvmbase.base.BaseMVVMActivity;
+import com.taopao.mvvmbase.base.BaseMVVMViewModel;
 import com.taopao.mvvmbase.binding.command.BindingAction;
 import com.taopao.mvvmbase.binding.command.BindingCommand;
 import com.taopao.mvvmbase.binding.command.BindingConsumer;
-import com.taopao.mvvmbase.utils.MaterialDialogUtils;
 import com.taopao.mvvmbase.utils.RxUtils;
 
 import java.util.concurrent.TimeUnit;
@@ -28,7 +24,7 @@ import io.reactivex.schedulers.Schedulers;
  * @Date: 2018/7/17 11:15
  * @Use：
  */
-public class LoginViewModel extends BaseViewModel {
+public class LoginViewModel extends BaseMVVMViewModel {
     public LoginViewModel(BaseMVVMActivity activity) {
         super(activity);
     }

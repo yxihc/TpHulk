@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.taopao.baseapp.R;
 import com.taopao.mvvmbase.utils.RxUtils;
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import java.util.concurrent.TimeUnit;
 
@@ -16,7 +17,7 @@ import io.reactivex.schedulers.Schedulers;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends RxAppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

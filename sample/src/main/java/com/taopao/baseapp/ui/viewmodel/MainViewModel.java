@@ -1,26 +1,29 @@
 package com.taopao.baseapp.ui.viewmodel;
 
 import android.databinding.ObservableArrayList;
-import android.databinding.ObservableBoolean;
 import android.databinding.ObservableList;
+import android.widget.Toast;
 
-import com.taopao.baseapp.base.BaseViewModel;
 import com.taopao.baseapp.http.Api;
 import com.taopao.baseapp.http.RetrofitProvider;
 import com.taopao.baseapp.http.RxSubscriber;
 import com.taopao.baseapp.model.ImgListInfo;
 import com.taopao.baseapp.ui.adapter.RvGrilsAdapter;
 import com.taopao.mvvmbase.base.BaseMVVMActivity;
+import com.taopao.mvvmbase.base.BaseMVVMViewModel;
 import com.taopao.mvvmbase.binding.command.BindingAction;
 import com.taopao.mvvmbase.binding.command.BindingCommand;
 import com.taopao.mvvmbase.utils.RxUtils;
+
+import java.util.List;
+import java.util.Random;
 
 /**
  * @Author： 淘跑
  * @Date: 2018/7/17 14:29
  * @Use：
  */
-public class MainViewModel extends BaseViewModel {
+public class MainViewModel extends BaseMVVMViewModel {
     public MainViewModel(BaseMVVMActivity activity) {
         super(activity);
     }
@@ -36,7 +39,9 @@ public class MainViewModel extends BaseViewModel {
     }
 
     public void getGrils() {
-        showDialog("请骚等...");
+        if (mPage == 1) {
+            showDialog("请骚等...");
+        }
         RetrofitProvider.getInstance().create(Api.class)
                 .getImgListPage(mPage + "")
                 .compose(RxUtils.<ImgListInfo>schedulersTransformer())
@@ -47,6 +52,8 @@ public class MainViewModel extends BaseViewModel {
                             mGrils.clear();
                         }
                         mGrils.addAll(imgListInfo.getResults());
+                        CheckUpPage(imgListInfo.getResults());
+                        Toast.makeText(mContext, "下一次请求的页数: " + mPage, Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -54,7 +61,6 @@ public class MainViewModel extends BaseViewModel {
     public BindingCommand onLoadMore = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
-            mPage++;
             getGrils();
         }
     });
@@ -64,6 +70,32 @@ public class MainViewModel extends BaseViewModel {
         public void call() {
             mPage = 1;
             getGrils();
+        }
+    });
+
+
+    public BindingCommand add = new BindingCommand(new BindingAction() {
+        @Override
+        public void call() {
+            mGrils.add(1, mGrils.get(mGrils.size() - 1));
+        }
+    });
+
+    public BindingCommand sub = new BindingCommand(new BindingAction() {
+        @Override
+        public void call() {
+            if (mGrils.size() > 2) {
+                mGrils.remove(1);
+            }
+        }
+    });
+
+    public BindingCommand edit = new BindingCommand(new BindingAction() {
+        @Override
+        public void call() {
+            if (mGrils.size() > 2) {
+                mGrils.get(1).setUrl(mGrils.get(new Random().nextInt(mGrils.size())).getUrl());
+            }
         }
     });
 

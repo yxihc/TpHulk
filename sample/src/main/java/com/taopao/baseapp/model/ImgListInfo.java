@@ -1,5 +1,10 @@
 package com.taopao.baseapp.model;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
+
+import com.taopao.baseapp.BR;
+
 import java.util.List;
 
 /**
@@ -8,7 +13,7 @@ import java.util.List;
  * @Use:
  */
 
-public class ImgListInfo {
+public class ImgListInfo extends BaseObservable {
 
 
     private boolean error;
@@ -30,7 +35,7 @@ public class ImgListInfo {
         this.results = results;
     }
 
-    public static class ResultsBean {
+    public static class ResultsBean extends BaseObservable {
 
         private String _id;
         private String createdAt;
@@ -38,6 +43,7 @@ public class ImgListInfo {
         private String publishedAt;
         private String source;
         private String type;
+
         private String url;
         private boolean used;
         private String who;
@@ -90,12 +96,14 @@ public class ImgListInfo {
             this.type = type;
         }
 
+        @Bindable
         public String getUrl() {
             return url;
         }
 
         public void setUrl(String url) {
             this.url = url;
+            notifyPropertyChanged(BR.url);
         }
 
         public boolean isUsed() {

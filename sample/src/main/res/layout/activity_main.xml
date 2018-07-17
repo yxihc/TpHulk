@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -12,6 +13,7 @@
     </data>
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/srl"
         finishRefreshOrLoadMore="@{viewModel.finishRefresh}"
         onLoadMoreCommand="@{viewModel.onLoadMore}"
         onRefreshCommand="@{viewModel.onRefresh}"
@@ -23,6 +25,34 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             tools:context="com.taopao.baseapp.ui.activity.MainActivity">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    isThrottleFirst="false"
+                    onClickCommand="@{viewModel.add}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="增加" />
+
+                <Button
+                    isThrottleFirst="@{true}"
+                    onClickCommand="@{viewModel.sub}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="删除" />
+
+                <Button
+                    isThrottleFirst="false"
+                    onClickCommand="@{viewModel.edit}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="修改" />
+            </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
                 adapter="@{viewModel.mGrilsAdapter}"
