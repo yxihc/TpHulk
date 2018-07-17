@@ -1,4 +1,4 @@
-package com.taopao.mvvmbase.http;
+package com.taopao.baseapp.http;
 
 import android.content.Context;
 import android.databinding.ObservableBoolean;
@@ -8,8 +8,10 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.JsonParseException;
+import com.taopao.baseapp.model.BaseResponse;
 import com.taopao.mvvmbase.base.EventData;
 import com.taopao.mvvmbase.base.ViewState;
+import com.taopao.mvvmbase.http.MyBaseResponse;
 import com.taopao.mvvmbase.utils.NetworkUtil;
 
 import org.json.JSONException;
@@ -23,7 +25,7 @@ import io.reactivex.observers.DisposableObserver;
  * @Date: 2018/7/5 11:43
  * @Use：该类仅供参考，实际业务Code, 根据需求来定义，
  */
-public abstract class BaseSubscriber<T> extends DisposableObserver<T> {
+public abstract class RxSubscriber<T> extends DisposableObserver<T> {
     private Context mContext;
     /**
      * 界面的显示状态
@@ -54,7 +56,7 @@ public abstract class BaseSubscriber<T> extends DisposableObserver<T> {
      * @param event      服务器返回的错误
      * @param hideDialog 关闭dialog的监听
      */
-    public BaseSubscriber(Context context, ObservableField<EventData> event, ObservableBoolean hideDialog) {
+    public RxSubscriber(Context context, ObservableField<EventData> event, ObservableBoolean hideDialog) {
         mContext = context;
         this.hideDialog = hideDialog;
         this.showCodeOrMessage = event;
@@ -68,7 +70,7 @@ public abstract class BaseSubscriber<T> extends DisposableObserver<T> {
      * @param isShowError    是否显示错误界面
      * @param isShowNetError 是否显示网络错误界面
      */
-    public BaseSubscriber(Context context, ObservableField<EventData> event, ObservableBoolean hideDialog, ObservableInt viewState, boolean isShowError, boolean isShowNetError) {
+    public RxSubscriber(Context context, ObservableField<EventData> event, ObservableBoolean hideDialog, ObservableInt viewState, boolean isShowError, boolean isShowNetError) {
         mContext = context;
         mViewState = viewState;
         this.hideDialog = hideDialog;
@@ -129,8 +131,8 @@ public abstract class BaseSubscriber<T> extends DisposableObserver<T> {
 
     @Override
     public void onNext(T t) {
-        if (t instanceof MyBaseResponse) {
-            MyBaseResponse baseResponse = (MyBaseResponse) t;
+        if (t instanceof BaseResponse) {
+            BaseResponse baseResponse = (BaseResponse) t;
             // 判断是否请求错误，出错直接转到onError()
             if (!baseResponse.isOk()) {
 //                Throwable e = new Throwable(response.getErrorMsg());
@@ -176,6 +178,5 @@ public abstract class BaseSubscriber<T> extends DisposableObserver<T> {
         hideDialog.set(!hideDialog.get());
         //TODO 关闭刷新动画(考虑当中)
     }
-
 
 }

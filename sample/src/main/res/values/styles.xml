@@ -8,4 +8,18 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+
+    <!--防止白屏现象给Splash单独设置个主题样式-->
+    <style name="ThemeSplash" parent="Theme.AppCompat.Light.NoActionBar">
+        <!--这一行是主要代码,其他看情况自己加-->
+        <item name="android:windowBackground">@mipmap/bg</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <!--这个属性可以防止启动的时候黑/白屏,但随之而来的问题就是:startActivity跳转页面的时候如果双击程序会进入后台前台不可见-->
+        <!--这里我们只给启动页设置次属性，其他页面就不会有此问题了-->
+        <!--<item name="android:windowIsTranslucent">true</item>-->
+    </style>
+
 </resources>

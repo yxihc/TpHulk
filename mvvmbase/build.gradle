@@ -61,6 +61,12 @@ dependencies {
     //沉浸式
     api rootProject.ext.dependencies["statusbarutil"]
 
+
+    //material-dialogs
+    api (rootProject.ext.dependencies["material_dialogs_core"])
+    api (rootProject.ext.dependencies["material_dialogs_commons"])
+
+
     //底部导航栏or顶部导航栏
     api rootProject.ext.dependencies["FlycoTabLayout_Lib"]
 

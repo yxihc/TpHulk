@@ -3,7 +3,6 @@ package com.taopao.mvvmbase.utils;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 
-import com.taopao.mvvmbase.http.BaseResponse;
 import com.taopao.mvvmbase.http.ExceptionHandle;
 import com.trello.rxlifecycle2.LifecycleProvider;
 import com.trello.rxlifecycle2.LifecycleTransformer;
@@ -12,6 +11,7 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
@@ -50,27 +50,25 @@ public class RxUtils {
     /**
      * 线程调度器
      */
-    public static ObservableTransformer schedulersTransformer() {
-        return new ObservableTransformer() {
+    public static <T> ObservableTransformer<T, T> schedulersTransformer() {
+        return new ObservableTransformer<T, T>() {
             @Override
-            public ObservableSource apply(Observable upstream) {
-                return upstream.subscribeOn(Schedulers.io())
+            public ObservableSource<T> apply(Observable<T> upstream) {
+                return upstream
+                        .subscribeOn(Schedulers.io())
+                        .unsubscribeOn(Schedulers.io())
+                        .doOnNext(new Consumer<T>() {
+                            @Override
+                            public void accept(T t) throws Exception {
+
+                            }
+                        })
+                        .subscribeOn(AndroidSchedulers.mainThread())
                         .observeOn(AndroidSchedulers.mainThread());
             }
         };
     }
 
-    public static <T> ObservableTransformer<BaseResponse<T>, T> exceptionTransformer() {
-
-        return new ObservableTransformer() {
-            @Override
-            public ObservableSource apply(Observable observable) {
-                return (observable)
-//                        .map(new HandleFuc<T>())  //这里可以取出BaseResponse中的Result
-                        .onErrorResumeNext(new HttpResponseFunc<T>());
-            }
-        };
-    }
 
     private static class HttpResponseFunc<T> implements Function<Throwable, Observable<T>> {
         @Override
@@ -79,13 +77,5 @@ public class RxUtils {
         }
     }
 
-    private static class HandleFuc<T> implements Function<BaseResponse<T>, T> {
-        @Override
-        public T apply(BaseResponse<T> response) {
-            if (!response.isOk())
-                throw new RuntimeException(response.getErrorCode() + "" + response.getErrorMsg() != null ? response.getErrorMsg() : "");
-            return response.getData();
-        }
-    }
 
 }

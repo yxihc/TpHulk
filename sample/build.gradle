@@ -23,42 +23,14 @@ android {
         }
     }
 }
-
 dependencies {
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>通用>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     testImplementation 'junit:junit:4.12'
     //noinspection GradleCompatible
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<通用<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Support>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    api rootProject.ext.dependencies["constraint_layout"]
-    api rootProject.ext.dependencies["support_annotations"]
-    api rootProject.ext.dependencies["appcompat_v7"]
-    api rootProject.ext.dependencies["recyclerview"]
-    api rootProject.ext.dependencies["design"]
-    api rootProject.ext.dependencies["cardview"]
-    //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Support<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<网络请求<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-    api rootProject.ext.dependencies["rxjava"]
-    api rootProject.ext.dependencies["rxandroid"]
-    api rootProject.ext.dependencies["retrofit2"]
-    api rootProject.ext.dependencies["converter_gson"]
-    api rootProject.ext.dependencies["adapter_rxjava"]
-    api rootProject.ext.dependencies["logging_interceptor"]
-    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>网络请求>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    api rootProject.ext.dependencies["rxbinding"]
 
-    //生命周期管理
-    api rootProject.ext.dependencies["rxlifecycle_components"]
-
-    //图片加载
-    api rootProject.ext.dependencies["picasso"]
-    //沉浸式
-    api rootProject.ext.dependencies["statusbarutil"]
-
-    //底部导航栏or顶部导航栏
-    api rootProject.ext.dependencies["FlycoTabLayout_Lib"]
     api project(':mvvmbase')
 }

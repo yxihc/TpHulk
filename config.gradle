@@ -91,8 +91,8 @@ ext {
 
             //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Dialog>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
             //material-dialogs
-            "material_dialogs_core"          : 'com.afollestad.material-dialogs:core:0.9.4.5',
-            "material_dialogs_commons"       : 'com.afollestad.material-dialogs:commons:0.9.4.5',
+            "material_dialogs_core"          : 'com.afollestad.material-dialogs:core:0.9.6.0',
+            "material_dialogs_commons"       : 'com.afollestad.material-dialogs:commons:0.9.6.0',
             //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Dialog<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
             //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>下拉刷新上拉加载>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

@@ -74,7 +74,7 @@ public class LoggingInterceptor implements Interceptor {
 
         f("╔══════════════════════Start: Request═══════════════════════════════════════");
         f(String.format("║ 发送请求:  %s %n║ %s %n",
-                request.url(), "请求参数:  " + sb));
+                URLDecoder.decode(String.valueOf(request.url()), "utf-8"), "请求参数:  " + sb));
 
         Response response = chain.proceed(request);
         long t2 = System.nanoTime();//收到响应的时间
