@@ -26,18 +26,6 @@ public class ViewAdapter {
 
 
     /**
-     * 设置刷新状态 需要状态改变才可以
-     *
-     * @param swipeRefreshLayout
-     * @param isRefresh
-     */
-    @BindingAdapter(value = {"isRefreshing"}, requireAll = false)
-    public static void isRefreshing(SwipeRefreshLayout swipeRefreshLayout, boolean isRefresh) {
-        swipeRefreshLayout.setRefreshing(isRefresh);
-    }
-
-
-    /**
      * 直接关闭刷新 需要状态改变才可以
      *
      * @param swipeRefreshLayout

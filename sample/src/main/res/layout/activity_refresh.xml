@@ -7,15 +7,14 @@
 
         <variable
             name="viewModel"
-            type="com.taopao.baseapp.ui.viewmodel.MainViewModel"></variable>
+            type="com.taopao.baseapp.ui.viewmodel.RefreshViewModel"></variable>
 
         <import type="com.taopao.mvvmbase.binding.viewadapter.recyclerview.LayoutManagers"></import>
     </data>
 
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+    <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/srl"
-        finishRefreshOrLoadMore="@{viewModel.finishRefresh}"
-        onLoadMoreCommand="@{viewModel.onLoadMore}"
+        finishRefresh="@{viewModel.finishRefresh}"
         onRefreshCommand="@{viewModel.onRefresh}"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -52,22 +51,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="修改" />
-
-                <Button
-                    isThrottleFirst="false"
-                    onClickCommand="@{viewModel.refresh}"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Refresh页面" />
-
             </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv"
                 adapter="@{viewModel.mGrilsAdapter}"
                 layoutManagers="@{LayoutManagers.grid(2)}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
         </LinearLayout>
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </layout>

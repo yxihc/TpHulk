@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.taopao.mvvmbase.utils.MaterialDialogUtils;
 
 import java.util.List;
@@ -62,6 +63,7 @@ public class BaseMVVMViewModel extends ViewModel implements Observable, IBaseVie
 
 
     public int mPage = 1;
+    public int mLimit = 20;
     public Context mContext;
     public BaseMVVMActivity mActivity;
     public BaseMVVMFragment mFragment;
@@ -140,14 +142,22 @@ public class BaseMVVMViewModel extends ViewModel implements Observable, IBaseVie
         mPage++;
     }
 
-
     /**
      * 检查当前的页数计算出下次应该请求的页数
      * 理论上讲,如果失败的话页数应该是不变的(所以不考虑请求时失败的情况,在请求成功的时候检查一下即可)
      *
      * @param list 请求到的list数据
      */
-    public void CheckUpPage(List list) {
+    public void CheckUpPageOrAdapter(List list, BaseQuickAdapter adapter) {
+        adapter.setEnableLoadMore(true);
+        if (list == null || list.size() < mLimit) {
+            //加载完成没有数据了
+            adapter.loadMoreEnd();
+        } else {
+            //还有更多数据
+            adapter.loadMoreComplete();
+        }
+
         //如果不是刷新
         if (list == null || list.size() < 1) {
             //如果请求到的数据是空的,或者请求到数据长度为0,那么页数就不应该再改变

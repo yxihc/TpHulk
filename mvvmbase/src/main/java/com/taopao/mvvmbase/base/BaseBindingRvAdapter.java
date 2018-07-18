@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.*;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.loadmore.LoadMoreView;
 import com.taopao.mvvmbase.BR;
 import com.taopao.mvvmbase.R;
 

@@ -8,7 +8,6 @@ import com.taopao.baseapp.http.Api;
 import com.taopao.baseapp.http.RetrofitProvider;
 import com.taopao.baseapp.http.RxSubscriber;
 import com.taopao.baseapp.model.ImgListInfo;
-import com.taopao.baseapp.ui.activity.RefreshActivity;
 import com.taopao.baseapp.ui.adapter.RvGrilsAdapter;
 import com.taopao.mvvmbase.base.BaseMVVMActivity;
 import com.taopao.mvvmbase.base.BaseMVVMViewModel;
@@ -16,7 +15,8 @@ import com.taopao.mvvmbase.binding.command.BindingAction;
 import com.taopao.mvvmbase.binding.command.BindingCommand;
 import com.taopao.mvvmbase.utils.RxUtils;
 
-import java.security.Provider;
+import junit.framework.TestResult;
+
 import java.util.List;
 import java.util.Random;
 
@@ -25,8 +25,8 @@ import java.util.Random;
  * @Date: 2018/7/17 14:29
  * @Use：
  */
-public class MainViewModel extends BaseMVVMViewModel {
-    public MainViewModel(BaseMVVMActivity activity) {
+public class RefreshViewModel extends BaseMVVMViewModel {
+    public RefreshViewModel(BaseMVVMActivity activity) {
         super(activity);
     }
 
@@ -37,11 +37,13 @@ public class MainViewModel extends BaseMVVMViewModel {
     @Override
     public void onCreate() {
         super.onCreate();
+        mLimit = 10;
         getGrils();
     }
 
     public void getGrils() {
         if (mPage == 1) {
+            mGrilsAdapter.setEnableLoadMore(false);//这里的作用是防止下拉刷新的时候还可以上拉加载
             showDialog("请骚等...");
         }
         RetrofitProvider.getInstance().create(Api.class)
@@ -53,12 +55,60 @@ public class MainViewModel extends BaseMVVMViewModel {
                         if (mPage == 1) {
                             mGrils.clear();
                         }
-                        mGrils.addAll(imgListInfo.getResults());
+                        List<ImgListInfo.ResultsBean> results = imgListInfo.getResults();
+                        mGrils.addAll(results);
+
                         CheckUpPageOrAdapter(imgListInfo.getResults(), mGrilsAdapter);
                         Toast.makeText(mContext, "下一次请求的页数: " + mPage, Toast.LENGTH_SHORT).show();
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        mGrilsAdapter.loadMoreFail();
                     }
                 });
     }
+
+
+    boolean is = true;
+    String page = "";
+    public void getGrils1() {
+        if (mPage == 1) {
+            showDialog("请骚等...");
+        }
+        String page = "";
+        if (mPage == 2) {
+            if (is) {
+                page = mPage + "ss";
+
+            } else {
+                page = mPage + "";
+            }
+            is = !is;
+        }
+
+        RetrofitProvider.getInstance().create(Api.class)
+                .getImgListPage(page)
+                .compose(RxUtils.<ImgListInfo>schedulersTransformer())
+                .subscribe(new RxSubscriber<ImgListInfo>(mContext, mEvent, hideDialog) {
+                    @Override
+                    public void onResult(ImgListInfo imgListInfo) {
+                        if (mPage == 1) {
+                            mGrils.clear();
+                        }
+                        CheckUpPageOrAdapter(imgListInfo.getResults(), mGrilsAdapter);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        mGrilsAdapter.loadMoreFail();
+                    }
+                });
+    }
+
 
     public BindingCommand onLoadMore = new BindingCommand(new BindingAction() {
         @Override
@@ -74,6 +124,7 @@ public class MainViewModel extends BaseMVVMViewModel {
             getGrils();
         }
     });
+
 
     public BindingCommand add = new BindingCommand(new BindingAction() {
         @Override
@@ -97,13 +148,6 @@ public class MainViewModel extends BaseMVVMViewModel {
             if (mGrils.size() > 2) {
                 mGrils.get(1).setUrl(mGrils.get(new Random().nextInt(mGrils.size())).getUrl());
             }
-        }
-    });
-
-    public BindingCommand refresh = new BindingCommand(new BindingAction() {
-        @Override
-        public void call() {
-            startActivity(RefreshActivity.class);
         }
     });
 

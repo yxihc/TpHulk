@@ -29,13 +29,9 @@ public class LoginViewModel extends BaseMVVMViewModel {
         super(activity);
     }
 
-    //用户名清除按钮的显示隐藏绑定
-    public ObservableInt clearBtnVisibility = new ObservableInt();
-    //密码显示开关
-    public ObservableBoolean pwdIsHide = new ObservableBoolean(false);
-    //用户名的绑定
+    //用户名
     public ObservableField<String> userName = new ObservableField<>("");
-    //密码的绑定
+    //密码
     public ObservableField<String> password = new ObservableField<>("");
 
     @Override
@@ -43,33 +39,8 @@ public class LoginViewModel extends BaseMVVMViewModel {
         super.onCreate();
     }
 
-    public BindingCommand clearUserNameOnClickCommand = new BindingCommand(new BindingAction() {
-        @Override
-        public void call() {
-            userName.set("");
-        }
-    });
-
-    //用户名输入框焦点改变的回调事件
-    public BindingCommand<Boolean> onFocusChangeCommand = new BindingCommand<>(new BindingConsumer<Boolean>() {
-        @Override
-        public void call(Boolean hasFocus) {
-            if (hasFocus) {
-                clearBtnVisibility.set(View.VISIBLE);
-            } else {
-                clearBtnVisibility.set(View.INVISIBLE);
-            }
-        }
-    });
-
-    public BindingCommand passwordShowSwitchOnClickCommand = new BindingCommand(new BindingAction() {
-        @Override
-        public void call() {
-            pwdIsHide.set(!pwdIsHide.get());
-        }
-    });
     //登录按钮的点击事件
-    public BindingCommand loginOnClickCommand = new BindingCommand(new BindingAction() {
+    public BindingCommand login = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
 //            if (TextUtils.isEmpty(userName.get())) {

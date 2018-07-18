@@ -103,7 +103,7 @@ public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends Bas
     }
 
     /**
-     * 布局文件默命名viewModel
+     * 布局文件里的ViewModel默命名viewModel
      * 需要自定义可重写次方法
      *
      * @return
