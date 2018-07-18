@@ -74,11 +74,11 @@ public class RefreshViewModel extends BaseMVVMViewModel {
 
     boolean is = true;
     String page = "";
+
     public void getGrils1() {
         if (mPage == 1) {
             showDialog("请骚等...");
         }
-        String page = "";
         if (mPage == 2) {
             if (is) {
                 page = mPage + "ss";
@@ -87,6 +87,16 @@ public class RefreshViewModel extends BaseMVVMViewModel {
                 page = mPage + "";
             }
             is = !is;
+        } else if (mPage == 5) {
+            if (is) {
+                page = mPage + "ss";
+
+            } else {
+                page = mPage + "";
+            }
+            is = !is;
+        } else {
+            page = mPage + "";
         }
 
         RetrofitProvider.getInstance().create(Api.class)
@@ -98,6 +108,7 @@ public class RefreshViewModel extends BaseMVVMViewModel {
                         if (mPage == 1) {
                             mGrils.clear();
                         }
+                        mGrils.addAll(imgListInfo.getResults());
                         CheckUpPageOrAdapter(imgListInfo.getResults(), mGrilsAdapter);
                     }
 
@@ -108,14 +119,6 @@ public class RefreshViewModel extends BaseMVVMViewModel {
                     }
                 });
     }
-
-
-    public BindingCommand onLoadMore = new BindingCommand(new BindingAction() {
-        @Override
-        public void call() {
-            getGrils();
-        }
-    });
 
     public BindingCommand onRefresh = new BindingCommand(new BindingAction() {
         @Override
@@ -129,7 +132,7 @@ public class RefreshViewModel extends BaseMVVMViewModel {
     public BindingCommand add = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
-            mGrils.add(1, mGrils.get(mGrils.size() - 1));
+            mGrils.add(1, (mGrils.get(new Random().nextInt(mGrils.size()))));
         }
     });
 

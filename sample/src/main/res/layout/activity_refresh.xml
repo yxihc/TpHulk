@@ -32,31 +32,31 @@
                 android:orientation="horizontal">
 
                 <Button
-                    isThrottleFirst="false"
                     onClickCommand="@{viewModel.add}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="增加" />
 
                 <Button
-                    isThrottleFirst="@{true}"
                     onClickCommand="@{viewModel.sub}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="删除" />
 
                 <Button
-                    isThrottleFirst="false"
+                    isThrottleFirst="@{true}"
                     onClickCommand="@{viewModel.edit}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="修改" />
             </LinearLayout>
 
+            <!--adapter="@{viewModel.mGrilsAdapter}"-->
+            <!--layoutManagers="@{LayoutManagers.grid(2)}"-->
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv"
                 adapter="@{viewModel.mGrilsAdapter}"
-                layoutManagers="@{LayoutManagers.grid(2)}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
         </LinearLayout>

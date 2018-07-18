@@ -1,10 +1,12 @@
 package com.taopao.mvvmbase.binding.viewadapter.recyclerview;
 
 import android.databinding.BindingAdapter;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.taopao.mvvmbase.base.MVVMBase;
 import com.taopao.mvvmbase.binding.command.BindingCommand;
 
 import java.util.concurrent.TimeUnit;
@@ -22,6 +24,7 @@ public class ViewAdapter {
     @BindingAdapter("layoutManagers")
     public static void setLayoutManager(RecyclerView recyclerView, LayoutManagers.LayoutManagerFactory layoutManagerFactory) {
         recyclerView.setLayoutManager(layoutManagerFactory.create(recyclerView));
+
     }
 
 
@@ -84,7 +87,7 @@ public class ViewAdapter {
                     .subscribe(new Consumer<Integer>() {
                         @Override
                         public void accept(Integer integer) throws Exception {
-                           onLoadMoreCommand.execute(integer);
+                            onLoadMoreCommand.execute(integer);
                         }
                     });
         }

@@ -16,8 +16,6 @@ import com.taopao.mvvmbase.binding.command.BindingAction;
 import com.taopao.mvvmbase.binding.command.BindingCommand;
 import com.taopao.mvvmbase.utils.RxUtils;
 
-import java.security.Provider;
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -104,6 +102,7 @@ public class MainViewModel extends BaseMVVMViewModel {
         @Override
         public void call() {
             startActivity(RefreshActivity.class);
+//            startActivity(Main2Activity.class);
         }
     });
 

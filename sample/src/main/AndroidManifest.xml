@@ -29,7 +29,7 @@
         </activity>
         <activity android:name=".ui.activity.LoginActivity" />
         <activity android:name=".ui.activity.MainActivity" />
-        <activity android:name=".ui.activity.RefreshActivity"></activity>
+        <activity android:name=".ui.activity.RefreshActivity" />
     </application>
 
 </manifest>

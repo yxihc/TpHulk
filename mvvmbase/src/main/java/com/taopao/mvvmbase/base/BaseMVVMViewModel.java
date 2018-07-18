@@ -40,7 +40,7 @@ public class BaseMVVMViewModel extends ViewModel implements Observable, IBaseVie
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>通知刷新>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
     private PropertyChangeRegistry callbacks = new PropertyChangeRegistry();
-    private MaterialDialog mMaterialDialog;
+    private static MaterialDialog mMaterialDialog;
 
     public void notifyChange() {
         callbacks.notifyCallbacks(this, 0, null);
@@ -136,13 +136,6 @@ public class BaseMVVMViewModel extends ViewModel implements Observable, IBaseVie
 
 
     /**
-     * 增加页数
-     */
-    public void addPage() {
-        mPage++;
-    }
-
-    /**
      * 检查当前的页数计算出下次应该请求的页数
      * 理论上讲,如果失败的话页数应该是不变的(所以不考虑请求时失败的情况,在请求成功的时候检查一下即可)
      *
@@ -162,7 +155,26 @@ public class BaseMVVMViewModel extends ViewModel implements Observable, IBaseVie
         if (list == null || list.size() < 1) {
             //如果请求到的数据是空的,或者请求到数据长度为0,那么页数就不应该再改变
             //这里提示没有更多数据了
-            Toast.makeText(mContext, "没有更多数据了", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(mContext, "没有更多数据了", Toast.LENGTH_SHORT).show();
+        } else {
+            //如果list非空,并且长度大于0
+            mPage++;
+        }
+    }
+
+
+    /**
+     * 检查当前的页数计算出下次应该请求的页数
+     * 理论上讲,如果失败的话页数应该是不变的(所以不考虑请求时失败的情况,在请求成功的时候检查一下即可)
+     *
+     * @param list 请求到的list数据
+     */
+    public void CheckUpPage(List list) {
+        //如果不是刷新
+        if (list == null || list.size() < 1) {
+            //如果请求到的数据是空的,或者请求到数据长度为0,那么页数就不应该再改变
+            //这里提示没有更多数据了
+//            Toast.makeText(mContext, "没有更多数据了", Toast.LENGTH_SHORT).show();
         } else {
             //如果list非空,并且长度大于0
             mPage++;
