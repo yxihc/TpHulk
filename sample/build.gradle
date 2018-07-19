@@ -33,4 +33,8 @@ dependencies {
     //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<通用<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
     api project(':mvvmbase')
+
+    compile 'com.willowtreeapps.spruce:spruce-android:1.0.1'
+    implementation 'com.facebook.shimmer:shimmer:0.2.0'
+
 }

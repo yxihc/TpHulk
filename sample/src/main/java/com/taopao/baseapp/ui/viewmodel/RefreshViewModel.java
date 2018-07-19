@@ -76,12 +76,9 @@ public class RefreshViewModel extends BaseMVVMViewModel {
     String page = "";
 
     public void getGrils1() {
-        if (mPage == 1) {
-            showDialog("请骚等...");
-        }
         if (mPage == 2) {
             if (is) {
-                page = mPage + "ss";
+                page = mPage + "ss";//模拟请求失败
 
             } else {
                 page = mPage + "";

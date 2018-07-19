@@ -16,6 +16,18 @@
         android:orientation="vertical"
         android:padding="20dp">
 
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="淘跑"
+                android:textColor="@android:color/black"
+                android:textSize="30dp" />
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
 
         <EditText
             android:layout_width="match_parent"
