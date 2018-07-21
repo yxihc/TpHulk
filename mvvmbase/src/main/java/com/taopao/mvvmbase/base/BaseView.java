@@ -11,7 +11,7 @@ public interface BaseView {
      * 用来加载前显示加载动画
      */
     void showLoadingDialog();
-
+ 
     /**
      * 用来取消加载动画
      */
