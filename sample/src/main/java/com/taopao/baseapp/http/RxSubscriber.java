@@ -44,39 +44,35 @@ public abstract class RxSubscriber<T> extends DisposableObserver<T> {
      * 是否显示错误布局
      */
     private boolean isShowError = false;
-    /**
-     * //是否显示网络错误布局
-     */
-    private boolean isShowNetError = false;
 
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>构造函数>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
     /**
      * @param context    上下文
+     * @param viewState  界面的显示状态
      * @param event      服务器返回的错误
      * @param hideDialog 关闭dialog的监听
      */
-    public RxSubscriber(Context context, ObservableField<EventData> event, ObservableBoolean hideDialog) {
+    public RxSubscriber(Context context, ObservableInt viewState, ObservableField<EventData> event, ObservableBoolean hideDialog) {
         mContext = context;
+        mViewState = viewState;
         this.hideDialog = hideDialog;
         this.showCodeOrMessage = event;
     }
 
     /**
-     * @param context        上下文
-     * @param event          服务器返回的错误
-     * @param hideDialog     关闭dialog的监听
-     * @param viewState      界面的显示状态
-     * @param isShowError    是否显示错误界面
-     * @param isShowNetError 是否显示网络错误界面
+     * @param context     上下文
+     * @param viewState   界面的显示状态
+     * @param event       服务器返回的错误
+     * @param hideDialog  关闭dialog的监听
+     * @param isShowError 是否显示错误界面(默认不显示)
      */
-    public RxSubscriber(Context context, ObservableField<EventData> event, ObservableBoolean hideDialog, ObservableInt viewState, boolean isShowError, boolean isShowNetError) {
+    public RxSubscriber(Context context, ObservableInt viewState, ObservableField<EventData> event, ObservableBoolean hideDialog, boolean isShowError) {
         mContext = context;
         mViewState = viewState;
         this.hideDialog = hideDialog;
         this.showCodeOrMessage = event;
         this.isShowError = isShowError;
-        this.isShowNetError = isShowNetError;
     }
 
     //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<构造函数<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -122,9 +118,6 @@ public abstract class RxSubscriber<T> extends DisposableObserver<T> {
 
         if (!NetworkUtil.isNetworkAvailable(mContext)) {
             Toast.makeText(mContext, "无网络，请检查网络设置", Toast.LENGTH_SHORT).show();
-            if (isShowNetError) {
-                mViewState.set(ViewState.NoNetwork_view);
-            }
             onComplete();
         }
     }

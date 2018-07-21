@@ -19,9 +19,16 @@ public class MainActivity extends BaseMVVMActivity<ActivityMainBinding, MainView
 
     @Override
     public void initView() {
-
+        super.initView();
 //        mBinding.srl.finishLoadMoreWithNoMoreData();
 
         mViewModel.mGrilsAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
+    }
+
+
+    @Override
+    public void RefreshView() {
+        super.RefreshView();
+        mViewModel.getGrils();
     }
 }

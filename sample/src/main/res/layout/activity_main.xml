@@ -44,7 +44,7 @@
                     onClickCommand="@{viewModel.sub}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="删除" />
+                    android:text="模拟加载错误" />
 
                 <Button
                     isThrottleFirst="false"

@@ -1,5 +1,6 @@
 package com.taopao.baseapp.ui.adapter;
 
+import android.content.Context;
 import android.databinding.ViewDataBinding;
 import android.support.annotation.Nullable;
 
@@ -15,8 +16,8 @@ import java.util.List;
  * @Use：
  */
 public class RvGrilsAdapter extends BaseBindingRvAdapter<ImgListInfo.ResultsBean> {
-    public RvGrilsAdapter(@Nullable List<ImgListInfo.ResultsBean> data) {
-        super(R.layout.recycle_item_grils, data);
+    public RvGrilsAdapter(@Nullable List<ImgListInfo.ResultsBean> data, Context context) {
+        super(R.layout.recycle_item_grils, data, context);
     }
 
     @Override

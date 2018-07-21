@@ -51,12 +51,13 @@
                     android:text="修改" />
             </LinearLayout>
 
-            <!--adapter="@{viewModel.mGrilsAdapter}"-->
-            <!--layoutManagers="@{LayoutManagers.grid(2)}"-->
-
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv"
-                adapter="@{viewModel.mGrilsAdapter}"
+                bindAdapter="@{viewModel.mGrilsAdapter}"
+                bindAdapterAnimation="@{LayoutManagers.Animation_SCALEIN}"
+                bindAdapterLoadMoreCommand="@{viewModel.onLoadMore}"
+                bindAdapterOnItemClick="@{viewModel.itemClick}"
+                layoutManagers="@{LayoutManagers.grid(2)}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
         </LinearLayout>

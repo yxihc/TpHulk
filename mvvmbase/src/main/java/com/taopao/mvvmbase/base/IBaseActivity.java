@@ -48,4 +48,6 @@ public interface IBaseActivity {
     void initViewObservable();
 
 
+    void setToolBar();
+
 }

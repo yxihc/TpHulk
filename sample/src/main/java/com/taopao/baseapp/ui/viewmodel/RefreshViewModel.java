@@ -13,9 +13,8 @@ import com.taopao.mvvmbase.base.BaseMVVMActivity;
 import com.taopao.mvvmbase.base.BaseMVVMViewModel;
 import com.taopao.mvvmbase.binding.command.BindingAction;
 import com.taopao.mvvmbase.binding.command.BindingCommand;
+import com.taopao.mvvmbase.binding.command.BindingConsumer;
 import com.taopao.mvvmbase.utils.RxUtils;
-
-import junit.framework.TestResult;
 
 import java.util.List;
 import java.util.Random;
@@ -32,7 +31,7 @@ public class RefreshViewModel extends BaseMVVMViewModel {
 
     public ObservableList<ImgListInfo.ResultsBean> mGrils = new ObservableArrayList<>();
 
-    public RvGrilsAdapter mGrilsAdapter = new RvGrilsAdapter(mGrils);
+    public RvGrilsAdapter mGrilsAdapter = new RvGrilsAdapter(mGrils, mContext);
 
     @Override
     public void onCreate() {
@@ -41,41 +40,15 @@ public class RefreshViewModel extends BaseMVVMViewModel {
         getGrils();
     }
 
+    boolean is = true;
+    String page = "";
+
     public void getGrils() {
         if (mPage == 1) {
             mGrilsAdapter.setEnableLoadMore(false);//这里的作用是防止下拉刷新的时候还可以上拉加载
             showDialog("请骚等...");
         }
-        RetrofitProvider.getInstance().create(Api.class)
-                .getImgListPage(mPage + "")
-                .compose(RxUtils.<ImgListInfo>schedulersTransformer())
-                .subscribe(new RxSubscriber<ImgListInfo>(mContext, mEvent, hideDialog) {
-                    @Override
-                    public void onResult(ImgListInfo imgListInfo) {
-                        if (mPage == 1) {
-                            mGrils.clear();
-                        }
-                        List<ImgListInfo.ResultsBean> results = imgListInfo.getResults();
-                        mGrils.addAll(results);
 
-                        CheckUpPageOrAdapter(imgListInfo.getResults(), mGrilsAdapter);
-                        Toast.makeText(mContext, "下一次请求的页数: " + mPage, Toast.LENGTH_SHORT).show();
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
-                        mGrilsAdapter.loadMoreFail();
-                    }
-                });
-    }
-
-
-    boolean is = true;
-    String page = "";
-
-    public void getGrils1() {
         if (mPage == 2) {
             if (is) {
                 page = mPage + "ss";//模拟请求失败
@@ -97,16 +70,19 @@ public class RefreshViewModel extends BaseMVVMViewModel {
         }
 
         RetrofitProvider.getInstance().create(Api.class)
-                .getImgListPage(page)
+                .getImgListPage(page + "")
                 .compose(RxUtils.<ImgListInfo>schedulersTransformer())
-                .subscribe(new RxSubscriber<ImgListInfo>(mContext, mEvent, hideDialog) {
+                .subscribe(new RxSubscriber<ImgListInfo>(mContext, mViewState, mEvent, hideDialog) {
                     @Override
                     public void onResult(ImgListInfo imgListInfo) {
                         if (mPage == 1) {
                             mGrils.clear();
                         }
-                        mGrils.addAll(imgListInfo.getResults());
+                        List<ImgListInfo.ResultsBean> results = imgListInfo.getResults();
+                        mGrils.addAll(results);
+
                         CheckUpPageOrAdapter(imgListInfo.getResults(), mGrilsAdapter);
+                        Toast.makeText(mContext, "下一次请求的页数: " + mPage, Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -117,11 +93,27 @@ public class RefreshViewModel extends BaseMVVMViewModel {
                 });
     }
 
+
     public BindingCommand onRefresh = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
             mPage = 1;
             getGrils();
+        }
+    });
+
+
+    public BindingCommand onLoadMore = new BindingCommand(new BindingAction() {
+        @Override
+        public void call() {
+            getGrils();
+        }
+    });
+
+    public BindingCommand<Integer> itemClick = new BindingCommand<Integer>(new BindingConsumer<Integer>() {
+        @Override
+        public void call(Integer integer) {
+            Toast.makeText(mContext, "点击了:" + integer, Toast.LENGTH_SHORT).show();
         }
     });
 

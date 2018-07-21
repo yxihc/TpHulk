@@ -149,7 +149,7 @@ public abstract class BaseMVVMFragment<V extends ViewDataBinding, VM extends Bas
                     case ViewState.NoNetwork_view:
                         showNoNetworkView();
                         break;
-                    case ViewState.Login_view:
+                    case ViewState.Loading_view:
                         showLoginView();
                         break;
                 }

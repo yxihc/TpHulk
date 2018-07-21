@@ -4,8 +4,10 @@ import android.databinding.BindingAdapter;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.taopao.mvvmbase.base.BaseBindingRvAdapter;
 import com.taopao.mvvmbase.base.MVVMBase;
 import com.taopao.mvvmbase.binding.command.BindingCommand;
 
@@ -20,11 +22,55 @@ import io.reactivex.subjects.PublishSubject;
  * @Use：
  */
 public class ViewAdapter {
+    /**
+     * 基于BaseRecyclerViewAdapterHelper封装的 BindingAdapter
+     *
+     * @param recyclerView         recyclerView
+     * @param adapter              adapter
+     * @param layoutManagerFactory 设置layoutManager
+     * @param onLoadMoreCommand    监听加载更多
+     * @param animation            开启动画不传不开启)
+     * @param onItemClickCommand   item的点击事件
+     */
+    @BindingAdapter(value = {"bindAdapter", "layoutManagers", "bindAdapterLoadMoreCommand", "bindAdapterAnimation", "bindAdapterOnItemClick"}, requireAll = false)
+    public static void setBindAdapter(RecyclerView recyclerView, BaseBindingRvAdapter adapter, LayoutManagers.LayoutManagerFactory layoutManagerFactory, final BindingCommand onLoadMoreCommand, int animation, final BindingCommand<Integer> onItemClickCommand) {
+        if (layoutManagerFactory != null) {
+            if (adapter != null) {
+                recyclerView.setLayoutManager(layoutManagerFactory.create(recyclerView, adapter.getRvContext()));
+            } else {
+                recyclerView.setLayoutManager(layoutManagerFactory.create(recyclerView, null));
+            }
+        }
+        if (adapter != null) {
+            //设置动画
+            if (animation != 0) {
+                adapter.openLoadAnimation(animation);
+            }
 
-    @BindingAdapter("layoutManagers")
-    public static void setLayoutManager(RecyclerView recyclerView, LayoutManagers.LayoutManagerFactory layoutManagerFactory) {
-        recyclerView.setLayoutManager(layoutManagerFactory.create(recyclerView));
+            //设置点击事件
+            adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                    if (onItemClickCommand != null) {
+                        onItemClickCommand.execute(position);
 
+                    }
+                }
+            });
+
+            //设置加载更多的监听
+            adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+                @Override
+                public void onLoadMoreRequested() {
+                    if (onLoadMoreCommand != null) {
+                        onLoadMoreCommand.execute();
+                    }
+                }
+            }, recyclerView);
+
+            //设置adapter
+            recyclerView.setAdapter(adapter);
+        }
     }
 
 
@@ -32,7 +78,6 @@ public class ViewAdapter {
     public static void setLineManager(RecyclerView recyclerView, LineManagers.LineManagerFactory lineManagerFactory) {
         recyclerView.addItemDecoration(lineManagerFactory.create(recyclerView));
     }
-
 
     @BindingAdapter(value = "adapter")
     public static void setAdapter(RecyclerView recyclerView, RecyclerView.Adapter adapter) {

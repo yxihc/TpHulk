@@ -18,6 +18,17 @@ public interface BaseView {
     void hideLoadingDialog();
 
     /**
+     * 显示第一次加载的加载中界面
+     */
+    void showLoadingView();
+
+
+    /**
+     * 刷新界面
+     */
+    void RefreshView();
+
+    /**
      * 加载失败返回的错误码以及错误信息
      */
 

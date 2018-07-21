@@ -22,10 +22,10 @@ public class ViewState {
      * 显示加载错误界面
      */
     public final static int Error_view = 2;
-    /**
-     * 显示手机登录的页面
-     */
-    public final static int Login_view = 3;
 
+    /**
+     * 显示加载中的页面
+     */
+    public final static int Loading_view = 3;
 
 }

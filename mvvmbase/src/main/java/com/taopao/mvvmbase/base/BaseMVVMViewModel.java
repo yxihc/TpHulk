@@ -30,7 +30,7 @@ import java.util.List;
 public class BaseMVVMViewModel extends ViewModel implements Observable, IBaseViewModel {
 
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>常用的界面显示>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    public ObservableInt mViewState = new ObservableInt(ViewState.Normal_view);//界面的显示状态
+    public ObservableInt mViewState = new ObservableInt(ViewState.Loading_view);//界面的显示状态(默认是加载中)
     public ObservableBoolean hideDialog = new ObservableBoolean(false);//关闭加载中动画
     public final ObservableBoolean finishRefresh = new ObservableBoolean(false);//关闭刷新动画
     public ObservableField<EventData> mEvent = new ObservableField<>(new EventData());//服务器常见的错误码

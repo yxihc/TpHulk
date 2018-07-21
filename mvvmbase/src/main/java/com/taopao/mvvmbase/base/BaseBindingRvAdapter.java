@@ -1,5 +1,6 @@
 package com.taopao.mvvmbase.base;
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableList;
@@ -25,6 +26,7 @@ import java.util.List;
  */
 public abstract class BaseBindingRvAdapter<T> extends BaseQuickAdapter<T, BaseBindingRvAdapter.BindingViewHolder> {
 
+    public Context mRvContext;
     public ObservableList<T> mTObservableList;
 
     @Override
@@ -48,12 +50,15 @@ public abstract class BaseBindingRvAdapter<T> extends BaseQuickAdapter<T, BaseBi
         return view;
     }
 
-    public BaseBindingRvAdapter(@Nullable List<T> data) {
-        this(0, data);
+
+    public BaseBindingRvAdapter(@Nullable List<T> data, Context context) {
+        this(0, data, context);
     }
 
-    public BaseBindingRvAdapter(@LayoutRes int layoutResId, @Nullable List<T> data) {
+
+    public BaseBindingRvAdapter(@LayoutRes int layoutResId, @Nullable List<T> data, Context context) {
         super(layoutResId, data);
+        mRvContext = context;
         this.mTObservableList = data == null ? new ObservableArrayList<T>() : (ObservableList<T>) data;
         if (layoutResId != 0) {
             this.mLayoutResId = layoutResId;
@@ -86,6 +91,19 @@ public abstract class BaseBindingRvAdapter<T> extends BaseQuickAdapter<T, BaseBi
                 notifyItemRangeRemoved(positionStart, itemCount);
             }
         });
+    }
+
+    /**
+     * 得到上下文
+     *
+     * @return
+     */
+    public Context getRvContext() {
+        if (mRvContext == null) {
+            return mContext;
+        } else {
+            return mRvContext;
+        }
     }
 
     public static class BindingViewHolder extends BaseViewHolder {

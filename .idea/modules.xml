@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/BaseApp.iml" filepath="$PROJECT_DIR$/BaseApp.iml" />
-      <module fileurl="file://E:\WorkSpace\BaseApp\sample\app.iml" filepath="E:\WorkSpace\BaseApp\sample\app.iml" />
+      <module fileurl="file://E:/WorkSpace/BaseApp/sample/app.iml" filepath="E:/WorkSpace/BaseApp/sample/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/mvvmbase/mvvmbase.iml" filepath="$PROJECT_DIR$/mvvmbase/mvvmbase.iml" />
       <module fileurl="file://$PROJECT_DIR$/sample/sample.iml" filepath="$PROJECT_DIR$/sample/sample.iml" />
     </modules>

@@ -30,7 +30,7 @@ public class MainViewModel extends BaseMVVMViewModel {
 
     public ObservableList<ImgListInfo.ResultsBean> mGrils = new ObservableArrayList<>();
 
-    public RvGrilsAdapter mGrilsAdapter = new RvGrilsAdapter(mGrils);
+    public RvGrilsAdapter mGrilsAdapter = new RvGrilsAdapter(mGrils, mContext);
 
     @Override
     public void onCreate() {
@@ -45,7 +45,7 @@ public class MainViewModel extends BaseMVVMViewModel {
         RetrofitProvider.getInstance().create(Api.class)
                 .getImgListPage(mPage + "")
                 .compose(RxUtils.<ImgListInfo>schedulersTransformer())
-                .subscribe(new RxSubscriber<ImgListInfo>(mContext, mEvent, hideDialog) {
+                .subscribe(new RxSubscriber<ImgListInfo>(mContext, mViewState, mEvent, hideDialog) {
                     @Override
                     public void onResult(ImgListInfo imgListInfo) {
                         if (mPage == 1) {
@@ -83,9 +83,21 @@ public class MainViewModel extends BaseMVVMViewModel {
     public BindingCommand sub = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
-            if (mGrils.size() > 2) {
-                mGrils.remove(1);
-            }
+            //模拟加载失败
+            RetrofitProvider.getInstance().create(Api.class)
+                    .getImgListPage(mPage + "撒盛大速度")
+                    .compose(RxUtils.<ImgListInfo>schedulersTransformer())
+                    .subscribe(new RxSubscriber<ImgListInfo>(mContext, mViewState, mEvent, hideDialog, true) {
+                        @Override
+                        public void onResult(ImgListInfo imgListInfo) {
+                            if (mPage == 1) {
+                                mGrils.clear();
+                            }
+                            mGrils.addAll(imgListInfo.getResults());
+                            CheckUpPageOrAdapter(imgListInfo.getResults(), mGrilsAdapter);
+                            Toast.makeText(mContext, "下一次请求的页数: " + mPage, Toast.LENGTH_SHORT).show();
+                        }
+                    });
         }
     });
 

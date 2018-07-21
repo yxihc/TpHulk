@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
-    buildToolsVersion rootProject.ext.android.buildToolsVersion
+    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "com.taopao.baseapp"
         minSdkVersion 19
@@ -35,6 +35,5 @@ dependencies {
     api project(':mvvmbase')
 
     compile 'com.willowtreeapps.spruce:spruce-android:1.0.1'
-    implementation 'com.facebook.shimmer:shimmer:0.2.0'
 
 }

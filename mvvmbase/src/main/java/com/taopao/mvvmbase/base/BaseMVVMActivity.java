@@ -9,9 +9,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.taopao.mvvmbase.BR;
+import com.taopao.mvvmbase.R;
+import com.taopao.mvvmbase.databinding.ActivityBaseBinding;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 /**
@@ -22,6 +27,7 @@ import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends BaseMVVMViewModel> extends RxAppCompatActivity implements IBaseActivity, BaseView {
     protected V mBinding;
     protected VM mViewModel;
+    protected ActivityBaseBinding mBaseBinding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,8 +41,6 @@ public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends Bas
         //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<页面间传值<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
         //注入绑定
         initViewDataBinding();
-        //设置沉浸式状态栏
-        setStatusBar();
         initView();
         //防止空指针异常
         if (mViewModel != null) {
@@ -51,9 +55,23 @@ public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends Bas
      * 注入绑定
      */
     private void initViewDataBinding() {
+
+        //初始化跟布局的显示
+        mBaseBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.activity_base, null, false);
+
         //DataBindingUtil类需要在project的build中配置 dataBinding {enabled true }, 同步后会自动关联android.databinding包
-        mBinding = DataBindingUtil.setContentView(this, getContentView());
+
+        mBinding = DataBindingUtil.inflate(getLayoutInflater(), getContentView(), null, false);
+
+        // content
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        mBinding.getRoot().setLayoutParams(params);
+        RelativeLayout mContainer = (RelativeLayout) mBaseBinding.getRoot().findViewById(R.id.container);
+        mContainer.addView(mBinding.getRoot());
+
         mBinding.setVariable(initVariableId(), mViewModel = initMVVMViewModel());
+
+        setContentView(mBaseBinding.getRoot());
     }
 
 
@@ -97,7 +115,7 @@ public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends Bas
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>IBaseActivity接口方法重写:需要时重写>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     @Override
     public void refreshLayout() {
-        if (mViewModel != null) {
+        if (mViewModel != null && mBinding != null) {
             mBinding.setVariable(initVariableId(), mViewModel);
         }
     }
@@ -114,6 +132,16 @@ public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends Bas
     }
 
     @Override
+    public void setTitle(CharSequence text) {
+        mBaseBinding.toolBar.setTitle(text);
+    }
+
+    @Override
+    public void setToolBar() {
+
+    }
+
+    @Override
     public void initParam(Bundle bundle) {
         if (mViewModel != null) {
             mViewModel.initParam(bundle);
@@ -122,6 +150,21 @@ public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends Bas
 
     @Override
     public void initView() {
+
+        //第一次加载界面显示加载中动画
+        showLoadingView();
+
+        //设置沉浸式状态栏
+        setStatusBar();
+        //设置toolbar
+        setToolBar();
+        mBaseBinding.errorRefreshView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showLoadingView();
+                RefreshView();
+            }
+        });
 
     }
 
@@ -151,8 +194,8 @@ public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends Bas
                     case ViewState.NoNetwork_view:
                         showNoNetworkView();
                         break;
-                    case ViewState.Login_view:
-                        showLoginView();
+                    case ViewState.Loading_view:
+                        showLoadingView();
                         break;
                 }
             }
@@ -178,6 +221,48 @@ public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends Bas
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>BaseView中的方法:需要时重写>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
     @Override
+    public void showLoadingView() {
+        setViewState(View.VISIBLE, View.GONE, View.GONE);
+    }
+
+    @Override
+    public void showErrorView() {
+        setViewState(View.GONE, View.GONE, View.VISIBLE);
+    }
+
+    @Override
+    public void showNormalView() {
+        setViewState(View.GONE, View.VISIBLE, View.GONE);
+    }
+
+    /**
+     * 设置 加载中 正常显示 和加载失败的三种布局的显示状态
+     *
+     * @param loadingView 加载中
+     * @param normalView  正常显示
+     * @param errorView   加载失败
+     */
+    private void setViewState(int loadingView, int normalView, int errorView) {
+        if (mBaseBinding.loadingView != null && mBaseBinding.loadingView.getVisibility() != loadingView) {
+            mBaseBinding.loadingView.setVisibility(loadingView);
+        }
+        if (mBaseBinding.errorRefreshView != null && mBaseBinding.errorRefreshView.getVisibility() != errorView) {
+            mBaseBinding.errorRefreshView.setVisibility(errorView);
+        }
+        if (mBinding.getRoot() != null && mBinding.getRoot().getVisibility() != normalView) {
+            mBinding.getRoot().setVisibility(normalView);
+        }
+    }
+
+    /**
+     * 失败后点击刷新  需要时重写
+     */
+    @Override
+    public void RefreshView() {
+
+    }
+
+    @Override
     public void showNoNetworkView() {
 
     }
@@ -192,10 +277,6 @@ public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends Bas
 
     }
 
-    @Override
-    public void showErrorView() {
-
-    }
 
     @Override
     public void showLoadingDialog() {
@@ -207,10 +288,6 @@ public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends Bas
 
     }
 
-    @Override
-    public void showNormalView() {
-
-    }
 
     @Override
     public void onErrorMsg(int errorCode, String errorMsg) {
