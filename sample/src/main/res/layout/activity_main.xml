@@ -33,11 +33,10 @@
                 android:orientation="horizontal">
 
                 <Button
-                    isThrottleFirst="false"
-                    onClickCommand="@{viewModel.add}"
+                    onClickCommand="@{viewModel.fragment1}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="增加" />
+                    android:text="Fragment" />
 
                 <Button
                     isThrottleFirst="@{true}"
@@ -47,7 +46,6 @@
                     android:text="模拟加载错误" />
 
                 <Button
-                    isThrottleFirst="false"
                     onClickCommand="@{viewModel.edit}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -64,7 +62,8 @@
 
             <android.support.v7.widget.RecyclerView
                 adapter="@{viewModel.mGrilsAdapter}"
-                layoutManagers="@{LayoutManagers.grid(2)}"
+                bindAdapterAnimation="@{LayoutManagers.Animation_SLIDEIN_BOTTOM}"
+                layoutManagers="@{LayoutManagers.grid(3)}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
         </LinearLayout>

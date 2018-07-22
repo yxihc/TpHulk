@@ -12,20 +12,15 @@ public class ViewState {
     /**
      * 显示正常显示的状态
      */
-    public final static int Normal_view = 0;
-    /**
-     * /**
-     * 用来显示没有网络时候的界面
-     */
-    public final static int NoNetwork_view = 1;
+    public final static int Normal_view = 0x0001;
     /**
      * 显示加载错误界面
      */
-    public final static int Error_view = 2;
+    public final static int Error_view = 0x0002;
 
     /**
      * 显示加载中的页面
      */
-    public final static int Loading_view = 3;
+    public final static int Loading_view = 0x0003;
 
 }

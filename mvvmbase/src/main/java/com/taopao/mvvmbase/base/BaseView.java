@@ -22,11 +22,10 @@ public interface BaseView {
      */
     void showLoadingView();
 
-
     /**
      * 刷新界面
      */
-    void RefreshView();
+    void refreshView();
 
     /**
      * 加载失败返回的错误码以及错误信息
@@ -34,10 +33,6 @@ public interface BaseView {
 
     void onErrorMsg(int errorCode, String errorMsg);
 
-    /**
-     * 用来显示没有网络时候的界面
-     */
-    void showNoNetworkView();
 
     /**
      * 显示加载错误界面
@@ -50,15 +45,6 @@ public interface BaseView {
      */
     void showNormalView();
 
-    /**
-     * 显示手机登录的页面
-     */
-    void showLoginView();
-
-    /**
-     * 显示未登录页面
-     */
-    void showLogoutView();
 
     /**
      * 显示登录错误或者登录失效的Dialog

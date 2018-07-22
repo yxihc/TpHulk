@@ -2,14 +2,17 @@ package com.taopao.baseapp.ui.viewmodel;
 
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableList;
+import android.databinding.ViewDataBinding;
 import android.widget.Toast;
 
+import com.taopao.baseapp.R;
 import com.taopao.baseapp.http.Api;
 import com.taopao.baseapp.http.RetrofitProvider;
 import com.taopao.baseapp.http.RxSubscriber;
 import com.taopao.baseapp.model.ImgListInfo;
+import com.taopao.baseapp.ui.activity.FragmentTestActivity;
 import com.taopao.baseapp.ui.activity.RefreshActivity;
-import com.taopao.baseapp.ui.adapter.RvGrilsAdapter;
+import com.taopao.mvvmbase.base.BaseBindingRvAdapter;
 import com.taopao.mvvmbase.base.BaseMVVMActivity;
 import com.taopao.mvvmbase.base.BaseMVVMViewModel;
 import com.taopao.mvvmbase.binding.command.BindingAction;
@@ -30,7 +33,12 @@ public class MainViewModel extends BaseMVVMViewModel {
 
     public ObservableList<ImgListInfo.ResultsBean> mGrils = new ObservableArrayList<>();
 
-    public RvGrilsAdapter mGrilsAdapter = new RvGrilsAdapter(mGrils, mContext);
+
+    public BaseBindingRvAdapter<ImgListInfo.ResultsBean> mGrilsAdapter = new BaseBindingRvAdapter<ImgListInfo.ResultsBean>(R.layout.recycle_item_grils, mGrils, mContext) {
+        @Override
+        protected void convert(BindingViewHolder helper, ViewDataBinding binding, ImgListInfo.ResultsBean item) {
+        }
+    };
 
     @Override
     public void onCreate() {
@@ -45,7 +53,8 @@ public class MainViewModel extends BaseMVVMViewModel {
         RetrofitProvider.getInstance().create(Api.class)
                 .getImgListPage(mPage + "")
                 .compose(RxUtils.<ImgListInfo>schedulersTransformer())
-                .subscribe(new RxSubscriber<ImgListInfo>(mContext, mViewState, mEvent, hideDialog) {
+                .compose(RxUtils.<ImgListInfo>bindToLifecycle(mActivity))
+                .subscribe(new RxSubscriber<ImgListInfo>(mViewState, mEvent, hideDialog) {
                     @Override
                     public void onResult(ImgListInfo imgListInfo) {
                         if (mPage == 1) {
@@ -73,10 +82,10 @@ public class MainViewModel extends BaseMVVMViewModel {
         }
     });
 
-    public BindingCommand add = new BindingCommand(new BindingAction() {
+    public BindingCommand fragment1 = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
-            mGrils.add(1, mGrils.get(mGrils.size() - 1));
+            startActivity(FragmentTestActivity.class);
         }
     });
 
@@ -87,7 +96,7 @@ public class MainViewModel extends BaseMVVMViewModel {
             RetrofitProvider.getInstance().create(Api.class)
                     .getImgListPage(mPage + "撒盛大速度")
                     .compose(RxUtils.<ImgListInfo>schedulersTransformer())
-                    .subscribe(new RxSubscriber<ImgListInfo>(mContext, mViewState, mEvent, hideDialog, true) {
+                    .subscribe(new RxSubscriber<ImgListInfo>(mViewState, mEvent, hideDialog, true) {
                         @Override
                         public void onResult(ImgListInfo imgListInfo) {
                             if (mPage == 1) {
@@ -114,7 +123,6 @@ public class MainViewModel extends BaseMVVMViewModel {
         @Override
         public void call() {
             startActivity(RefreshActivity.class);
-//            startActivity(Main2Activity.class);
         }
     });
 

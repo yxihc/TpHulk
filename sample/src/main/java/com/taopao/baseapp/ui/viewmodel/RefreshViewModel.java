@@ -2,6 +2,8 @@ package com.taopao.baseapp.ui.viewmodel;
 
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableList;
+import android.os.Handler;
+import android.os.Message;
 import android.widget.Toast;
 
 import com.taopao.baseapp.http.Api;
@@ -37,7 +39,16 @@ public class RefreshViewModel extends BaseMVVMViewModel {
     public void onCreate() {
         super.onCreate();
         mLimit = 10;
-        getGrils();
+
+        new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                getGrils();
+            }
+        }.sendEmptyMessageDelayed(1, 1000);
+
+
     }
 
     boolean is = true;
@@ -59,7 +70,7 @@ public class RefreshViewModel extends BaseMVVMViewModel {
             is = !is;
         } else if (mPage == 5) {
             if (is) {
-                page = mPage + "ss";
+                page = mPage + "ss";//模拟请求失败
 
             } else {
                 page = mPage + "";
@@ -72,9 +83,10 @@ public class RefreshViewModel extends BaseMVVMViewModel {
         RetrofitProvider.getInstance().create(Api.class)
                 .getImgListPage(page + "")
                 .compose(RxUtils.<ImgListInfo>schedulersTransformer())
-                .subscribe(new RxSubscriber<ImgListInfo>(mContext, mViewState, mEvent, hideDialog) {
+                .compose(RxUtils.<ImgListInfo>bindToLifecycle(mContext))
+                .subscribe(new RxSubscriber<ImgListInfo>(mViewState, mEvent, hideDialog) {
                     @Override
-                    public void onResult(ImgListInfo imgListInfo) {
+                    public void onResult(final ImgListInfo imgListInfo) {
                         if (mPage == 1) {
                             mGrils.clear();
                         }

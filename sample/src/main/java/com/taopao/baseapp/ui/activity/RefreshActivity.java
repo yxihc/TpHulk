@@ -1,7 +1,5 @@
 package com.taopao.baseapp.ui.activity;
 
-
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.taopao.baseapp.R;
 import com.taopao.baseapp.databinding.ActivityRefreshBinding;
 import com.taopao.baseapp.ui.viewmodel.RefreshViewModel;
@@ -16,7 +14,6 @@ public class RefreshActivity extends BaseMVVMActivity<ActivityRefreshBinding, Re
 
     @Override
     protected RefreshViewModel initMVVMViewModel() {
-
         return new RefreshViewModel(this);
     }
 

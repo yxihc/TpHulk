@@ -11,8 +11,11 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.taopao.mvvmbase.BR;
+import com.taopao.mvvmbase.R;
+import com.taopao.mvvmbase.databinding.FragmentBaseBinding;
 import com.trello.rxlifecycle2.components.support.RxFragment;
 
 /**
@@ -24,10 +27,17 @@ import com.trello.rxlifecycle2.components.support.RxFragment;
 public abstract class BaseMVVMFragment<V extends ViewDataBinding, VM extends BaseMVVMViewModel> extends RxFragment implements IBaseActivity, BaseView {
     protected V mBinding;
     protected VM mViewModel;
+    private FragmentBaseBinding mBaseBinding;
+    /**
+     * 是否可见状态
+     */
+    public boolean mIsFragmentVisible;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //页面间传值
         if (savedInstanceState != null) {
             initParam(savedInstanceState);
         } else if (getArguments() != null) {
@@ -38,15 +48,30 @@ public abstract class BaseMVVMFragment<V extends ViewDataBinding, VM extends Bas
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        //初始化容器布局的显示
+        mBaseBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_base, container, false);
+
+        //初始化布局
         mBinding = DataBindingUtil.inflate(inflater, getContentView(inflater, container), container, false);
+
+        // content
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        mBinding.getRoot().setLayoutParams(params);
+        RelativeLayout mContainer = (RelativeLayout) mBaseBinding.getRoot().findViewById(R.id.container);
+        mContainer.addView(mBinding.getRoot());
+
+
         mBinding.setVariable(initVariableId(), mViewModel = initViewModel());
-        return mBinding.getRoot();
+        return mBaseBinding.getRoot();
     }
 
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        initView();
 
         mViewModel.onCreate();
         mViewModel.registerRxBus();
@@ -55,6 +80,34 @@ public abstract class BaseMVVMFragment<V extends ViewDataBinding, VM extends Bas
         initViewObservable();
     }
 
+    /**
+     * 在这里实现Fragment数据的缓加载.
+     * 如果是与ViewPager一起使用，调用的是setUserVisibleHint
+     *
+     * @param isVisibleToUser 是否显示出来了
+     */
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (getUserVisibleHint()) {
+            onVisible();
+        } else {
+            onInvisible();
+        }
+    }
+
+    protected void onInvisible() {
+        mIsFragmentVisible = false;
+    }
+
+    protected void onVisible() {
+        mIsFragmentVisible = true;
+        lazyLoad();
+    }
+
+    private void lazyLoad() {
+
+    }
 
     @Override
     public void onDestroy() {
@@ -92,6 +145,22 @@ public abstract class BaseMVVMFragment<V extends ViewDataBinding, VM extends Bas
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>IBaseActivity接口方法重写:需要时重写>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
+    @Override
+    public void initView() {
+
+        //第一次加载界面显示加载中动画
+        showLoadingView();
+
+        mBaseBinding.errorRefreshView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showLoadingView();
+                refreshView();
+            }
+        });
+
+    }
+
     //刷新布局
     @Override
     public void refreshLayout() {
@@ -107,6 +176,11 @@ public abstract class BaseMVVMFragment<V extends ViewDataBinding, VM extends Bas
         }
     }
 
+    @Override
+    public void setToolBar() {
+
+    }
+
     /**
      * 布局文件默命名viewModel
      * 需要自定义可重写次方法
@@ -116,11 +190,6 @@ public abstract class BaseMVVMFragment<V extends ViewDataBinding, VM extends Bas
     @Override
     public int initVariableId() {
         return BR.viewModel;
-    }
-
-    @Override
-    public void initView() {
-
     }
 
     @Override
@@ -146,11 +215,8 @@ public abstract class BaseMVVMFragment<V extends ViewDataBinding, VM extends Bas
                     case ViewState.Normal_view:
                         showNormalView();
                         break;
-                    case ViewState.NoNetwork_view:
-                        showNoNetworkView();
-                        break;
                     case ViewState.Loading_view:
-                        showLoginView();
+                        showLoadingView();
                         break;
                 }
             }
@@ -176,7 +242,44 @@ public abstract class BaseMVVMFragment<V extends ViewDataBinding, VM extends Bas
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>BaseView中的方法:需要时重写>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
     @Override
-    public void showNoNetworkView() {
+    public void showLoadingView() {
+        setViewState(View.VISIBLE, View.GONE, View.GONE);
+    }
+
+    @Override
+    public void showErrorView() {
+        setViewState(View.GONE, View.GONE, View.VISIBLE);
+    }
+
+    @Override
+    public void showNormalView() {
+        setViewState(View.GONE, View.VISIBLE, View.GONE);
+    }
+
+    /**
+     * 设置 加载中 正常显示 和加载失败的三种布局的显示状态
+     *
+     * @param loadingView 加载中
+     * @param normalView  正常显示
+     * @param errorView   加载失败
+     */
+    private void setViewState(int loadingView, int normalView, int errorView) {
+        if (mBaseBinding.loadingView != null && mBaseBinding.loadingView.shimmmer.getVisibility() != loadingView) {
+            mBaseBinding.loadingView.shimmmer.setVisibility(loadingView);
+        }
+        if (mBaseBinding.errorRefreshView != null && mBaseBinding.errorRefreshView.getVisibility() != errorView) {
+            mBaseBinding.errorRefreshView.setVisibility(errorView);
+        }
+        if (mBinding.getRoot() != null && mBinding.getRoot().getVisibility() != normalView) {
+            mBinding.getRoot().setVisibility(normalView);
+        }
+    }
+
+    /**
+     * 失败后点击刷新  需要时重写
+     */
+    @Override
+    public void refreshView() {
 
     }
 
@@ -186,27 +289,7 @@ public abstract class BaseMVVMFragment<V extends ViewDataBinding, VM extends Bas
     }
 
     @Override
-    public void showLoginView() {
-
-    }
-
-    @Override
-    public void showErrorView() {
-
-    }
-
-    @Override
     public void showLoadingDialog() {
-
-    }
-
-    @Override
-    public void showLogoutView() {
-
-    }
-
-    @Override
-    public void showNormalView() {
 
     }
 

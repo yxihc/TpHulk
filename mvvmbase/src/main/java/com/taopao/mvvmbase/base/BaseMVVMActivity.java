@@ -8,6 +8,7 @@ import android.databinding.ViewDataBinding;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,10 @@ import com.taopao.mvvmbase.R;
 import com.taopao.mvvmbase.databinding.ActivityBaseBinding;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
+
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+
 /**
  * @Author： 淘跑
  * @Date: 2018/7/5 15:09
@@ -28,6 +33,7 @@ public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends Bas
     protected V mBinding;
     protected VM mViewModel;
     protected ActivityBaseBinding mBaseBinding;
+    private CompositeDisposable mCompositeDisposable;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,9 +52,14 @@ public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends Bas
         if (mViewModel != null) {
             mViewModel.onCreate();
             mViewModel.registerRxBus();
+
         }
         initData();
-        initViewObservable();
+
+        if (mViewModel != null) {
+            initViewObservable();
+        }
+
     }
 
     /**
@@ -68,8 +79,10 @@ public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends Bas
         mBinding.getRoot().setLayoutParams(params);
         RelativeLayout mContainer = (RelativeLayout) mBaseBinding.getRoot().findViewById(R.id.container);
         mContainer.addView(mBinding.getRoot());
-
-        mBinding.setVariable(initVariableId(), mViewModel = initMVVMViewModel());
+        mViewModel = initMVVMViewModel();
+        if (mViewModel != null) {
+            mBinding.setVariable(initVariableId(), mViewModel);
+        }
 
         setContentView(mBaseBinding.getRoot());
     }
@@ -109,8 +122,34 @@ public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends Bas
         if (mBinding != null) {
             mBinding.unbind();
         }
+        unsubscribe();
 
     }
+
+
+    /**
+     * 添加activity里的订阅者 对订阅者统一管理
+     *
+     * @param disposable
+     */
+    public void addRxDisposable(Disposable disposable) {
+        if (mCompositeDisposable == null) {
+            mCompositeDisposable = new CompositeDisposable();
+        }
+        mCompositeDisposable.add(disposable);
+    }
+
+    /**
+     * 解绑
+     */
+    public void unsubscribe() {
+        if (this.mCompositeDisposable != null) {
+            mCompositeDisposable.dispose();
+            this.mCompositeDisposable.clear();
+            mCompositeDisposable = null;
+        }
+    }
+
 
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>IBaseActivity接口方法重写:需要时重写>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     @Override
@@ -138,8 +177,21 @@ public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends Bas
 
     @Override
     public void setToolBar() {
-
+        setSupportActionBar(mBaseBinding.toolBar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            //去除默认Title显示
+            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+        mBaseBinding.toolBar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
+
 
     @Override
     public void initParam(Bundle bundle) {
@@ -162,7 +214,7 @@ public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends Bas
             @Override
             public void onClick(View view) {
                 showLoadingView();
-                RefreshView();
+                refreshView();
             }
         });
 
@@ -190,9 +242,6 @@ public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends Bas
                         break;
                     case ViewState.Normal_view:
                         showNormalView();
-                        break;
-                    case ViewState.NoNetwork_view:
-                        showNoNetworkView();
                         break;
                     case ViewState.Loading_view:
                         showLoadingView();
@@ -243,8 +292,13 @@ public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends Bas
      * @param errorView   加载失败
      */
     private void setViewState(int loadingView, int normalView, int errorView) {
-        if (mBaseBinding.loadingView != null && mBaseBinding.loadingView.getVisibility() != loadingView) {
-            mBaseBinding.loadingView.setVisibility(loadingView);
+        if (mBaseBinding.loadingView != null && mBaseBinding.loadingView.shimmmer.getVisibility() != loadingView) {
+            mBaseBinding.loadingView.shimmmer.setVisibility(loadingView);
+            if (loadingView == View.VISIBLE) {
+                mBaseBinding.loadingView.shimmmer.startShimmer();
+            } else {
+                mBaseBinding.loadingView.shimmmer.stopShimmer();
+            }
         }
         if (mBaseBinding.errorRefreshView != null && mBaseBinding.errorRefreshView.getVisibility() != errorView) {
             mBaseBinding.errorRefreshView.setVisibility(errorView);
@@ -258,12 +312,7 @@ public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends Bas
      * 失败后点击刷新  需要时重写
      */
     @Override
-    public void RefreshView() {
-
-    }
-
-    @Override
-    public void showNoNetworkView() {
+    public void refreshView() {
 
     }
 
@@ -273,19 +322,8 @@ public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends Bas
     }
 
     @Override
-    public void showLoginView() {
-
-    }
-
-
-    @Override
     public void showLoadingDialog() {
         Log.i("TAG", "=================================显示弹出");
-    }
-
-    @Override
-    public void showLogoutView() {
-
     }
 
 

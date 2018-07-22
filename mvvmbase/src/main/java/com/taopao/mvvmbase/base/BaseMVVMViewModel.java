@@ -75,7 +75,7 @@ public class BaseMVVMViewModel extends ViewModel implements Observable, IBaseVie
 
     public BaseMVVMViewModel(BaseMVVMFragment fragment) {
         mFragment = fragment;
-        mContext = fragment.getContext();
+        mContext = fragment.getActivity();
     }
 
     @Override

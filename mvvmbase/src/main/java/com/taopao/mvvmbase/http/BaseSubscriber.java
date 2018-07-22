@@ -120,9 +120,6 @@ public abstract class BaseSubscriber<T> extends DisposableObserver<T> {
 
         if (!NetworkUtil.isNetworkAvailable(mContext)) {
             Toast.makeText(mContext, "无网络，请检查网络设置", Toast.LENGTH_SHORT).show();
-            if (isShowNetError) {
-                mViewState.set(ViewState.NoNetwork_view);
-            }
             onComplete();
         }
     }

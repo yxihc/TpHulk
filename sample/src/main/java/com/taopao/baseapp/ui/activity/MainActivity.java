@@ -1,6 +1,5 @@
 package com.taopao.baseapp.ui.activity;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.taopao.baseapp.R;
 import com.taopao.baseapp.databinding.ActivityMainBinding;
 import com.taopao.baseapp.ui.viewmodel.MainViewModel;
@@ -18,17 +17,8 @@ public class MainActivity extends BaseMVVMActivity<ActivityMainBinding, MainView
     }
 
     @Override
-    public void initView() {
-        super.initView();
-//        mBinding.srl.finishLoadMoreWithNoMoreData();
-
-        mViewModel.mGrilsAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
-    }
-
-
-    @Override
-    public void RefreshView() {
-        super.RefreshView();
+    public void refreshView() {
+        super.refreshView();
         mViewModel.getGrils();
     }
 }

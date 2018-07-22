@@ -1,6 +1,5 @@
 package com.taopao.baseapp.http;
 
-import android.content.Context;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
@@ -8,10 +7,10 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.JsonParseException;
+import com.taopao.baseapp.app.App;
 import com.taopao.baseapp.model.BaseResponse;
 import com.taopao.mvvmbase.base.EventData;
 import com.taopao.mvvmbase.base.ViewState;
-import com.taopao.mvvmbase.http.MyBaseResponse;
 import com.taopao.mvvmbase.utils.NetworkUtil;
 
 import org.json.JSONException;
@@ -26,7 +25,6 @@ import io.reactivex.observers.DisposableObserver;
  * @Use：该类仅供参考，实际业务Code, 根据需求来定义，
  */
 public abstract class RxSubscriber<T> extends DisposableObserver<T> {
-    private Context mContext;
     /**
      * 界面的显示状态
      */
@@ -48,27 +46,23 @@ public abstract class RxSubscriber<T> extends DisposableObserver<T> {
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>构造函数>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
     /**
-     * @param context    上下文
      * @param viewState  界面的显示状态
      * @param event      服务器返回的错误
      * @param hideDialog 关闭dialog的监听
      */
-    public RxSubscriber(Context context, ObservableInt viewState, ObservableField<EventData> event, ObservableBoolean hideDialog) {
-        mContext = context;
+    public RxSubscriber(ObservableInt viewState, ObservableField<EventData> event, ObservableBoolean hideDialog) {
         mViewState = viewState;
         this.hideDialog = hideDialog;
         this.showCodeOrMessage = event;
     }
 
     /**
-     * @param context     上下文
      * @param viewState   界面的显示状态
      * @param event       服务器返回的错误
      * @param hideDialog  关闭dialog的监听
      * @param isShowError 是否显示错误界面(默认不显示)
      */
-    public RxSubscriber(Context context, ObservableInt viewState, ObservableField<EventData> event, ObservableBoolean hideDialog, boolean isShowError) {
-        mContext = context;
+    public RxSubscriber(ObservableInt viewState, ObservableField<EventData> event, ObservableBoolean hideDialog, boolean isShowError) {
         mViewState = viewState;
         this.hideDialog = hideDialog;
         this.showCodeOrMessage = event;
@@ -96,7 +90,7 @@ public abstract class RxSubscriber<T> extends DisposableObserver<T> {
                 || e instanceof JsonParseException
                 || e instanceof ParseException) {
 
-            Toast.makeText(mContext, "Json解析异常", Toast.LENGTH_SHORT).show();
+            Toast.makeText(App.getContext(), "Json解析异常", Toast.LENGTH_SHORT).show();
             //TODO 显示加载错误的界面
         }
 
@@ -116,8 +110,8 @@ public abstract class RxSubscriber<T> extends DisposableObserver<T> {
 
         Log.i("TAG", "=================================onStart");
 
-        if (!NetworkUtil.isNetworkAvailable(mContext)) {
-            Toast.makeText(mContext, "无网络，请检查网络设置", Toast.LENGTH_SHORT).show();
+        if (!NetworkUtil.isNetworkAvailable(App.getContext())) {
+            Toast.makeText(App.getContext(), "无网络，请检查网络设置", Toast.LENGTH_SHORT).show();
             onComplete();
         }
     }
