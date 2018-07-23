@@ -20,7 +20,7 @@ public class User extends BaseObservable {
         this.age = age;
         notifyPropertyChanged(BR.age);
     }
- 
+
     public User(String name, String age) {
         this.name = name;
         this.age = age;
