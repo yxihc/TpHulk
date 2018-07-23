@@ -104,7 +104,7 @@ public abstract class BaseMVVMFragment<V extends ViewDataBinding, VM extends Bas
         mIsFragmentVisible = true;
         lazyLoad();
     }
-
+ 
     private void lazyLoad() {
 
     }
