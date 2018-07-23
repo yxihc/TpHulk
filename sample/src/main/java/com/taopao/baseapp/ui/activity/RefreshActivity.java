@@ -17,4 +17,10 @@ public class RefreshActivity extends BaseMVVMActivity<ActivityRefreshBinding, Re
         return new RefreshViewModel(this);
     }
 
+    @Override
+    public void initView() {
+        super.initView();
+        setTitle("RecycleView的各种设置");
+    }
+
 }

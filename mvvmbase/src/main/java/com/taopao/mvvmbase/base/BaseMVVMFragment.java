@@ -8,6 +8,7 @@ import android.databinding.ViewDataBinding;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,9 +30,29 @@ public abstract class BaseMVVMFragment<V extends ViewDataBinding, VM extends Bas
     protected VM mViewModel;
     private FragmentBaseBinding mBaseBinding;
     /**
-     * 是否可见状态
+     * Fragment是否可见状态
      */
-    public boolean mIsFragmentVisible;
+    public boolean isFragmentVisible = false;
+    /**
+     * 标志位，View是否已经初始化完成。
+     */
+    private boolean isPrepared = false;
+    /**
+     * 是否第一次加载
+     */
+    private boolean isFirstLoad = true;
+
+
+    /**
+     * <pre>
+     * 忽略isFirstLoad的值，强制刷新数据，但仍要Visible & Prepared
+     * 一般用于PagerAdapter需要刷新各个子Fragment的场景
+     * 不要new 新的 PagerAdapter 而采取reset数据的方式
+     * 所以要求Fragment重新走initData方法
+     * 故使用 {@link BaseMVVMFragment#setForceLoad(boolean)}来让Fragment下次执行initData
+     * </pre>
+     */
+    private boolean forceLoad = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,8 +82,12 @@ public abstract class BaseMVVMFragment<V extends ViewDataBinding, VM extends Bas
         RelativeLayout mContainer = (RelativeLayout) mBaseBinding.getRoot().findViewById(R.id.container);
         mContainer.addView(mBinding.getRoot());
 
-
         mBinding.setVariable(initVariableId(), mViewModel = initViewModel());
+
+
+        // 若 viewpager 不设置 setOffscreenPageLimit 或设置数量不够
+        // 销毁的Fragment onCreateView 每次都会执行(但实体类没有从内存销毁)
+        isFirstLoad = true;
         return mBaseBinding.getRoot();
     }
 
@@ -76,13 +101,19 @@ public abstract class BaseMVVMFragment<V extends ViewDataBinding, VM extends Bas
         mViewModel.onCreate();
         mViewModel.registerRxBus();
 
+
+        //界面初始化完成
+        isPrepared = true;
+        loadData();
+
         initData();
         initViewObservable();
     }
 
     /**
-     * 在这里实现Fragment数据的缓加载.
      * 如果是与ViewPager一起使用，调用的是setUserVisibleHint
+     * <p>
+     * 这个方法执行的时候onCreateView并不一定执行(切记)
      *
      * @param isVisibleToUser 是否显示出来了
      */
@@ -96,18 +127,64 @@ public abstract class BaseMVVMFragment<V extends ViewDataBinding, VM extends Bas
         }
     }
 
+    /**
+     * 如果是通过FragmentTransaction的show和hide的方法来控制显示，调用的是onHiddenChanged.
+     * 若是初始就show的Fragment 为了触发该事件 需要先hide再show
+     *
+     * @param hidden hidden True if the fragment is now hidden, false if it is not
+     *               visible.
+     */
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            onVisible();
+        } else {
+            onInvisible();
+        }
+    }
+
     protected void onInvisible() {
-        mIsFragmentVisible = false;
+        isFragmentVisible = false;
+
     }
 
+    /**
+     * 当界面可见的时候执行
+     */
     protected void onVisible() {
-        mIsFragmentVisible = true;
-        lazyLoad();
-    }
- 
-    private void lazyLoad() {
+        isFragmentVisible = true;
+        loadData();
 
     }
+
+
+    /**
+     * 这里执行懒加载的逻辑
+     * 只会执行一次(如果不想只执行一次此方法): {@link BaseMVVMFragment#setForceLoad(boolean)}
+     */
+    protected void lazyLoad() {
+
+    }
+
+    private void loadData() {
+        //判断View是否已经初始化完成 并且 fragment是可见 并且是第一次加载
+        if (isPrepared && isFragmentVisible && isFirstLoad) {
+            if (forceLoad || isFirstLoad) {
+                forceLoad = false;
+                isFirstLoad = false;
+                lazyLoad();
+            }
+        }
+    }
+
+    /**
+     * @param forceLoad 设置为true  lazyLoad()方法会执行多次 否则只会执行一次
+     */
+    public void setForceLoad(boolean forceLoad) {
+        this.forceLoad = forceLoad;
+    }
+
 
     @Override
     public void onDestroy() {
@@ -121,6 +198,9 @@ public abstract class BaseMVVMFragment<V extends ViewDataBinding, VM extends Bas
         if (mBinding != null) {
             mBinding.unbind();
         }
+
+        isPrepared = false;
+
     }
 
 

@@ -40,7 +40,7 @@ public class BaseMVVMViewModel extends ViewModel implements Observable, IBaseVie
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>通知刷新>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
     private PropertyChangeRegistry callbacks = new PropertyChangeRegistry();
-    private static MaterialDialog mMaterialDialog;
+    private  MaterialDialog mMaterialDialog;
 
     public void notifyChange() {
         callbacks.notifyCallbacks(this, 0, null);

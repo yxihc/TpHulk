@@ -271,17 +271,22 @@ public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends Bas
 
     @Override
     public void showLoadingView() {
+//        mViewModel.mViewState.set(ViewState.Loading_view);
         setViewState(View.VISIBLE, View.GONE, View.GONE);
     }
 
     @Override
     public void showErrorView() {
+//        mViewModel.mViewState.set(ViewState.Error_view);
         setViewState(View.GONE, View.GONE, View.VISIBLE);
     }
 
     @Override
     public void showNormalView() {
+//        mViewModel.mViewState.set(ViewState.Normal_view);
         setViewState(View.GONE, View.VISIBLE, View.GONE);
+
+        Log.i("----------------", "showNormalView");
     }
 
     /**

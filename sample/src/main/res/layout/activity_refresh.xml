@@ -53,13 +53,14 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv"
-                bindAdapter="@{viewModel.mGrilsAdapter}"
-                bindAdapterAnimation="@{LayoutManagers.Animation_SCALEIN}"
+                bindAdapter="@{viewModel.mWanAndroidAdapter}"
+                bindAdapterAnimation="@{LayoutManagers.Animation_SLIDEIN_LEFT}"
                 bindAdapterLoadMoreCommand="@{viewModel.onLoadMore}"
                 bindAdapterOnItemClick="@{viewModel.itemClick}"
-                layoutManagers="@{LayoutManagers.grid(2)}"
+                layoutManagers="@{LayoutManagers.linear()}"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+                android:layout_height="match_parent"
+                android:padding="10dp"></android.support.v7.widget.RecyclerView>
         </LinearLayout>
     </android.support.v4.widget.SwipeRefreshLayout>
 

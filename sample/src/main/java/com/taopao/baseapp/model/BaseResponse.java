@@ -6,7 +6,7 @@ package com.taopao.baseapp.model;
  * @Use： 该类仅供参考
  */
 public class BaseResponse<T> {
-    public static final int onResultOk = 200;//请求成功
+    public static final int onResultOk = 0;//请求成功
     public static final int tokenInvalid = 201;//token失效
     private int errorCode;//错误码
     private String errorMsg;//错误内容

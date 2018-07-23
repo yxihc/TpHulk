@@ -2,15 +2,20 @@ package com.taopao.baseapp.ui.viewmodel;
 
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableList;
+import android.databinding.ViewDataBinding;
 import android.os.Handler;
 import android.os.Message;
 import android.widget.Toast;
 
+import com.taopao.baseapp.R;
 import com.taopao.baseapp.http.Api;
 import com.taopao.baseapp.http.RetrofitProvider;
 import com.taopao.baseapp.http.RxSubscriber;
+import com.taopao.baseapp.model.BaseResponse;
 import com.taopao.baseapp.model.ImgListInfo;
+import com.taopao.baseapp.model.WanAndroidResponse;
 import com.taopao.baseapp.ui.adapter.RvGrilsAdapter;
+import com.taopao.mvvmbase.base.BaseBindingRvAdapter;
 import com.taopao.mvvmbase.base.BaseMVVMActivity;
 import com.taopao.mvvmbase.base.BaseMVVMViewModel;
 import com.taopao.mvvmbase.binding.command.BindingAction;
@@ -31,9 +36,13 @@ public class RefreshViewModel extends BaseMVVMViewModel {
         super(activity);
     }
 
-    public ObservableList<ImgListInfo.ResultsBean> mGrils = new ObservableArrayList<>();
+    public ObservableList<WanAndroidResponse.DatasBean> mWanAndroid = new ObservableArrayList<>();
 
-    public RvGrilsAdapter mGrilsAdapter = new RvGrilsAdapter(mGrils, mContext);
+    public BaseBindingRvAdapter<WanAndroidResponse.DatasBean> mWanAndroidAdapter = new BaseBindingRvAdapter<WanAndroidResponse.DatasBean>(R.layout.recycle_item_wanandroid, mWanAndroid, mContext) {
+        @Override
+        protected void convert(BindingViewHolder helper, ViewDataBinding binding, WanAndroidResponse.DatasBean item) {
+        }
+    };
 
     @Override
     public void onCreate() {
@@ -44,7 +53,7 @@ public class RefreshViewModel extends BaseMVVMViewModel {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
-                getGrils();
+                getWanAndroid();
             }
         }.sendEmptyMessageDelayed(1, 1000);
 
@@ -54,10 +63,9 @@ public class RefreshViewModel extends BaseMVVMViewModel {
     boolean is = true;
     String page = "";
 
-    public void getGrils() {
+    public void getWanAndroid() {
         if (mPage == 1) {
-            mGrilsAdapter.setEnableLoadMore(false);//这里的作用是防止下拉刷新的时候还可以上拉加载
-            showDialog("请骚等...");
+            mWanAndroidAdapter.setEnableLoadMore(false);//这里的作用是防止下拉刷新的时候还可以上拉加载
         }
 
         if (mPage == 2) {
@@ -79,28 +87,29 @@ public class RefreshViewModel extends BaseMVVMViewModel {
         } else {
             page = mPage + "";
         }
-
-        RetrofitProvider.getInstance().create(Api.class)
-                .getImgListPage(page + "")
-                .compose(RxUtils.<ImgListInfo>schedulersTransformer())
-                .compose(RxUtils.<ImgListInfo>bindToLifecycle(mContext))
-                .subscribe(new RxSubscriber<ImgListInfo>(mViewState, mEvent, hideDialog) {
+        RetrofitProvider.getInstance(Api.API_WAN_ANDROID)
+                .create(Api.class)
+                .getHomeListError(page, null)
+                .compose(RxUtils.<BaseResponse<WanAndroidResponse>>bindToLifecycle(mContext))
+                .compose(RxUtils.<BaseResponse<WanAndroidResponse>>schedulersTransformer())
+                .subscribe(new RxSubscriber<BaseResponse<WanAndroidResponse>>(mViewState, mEvent, hideDialog) {
                     @Override
-                    public void onResult(final ImgListInfo imgListInfo) {
+                    public void onResult(BaseResponse<WanAndroidResponse> wanAndroidResponseBaseResponse) {
                         if (mPage == 1) {
-                            mGrils.clear();
+                            mWanAndroid.clear();
                         }
-                        List<ImgListInfo.ResultsBean> results = imgListInfo.getResults();
-                        mGrils.addAll(results);
+                        List<WanAndroidResponse.DatasBean> datas = wanAndroidResponseBaseResponse.getData().getDatas();
+//
+                        mWanAndroid.addAll(datas);
+                        CheckUpPageOrAdapter(datas, mWanAndroidAdapter);
 
-                        CheckUpPageOrAdapter(imgListInfo.getResults(), mGrilsAdapter);
                         Toast.makeText(mContext, "下一次请求的页数: " + mPage, Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
-                        mGrilsAdapter.loadMoreFail();
+                        mWanAndroidAdapter.loadMoreFail();
                     }
                 });
     }
@@ -110,7 +119,7 @@ public class RefreshViewModel extends BaseMVVMViewModel {
         @Override
         public void call() {
             mPage = 1;
-            getGrils();
+            getWanAndroid();
         }
     });
 
@@ -118,7 +127,7 @@ public class RefreshViewModel extends BaseMVVMViewModel {
     public BindingCommand onLoadMore = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
-            getGrils();
+            getWanAndroid();
         }
     });
 
@@ -133,25 +142,20 @@ public class RefreshViewModel extends BaseMVVMViewModel {
     public BindingCommand add = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
-            mGrils.add(1, (mGrils.get(new Random().nextInt(mGrils.size()))));
+            mWanAndroid.add(1, mWanAndroid.get(mWanAndroid.size() - 1));
         }
     });
 
     public BindingCommand sub = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
-            if (mGrils.size() > 2) {
-                mGrils.remove(1);
-            }
+            mWanAndroid.remove(1);
         }
     });
 
     public BindingCommand edit = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
-            if (mGrils.size() > 2) {
-                mGrils.get(1).setUrl(mGrils.get(new Random().nextInt(mGrils.size())).getUrl());
-            }
         }
     });
 

@@ -61,11 +61,12 @@
             </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
-                adapter="@{viewModel.mGrilsAdapter}"
+                adapter="@{viewModel.mWanAndroidAdapter}"
                 bindAdapterAnimation="@{LayoutManagers.Animation_SLIDEIN_BOTTOM}"
-                layoutManagers="@{LayoutManagers.grid(3)}"
+                layoutManagers="@{LayoutManagers.linear()}"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+                android:layout_height="match_parent"
+                android:padding="10dp"></android.support.v7.widget.RecyclerView>
         </LinearLayout>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 

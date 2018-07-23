@@ -16,9 +16,16 @@ public class MainActivity extends BaseMVVMActivity<ActivityMainBinding, MainView
         return new MainViewModel(this);
     }
 
+
+    @Override
+    public void initView() {
+        super.initView();
+        setTitle("网络加载方式");
+    }
+
     @Override
     public void refreshView() {
         super.refreshView();
-        mViewModel.getGrils();
+        mViewModel.getWanAndroid();
     }
 }
