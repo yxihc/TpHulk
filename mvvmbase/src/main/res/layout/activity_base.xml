@@ -18,13 +18,16 @@
             app:layout_scrollFlags="enterAlways|scroll"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:theme="@style/ToolbarStyle" />
-
+        <!--有可能直接显示（固定的布局，非必须，按需要添加）-->
+        <FrameLayout
+            android:id="@+id/fl_content_top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <RelativeLayout
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
             <!--加载失败-->
             <include
                 android:id="@+id/error_refresh_view"
@@ -33,9 +36,7 @@
             <!--加载中..-->
             <include
                 android:id="@+id/loading_view"
-                layout="@layout/layout_loading_view"
-                ></include>
-
+                layout="@layout/layout_loading_view"></include>
         </RelativeLayout>
     </LinearLayout>
 

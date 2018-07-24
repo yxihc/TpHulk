@@ -39,6 +39,10 @@ public interface BaseView {
      */
     void showErrorView();
 
+    /**
+     * 显示加载数据为空的布局
+     */
+    void showEmptyView();
 
     /**
      * 显示正常显示的状态

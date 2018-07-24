@@ -1,5 +1,6 @@
 package com.taopao.baseapp.ui.fragment;
 
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -9,10 +10,10 @@ import android.view.ViewGroup;
 
 import com.orhanobut.logger.Logger;
 import com.taopao.baseapp.R;
+import com.taopao.baseapp.databinding.ActivityLoginBinding;
 import com.taopao.baseapp.databinding.FragmentTestBinding;
 import com.taopao.mvvmbase.base.BaseMVVMFragment;
 import com.taopao.mvvmbase.base.BaseMVVMViewModel;
-
 
 /**
  * @Author：淘跑
@@ -23,6 +24,14 @@ public class TestFragment extends BaseMVVMFragment<FragmentTestBinding, BaseMVVM
     @Override
     protected int getContentView(LayoutInflater inflater, @Nullable ViewGroup container) {
         return R.layout.fragment_test;
+    }
+
+    ActivityLoginBinding mTopBinding;
+
+    @Override
+    public View getTopView(LayoutInflater inflater, @Nullable ViewGroup container) {
+        mTopBinding = DataBindingUtil.inflate(inflater, R.layout.activity_login, container, false);
+        return mTopBinding.getRoot();
     }
 
     @Override
@@ -37,6 +46,7 @@ public class TestFragment extends BaseMVVMFragment<FragmentTestBinding, BaseMVVM
         super.initView();
         showNormalView();
         mBinding.tvLife.setText(mLife + "\n");
+
 
     }
 

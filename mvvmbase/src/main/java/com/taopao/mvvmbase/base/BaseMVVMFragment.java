@@ -7,13 +7,16 @@ import android.databinding.Observable;
 import android.databinding.ViewDataBinding;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
+import com.afollestad.materialdialogs.internal.MDAdapter;
 import com.taopao.mvvmbase.BR;
 import com.taopao.mvvmbase.R;
 import com.taopao.mvvmbase.databinding.FragmentBaseBinding;
@@ -26,13 +29,13 @@ import com.trello.rxlifecycle2.components.support.RxFragment;
  */
 
 public abstract class BaseMVVMFragment<V extends ViewDataBinding, VM extends BaseMVVMViewModel> extends RxFragment implements IBaseActivity, BaseView {
-    protected V mBinding;
-    protected VM mViewModel;
-    private FragmentBaseBinding mBaseBinding;
+    public V mBinding;
+    public VM mViewModel;
+    public FragmentBaseBinding mBaseBinding;
     /**
      * Fragment是否可见状态
      */
-    public boolean isFragmentVisible = false;
+    private boolean isFragmentVisible = false;
     /**
      * 标志位，View是否已经初始化完成。
      */
@@ -54,10 +57,10 @@ public abstract class BaseMVVMFragment<V extends ViewDataBinding, VM extends Bas
      */
     private boolean forceLoad = false;
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         //页面间传值
         if (savedInstanceState != null) {
             initParam(savedInstanceState);
@@ -79,10 +82,19 @@ public abstract class BaseMVVMFragment<V extends ViewDataBinding, VM extends Bas
         // content
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         mBinding.getRoot().setLayoutParams(params);
-        RelativeLayout mContainer = (RelativeLayout) mBaseBinding.getRoot().findViewById(R.id.container);
-        mContainer.addView(mBinding.getRoot());
-
+        mBaseBinding.container.addView(mBinding.getRoot());
         mBinding.setVariable(initVariableId(), mViewModel = initViewModel());
+
+
+        if (getTopViewId(inflater, container) != -1) {
+            //初始化布局
+            ViewDataBinding mTopBinding = DataBindingUtil.inflate(inflater, getTopViewId(inflater, container), container, false);
+            mBaseBinding.flContentTop.addView(mTopBinding.getRoot());
+        } else {
+            if (getTopView(inflater, container) != null) {
+                mBaseBinding.flContentTop.addView(getTopView(inflater, container));
+            }
+        }
 
 
         // 若 viewpager 不设置 setOffscreenPageLimit 或设置数量不够
@@ -144,7 +156,7 @@ public abstract class BaseMVVMFragment<V extends ViewDataBinding, VM extends Bas
         }
     }
 
-    protected void onInvisible() {
+    public void onInvisible() {
         isFragmentVisible = false;
 
     }
@@ -152,7 +164,7 @@ public abstract class BaseMVVMFragment<V extends ViewDataBinding, VM extends Bas
     /**
      * 当界面可见的时候执行
      */
-    protected void onVisible() {
+    public void onVisible() {
         isFragmentVisible = true;
         loadData();
 
@@ -163,7 +175,7 @@ public abstract class BaseMVVMFragment<V extends ViewDataBinding, VM extends Bas
      * 这里执行懒加载的逻辑
      * 只会执行一次(如果不想只执行一次此方法): {@link BaseMVVMFragment#setForceLoad(boolean)}
      */
-    protected void lazyLoad() {
+    public void lazyLoad() {
 
     }
 
@@ -223,6 +235,30 @@ public abstract class BaseMVVMFragment<V extends ViewDataBinding, VM extends Bas
     //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<子类必须实现<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>IBaseActivity接口方法重写:需要时重写>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+    /**
+     * (借鉴Adapter的getView()方法)初始化头布局view
+     * <p>
+     * 设置你的ViewDataBinding
+     * 设置你的ViewModel
+     *
+     * @return 布局的ViewDataBinding.getRootView();
+     */
+    public View getTopView(LayoutInflater inflater, @Nullable ViewGroup container) {
+        //设置你的ViewDataBinding
+        //设置你的ViewModel
+        return null;
+    }
+
+    /**
+     * 初始化头布局的id
+     *
+     * @return 布局的id
+     */
+    public int getTopViewId(LayoutInflater inflater, @Nullable ViewGroup container) {
+        return -1;
+    }
 
 
     @Override
@@ -334,6 +370,11 @@ public abstract class BaseMVVMFragment<V extends ViewDataBinding, VM extends Bas
     @Override
     public void showNormalView() {
         setViewState(View.GONE, View.VISIBLE, View.GONE);
+    }
+
+    @Override
+    public void showEmptyView() {
+
     }
 
     /**

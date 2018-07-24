@@ -30,9 +30,9 @@ import io.reactivex.disposables.Disposable;
  * @Use： Activity基类
  */
 public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends BaseMVVMViewModel> extends RxAppCompatActivity implements IBaseActivity, BaseView {
-    protected V mBinding;
-    protected VM mViewModel;
-    protected ActivityBaseBinding mBaseBinding;
+    public V mBinding;
+    public VM mViewModel;
+    public ActivityBaseBinding mBaseBinding;
     private CompositeDisposable mCompositeDisposable;
 
     @Override
@@ -77,14 +77,49 @@ public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends Bas
         // content
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         mBinding.getRoot().setLayoutParams(params);
-        RelativeLayout mContainer = (RelativeLayout) mBaseBinding.getRoot().findViewById(R.id.container);
-        mContainer.addView(mBinding.getRoot());
+        mBaseBinding.container.addView(mBinding.getRoot());
+
         mViewModel = initMVVMViewModel();
         if (mViewModel != null) {
             mBinding.setVariable(initVariableId(), mViewModel);
         }
 
+        if (getTopViewId(getLayoutInflater(),null) != -1) {
+            mBaseBinding.toolBar.setVisibility(View.GONE);
+            //初始化布局
+            ViewDataBinding mTopBinding = DataBindingUtil.inflate(getLayoutInflater(), getTopViewId(getLayoutInflater(),null), null, false);
+            mBaseBinding.flContentTop.addView(mTopBinding.getRoot());
+        } else {
+            if (getTopView(getLayoutInflater(),null) != null) {
+                mBaseBinding.toolBar.setVisibility(View.GONE);
+                mBaseBinding.flContentTop.addView(getTopView(getLayoutInflater(),null));
+            }
+        }
+
         setContentView(mBaseBinding.getRoot());
+    }
+
+    /**
+     * (借鉴Adapter的getView()方法)初始化头布局view
+     * <p>
+     * 设置你的ViewDataBinding
+     * 设置你的ViewModel
+     *
+     * @return 布局的ViewDataBinding.getRootView();
+     */
+    public View getTopView(LayoutInflater inflater, @Nullable ViewGroup container) {
+        //设置你的ViewDataBinding
+        //设置你的ViewModel
+        return null;
+    }
+
+    /**
+     * 初始化头布局的id
+     *
+     * @return 布局的id
+     */
+    public int getTopViewId(LayoutInflater inflater, @Nullable ViewGroup container) {
+        return -1;
     }
 
 
@@ -287,6 +322,11 @@ public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends Bas
         setViewState(View.GONE, View.VISIBLE, View.GONE);
 
         Log.i("----------------", "showNormalView");
+    }
+
+    @Override
+    public void showEmptyView() {
+
     }
 
     /**

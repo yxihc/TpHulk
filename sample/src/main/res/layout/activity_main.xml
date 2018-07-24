@@ -10,9 +10,12 @@
             type="com.taopao.baseapp.ui.viewmodel.MainViewModel"></variable>
 
         <import type="com.taopao.mvvmbase.binding.viewadapter.recyclerview.LayoutManagers"></import>
+
+        <import type="com.taopao.mvvmbase.binding.viewadapter.recyclerview.LineManagers"></import>
     </data>
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
+
         android:id="@+id/srl"
         finishRefreshOrLoadMore="@{viewModel.finishRefresh}"
         onLoadMoreCommand="@{viewModel.onLoadMore}"
