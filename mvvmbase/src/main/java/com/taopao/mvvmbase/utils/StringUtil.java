@@ -15,6 +15,16 @@ import java.util.regex.Pattern;
  * @Use: 字符串工具类
  */
 public class StringUtil {
+    /**
+     * Double类型不丢失精度的转换字符串
+     *
+     * @param d
+     * @return
+     */
+    public static String getDouble2String(double d) {
+        DecimalFormat format = new DecimalFormat("#.00");
+        return format.format(d);
+    }
 
     /**
      * 带逗号的字符串转list

@@ -137,7 +137,7 @@ public class BaseMVVMViewModel extends ViewModel implements Observable, IBaseVie
     /**
      * 显示加载数据成功但是数据为空的情况 按需使用
      */
-    private void setEmptyView() {
+    public void showEmptyView() {
         mViewState.set(ViewState.Empty_view);
     }
 

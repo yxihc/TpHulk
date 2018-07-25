@@ -129,7 +129,7 @@ public class MainViewModel extends BaseMVVMViewModel {
     public BindingCommand empty = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
-            mViewState.set(ViewState.Empty_view);
+            showEmptyView();
         }
     });
 

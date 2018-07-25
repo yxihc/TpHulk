@@ -23,4 +23,9 @@ public class RefreshActivity extends BaseMVVMActivity<ActivityRefreshBinding, Re
         setTitle("RecycleView的各种设置");
     }
 
+    @Override
+    public void refreshView() {
+        super.refreshView();
+        mViewModel.onRefresh.execute();
+    }
 }

@@ -14,10 +14,14 @@ import com.taopao.baseapp.http.RxSubscriber;
 import com.taopao.baseapp.model.BaseResponse;
 import com.taopao.baseapp.model.ImgListInfo;
 import com.taopao.baseapp.model.WanAndroidResponse;
+import com.taopao.baseapp.ui.activity.FragmentTestActivity;
+import com.taopao.baseapp.ui.activity.MainActivity;
+import com.taopao.baseapp.ui.activity.RefreshActivity;
 import com.taopao.baseapp.ui.adapter.RvGrilsAdapter;
 import com.taopao.mvvmbase.base.BaseBindingRvAdapter;
 import com.taopao.mvvmbase.base.BaseMVVMActivity;
 import com.taopao.mvvmbase.base.BaseMVVMViewModel;
+import com.taopao.mvvmbase.base.ViewState;
 import com.taopao.mvvmbase.binding.command.BindingAction;
 import com.taopao.mvvmbase.binding.command.BindingCommand;
 import com.taopao.mvvmbase.binding.command.BindingConsumer;
@@ -37,7 +41,6 @@ public class RefreshViewModel extends BaseMVVMViewModel {
     }
 
     public ObservableList<WanAndroidResponse.DatasBean> mWanAndroid = new ObservableArrayList<>();
-
     public BaseBindingRvAdapter<WanAndroidResponse.DatasBean> mWanAndroidAdapter = new BaseBindingRvAdapter<WanAndroidResponse.DatasBean>(R.layout.recycle_item_wanandroid, mWanAndroid, mContext) {
         @Override
         protected void convert(BindingViewHolder helper, ViewDataBinding binding, WanAndroidResponse.DatasBean item) {
@@ -48,16 +51,7 @@ public class RefreshViewModel extends BaseMVVMViewModel {
     public void onCreate() {
         super.onCreate();
         mLimit = 10;
-
-        new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-                getWanAndroid();
-            }
-        }.sendEmptyMessageDelayed(1, 1000);
-
-
+        getWanAndroid();
     }
 
     boolean is = true;
@@ -115,6 +109,9 @@ public class RefreshViewModel extends BaseMVVMViewModel {
     }
 
 
+    /**
+     * 刷新界面
+     */
     public BindingCommand onRefresh = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
@@ -123,7 +120,9 @@ public class RefreshViewModel extends BaseMVVMViewModel {
         }
     });
 
-
+    /**
+     * 加载更多
+     */
     public BindingCommand onLoadMore = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
@@ -131,6 +130,9 @@ public class RefreshViewModel extends BaseMVVMViewModel {
         }
     });
 
+    /**
+     * item点击事件
+     */
     public BindingCommand<Integer> itemClick = new BindingCommand<Integer>(new BindingConsumer<Integer>() {
         @Override
         public void call(Integer integer) {
@@ -139,6 +141,9 @@ public class RefreshViewModel extends BaseMVVMViewModel {
     });
 
 
+    /**
+     * 增加一条数据
+     */
     public BindingCommand add = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
@@ -146,6 +151,9 @@ public class RefreshViewModel extends BaseMVVMViewModel {
         }
     });
 
+    /**
+     * 减少一条数据
+     */
     public BindingCommand sub = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
@@ -153,9 +161,54 @@ public class RefreshViewModel extends BaseMVVMViewModel {
         }
     });
 
-    public BindingCommand edit = new BindingCommand(new BindingAction() {
+
+    /**
+     * 模拟错误界面
+     */
+    public BindingCommand error = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
+            mViewState.set(ViewState.Error_view);
+        }
+    });
+
+    /**
+     * 模拟空界面
+     */
+    public BindingCommand empty = new BindingCommand(new BindingAction() {
+        @Override
+        public void call() {
+            mViewState.set(ViewState.Empty_view);
+        }
+    });
+
+    /**
+     * smartrefrush界面
+     */
+    public BindingCommand refresh = new BindingCommand(new BindingAction() {
+        @Override
+        public void call() {
+            startActivity(MainActivity.class);
+        }
+    });
+    /**
+     * fragment界面
+     */
+    public BindingCommand fragment1 = new BindingCommand(new BindingAction() {
+        @Override
+        public void call() {
+            startActivity(FragmentTestActivity.class);
+        }
+    });
+
+
+    /**
+     * 模拟崩溃
+     */
+    public BindingCommand ex = new BindingCommand(new BindingAction() {
+        @Override
+        public void call() {
+            throw new NullPointerException("呦呦呦,空指针异常了哦");
         }
     });
 

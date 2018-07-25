@@ -3,6 +3,7 @@ package com.taopao.baseapp.ui.viewmodel;
 import android.databinding.ObservableField;
 
 import com.taopao.baseapp.ui.activity.MainActivity;
+import com.taopao.baseapp.ui.activity.RefreshActivity;
 import com.taopao.mvvmbase.base.BaseMVVMActivity;
 import com.taopao.mvvmbase.base.BaseMVVMViewModel;
 import com.taopao.mvvmbase.binding.command.BindingAction;
@@ -42,7 +43,7 @@ public class LoginViewModel extends BaseMVVMViewModel {
                         @Override
                         public void accept(Long aLong) throws Exception {
                             HideDialog();
-                            startActivity(MainActivity.class);
+                            startActivity(RefreshActivity.class);
                         }
                     });
         }
