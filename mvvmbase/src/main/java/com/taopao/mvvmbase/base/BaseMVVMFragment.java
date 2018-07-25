@@ -15,8 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.internal.MDAdapter;
+import com.orhanobut.logger.Logger;
 import com.taopao.mvvmbase.BR;
 import com.taopao.mvvmbase.R;
 import com.taopao.mvvmbase.databinding.FragmentBaseBinding;
@@ -100,6 +102,7 @@ public abstract class BaseMVVMFragment<V extends ViewDataBinding, VM extends Bas
         // 若 viewpager 不设置 setOffscreenPageLimit 或设置数量不够
         // 销毁的Fragment onCreateView 每次都会执行(但实体类没有从内存销毁)
         isFirstLoad = true;
+        loadData();
         return mBaseBinding.getRoot();
     }
 
@@ -176,7 +179,8 @@ public abstract class BaseMVVMFragment<V extends ViewDataBinding, VM extends Bas
      * 只会执行一次(如果不想只执行一次此方法): {@link BaseMVVMFragment#setForceLoad(boolean)}
      */
     public void lazyLoad() {
-
+        Logger.d("BaseMVVMFragment: lazyLoad");
+        Toast.makeText(getActivity(), "lazyLoad", Toast.LENGTH_SHORT).show();
     }
 
     private void loadData() {
@@ -239,9 +243,12 @@ public abstract class BaseMVVMFragment<V extends ViewDataBinding, VM extends Bas
 
     /**
      * (借鉴Adapter的getView()方法)初始化头布局view
-     * <p>
+     * (适用于使用自定义的子布局,需要使用自定义布局里的控制)
      * 设置你的ViewDataBinding
      * 设置你的ViewModel
+     * <p>
+     * DataBindingUtil.inflate(inflater, 你的layoutid, container, false);
+     * <p>
      *
      * @return 布局的ViewDataBinding.getRootView();
      */
@@ -253,6 +260,7 @@ public abstract class BaseMVVMFragment<V extends ViewDataBinding, VM extends Bas
 
     /**
      * 初始化头布局的id
+     * (适用于只需要自定义顶部界面 ,但并不需要使用界面的的空间呢)
      *
      * @return 布局的id
      */

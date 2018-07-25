@@ -73,20 +73,20 @@ public class LoggingInterceptor implements Interceptor {
         }
 
         f("╔══════════════════════Start: Request═══════════════════════════════════════");
-        f(String.format("║ 发送请求:  %s %n║ %s %n",
-                URLDecoder.decode(String.valueOf(request.url()), "utf-8"), "请求参数:  " + sb));
+        f(String.format("║ 发送请求:  %s %n",
+                URLDecoder.decode(String.valueOf(request.url()), "utf-8")));
 
+        f(String.format("║ %s %n", "请求参数:  " + sb));
         Response response = chain.proceed(request);
         long t2 = System.nanoTime();//收到响应的时间
         //这里不能直接使用response.body().string()的方式输出日志
         //因为response.body().string()之后，response中的流会被关闭，程序会报错，我们需要创建出一
         //个新的response给应用层处理
+
         ResponseBody responseBody = response.peekBody(1024 * 1024);
         String json = responseBody.string();
-        f(String.format("║ 请求时长: %.1fms%n║ 返回JSON: %s%n",
-                (t2 - t1) / 1e6d, json
-        ));
-//                LogUtils.printJson(json,response.headers().toString());
+        f(String.format("║ 请求时长: %.1fms%n", (t2 - t1) / 1e6d));
+        f(String.format("║ 返回JSON: %s%n", json));
         logFormatJson(json, "");
         f("╚══════════════════════End:" + (t2 - t1) / 1e6d + "毫秒═════════════════════════════════");
         f(String.format("%s", responseBody.string()));

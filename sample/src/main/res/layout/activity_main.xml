@@ -36,6 +36,7 @@
                 android:orientation="horizontal">
 
                 <Button
+                    android:textAllCaps="false"
                     onClickCommand="@{viewModel.fragment1}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -49,12 +50,13 @@
                     android:text="模拟加载错误" />
 
                 <Button
-                    onClickCommand="@{viewModel.edit}"
+                    onClickCommand="@{viewModel.empty}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="修改" />
+                    android:text="模拟加载数据为空" />
 
                 <Button
+                    android:textAllCaps="false"
                     isThrottleFirst="false"
                     onClickCommand="@{viewModel.refresh}"
                     android:layout_width="wrap_content"

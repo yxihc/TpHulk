@@ -12,6 +12,7 @@ import com.orhanobut.logger.Logger;
 import com.taopao.baseapp.R;
 import com.taopao.baseapp.databinding.ActivityLoginBinding;
 import com.taopao.baseapp.databinding.FragmentTestBinding;
+import com.taopao.baseapp.ui.activity.MainActivity;
 import com.taopao.mvvmbase.base.BaseMVVMFragment;
 import com.taopao.mvvmbase.base.BaseMVVMViewModel;
 
@@ -45,9 +46,15 @@ public class TestFragment extends BaseMVVMFragment<FragmentTestBinding, BaseMVVM
     public void initView() {
         super.initView();
         showNormalView();
-        mBinding.tvLife.setText(mLife + "\n");
+//        mBinding.tvLife.setText(mLife + "\n");
 
 
+        mBinding.tvLife.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(MainActivity.class);
+            }
+        });
     }
 
     @Override
@@ -75,8 +82,8 @@ public class TestFragment extends BaseMVVMFragment<FragmentTestBinding, BaseMVVM
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        Logger.d("setUserVisibleHint");
-        Log.i("------------", "setUserVisibleHint");
+        Logger.d("setUserVisibleHint" + getUserVisibleHint());
+        Log.i("------------", "setUserVisibleHint" + getUserVisibleHint());
     }
 
 

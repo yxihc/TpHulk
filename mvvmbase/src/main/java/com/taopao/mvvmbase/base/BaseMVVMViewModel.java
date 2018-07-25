@@ -40,7 +40,7 @@ public class BaseMVVMViewModel extends ViewModel implements Observable, IBaseVie
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>通知刷新>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
     private PropertyChangeRegistry callbacks = new PropertyChangeRegistry();
-    private  MaterialDialog mMaterialDialog;
+    private MaterialDialog mMaterialDialog;
 
     public void notifyChange() {
         callbacks.notifyCallbacks(this, 0, null);
@@ -134,12 +134,19 @@ public class BaseMVVMViewModel extends ViewModel implements Observable, IBaseVie
 
     }
 
+    /**
+     * 显示加载数据成功但是数据为空的情况 按需使用
+     */
+    private void setEmptyView() {
+        mViewState.set(ViewState.Empty_view);
+    }
 
     /**
      * 检查当前的页数计算出下次应该请求的页数(开启上拉加载和判断当前是否是最后一页)
      * 理论上讲,如果失败的话页数应该是不变的(所以不考虑请求时失败的情况,在请求成功的时候检查一下即可)
      *
-     * @param list 请求到的list数据
+     * @param list    请求到的list数据
+     * @param adapter 基于 BaseQuickAdapter
      */
     public void CheckUpPageOrAdapter(List list, BaseQuickAdapter adapter) {
         if (adapter != null) {

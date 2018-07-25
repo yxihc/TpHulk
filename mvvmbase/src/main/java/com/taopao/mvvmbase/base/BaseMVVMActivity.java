@@ -84,15 +84,15 @@ public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends Bas
             mBinding.setVariable(initVariableId(), mViewModel);
         }
 
-        if (getTopViewId(getLayoutInflater(),null) != -1) {
+        if (getTopViewId(getLayoutInflater(), null) != -1) {
             mBaseBinding.toolBar.setVisibility(View.GONE);
             //初始化布局
-            ViewDataBinding mTopBinding = DataBindingUtil.inflate(getLayoutInflater(), getTopViewId(getLayoutInflater(),null), null, false);
+            ViewDataBinding mTopBinding = DataBindingUtil.inflate(getLayoutInflater(), getTopViewId(getLayoutInflater(), null), null, false);
             mBaseBinding.flContentTop.addView(mTopBinding.getRoot());
         } else {
-            if (getTopView(getLayoutInflater(),null) != null) {
+            if (getTopView(getLayoutInflater(), null) != null) {
                 mBaseBinding.toolBar.setVisibility(View.GONE);
-                mBaseBinding.flContentTop.addView(getTopView(getLayoutInflater(),null));
+                mBaseBinding.flContentTop.addView(getTopView(getLayoutInflater(), null));
             }
         }
 
@@ -101,9 +101,12 @@ public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends Bas
 
     /**
      * (借鉴Adapter的getView()方法)初始化头布局view
-     * <p>
+     * (适用于使用自定义的子布局,需要使用自定义布局里的控制)
      * 设置你的ViewDataBinding
      * 设置你的ViewModel
+     * <p>
+     * DataBindingUtil.inflate(inflater, 你的layoutid, container, false);
+     * <p>
      *
      * @return 布局的ViewDataBinding.getRootView();
      */
@@ -115,6 +118,7 @@ public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends Bas
 
     /**
      * 初始化头布局的id
+     * (适用于只需要自定义顶部界面 ,但并不需要使用界面的的空间呢)
      *
      * @return 布局的id
      */
@@ -253,6 +257,14 @@ public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends Bas
             }
         });
 
+        mBaseBinding.emptyView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showLoadingView();
+                refreshView();
+            }
+        });
+
     }
 
     @Override
@@ -281,6 +293,9 @@ public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends Bas
                     case ViewState.Loading_view:
                         showLoadingView();
                         break;
+                    case ViewState.Empty_view:
+                        showEmptyView();
+                        break;
                 }
             }
         });
@@ -306,27 +321,23 @@ public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends Bas
 
     @Override
     public void showLoadingView() {
-//        mViewModel.mViewState.set(ViewState.Loading_view);
-        setViewState(View.VISIBLE, View.GONE, View.GONE);
+        setViewState(View.VISIBLE, View.GONE, View.GONE, View.GONE);
     }
 
     @Override
     public void showErrorView() {
-//        mViewModel.mViewState.set(ViewState.Error_view);
-        setViewState(View.GONE, View.GONE, View.VISIBLE);
+        setViewState(View.GONE, View.GONE, View.VISIBLE, View.GONE);
     }
 
     @Override
     public void showNormalView() {
-//        mViewModel.mViewState.set(ViewState.Normal_view);
-        setViewState(View.GONE, View.VISIBLE, View.GONE);
+        setViewState(View.GONE, View.VISIBLE, View.GONE, View.GONE);
 
-        Log.i("----------------", "showNormalView");
     }
 
     @Override
     public void showEmptyView() {
-
+        setViewState(View.GONE, View.GONE, View.GONE, View.VISIBLE);
     }
 
     /**
@@ -335,8 +346,10 @@ public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends Bas
      * @param loadingView 加载中
      * @param normalView  正常显示
      * @param errorView   加载失败
+     * @param emptyView   加载成功:但是数据为空
      */
-    private void setViewState(int loadingView, int normalView, int errorView) {
+    private void setViewState(int loadingView, int normalView, int errorView, int emptyView) {
+        //正在加载中的控制
         if (mBaseBinding.loadingView != null && mBaseBinding.loadingView.shimmmer.getVisibility() != loadingView) {
             mBaseBinding.loadingView.shimmmer.setVisibility(loadingView);
             if (loadingView == View.VISIBLE) {
@@ -345,9 +358,17 @@ public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends Bas
                 mBaseBinding.loadingView.shimmmer.stopShimmer();
             }
         }
+        //加载失败的布局控制
         if (mBaseBinding.errorRefreshView != null && mBaseBinding.errorRefreshView.getVisibility() != errorView) {
             mBaseBinding.errorRefreshView.setVisibility(errorView);
         }
+
+        //加载为空的布局控制
+        if (mBaseBinding.emptyView != null && mBaseBinding.emptyView.getVisibility() != emptyView) {
+            mBaseBinding.emptyView.setVisibility(emptyView);
+        }
+
+        //正常显示的布局控制
         if (mBinding.getRoot() != null && mBinding.getRoot().getVisibility() != normalView) {
             mBinding.getRoot().setVisibility(normalView);
         }

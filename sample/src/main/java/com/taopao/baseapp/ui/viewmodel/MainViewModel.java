@@ -17,6 +17,7 @@ import com.taopao.baseapp.ui.activity.RefreshActivity;
 import com.taopao.mvvmbase.base.BaseBindingRvAdapter;
 import com.taopao.mvvmbase.base.BaseMVVMActivity;
 import com.taopao.mvvmbase.base.BaseMVVMViewModel;
+import com.taopao.mvvmbase.base.ViewState;
 import com.taopao.mvvmbase.binding.command.BindingAction;
 import com.taopao.mvvmbase.binding.command.BindingCommand;
 import com.taopao.mvvmbase.utils.RxUtils;
@@ -64,8 +65,6 @@ public class MainViewModel extends BaseMVVMViewModel {
 //
                         mWanAndroid.addAll(datas);
                         CheckUpPageOrAdapter(datas, mWanAndroidAdapter);
-
-                        Toast.makeText(mContext, "下一次请求的页数: " + mPage, Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -127,9 +126,10 @@ public class MainViewModel extends BaseMVVMViewModel {
         }
     });
 
-    public BindingCommand edit = new BindingCommand(new BindingAction() {
+    public BindingCommand empty = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
+            mViewState.set(ViewState.Empty_view);
         }
     });
 

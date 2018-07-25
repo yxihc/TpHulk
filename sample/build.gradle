@@ -36,5 +36,4 @@ dependencies {
     implementation project(':mvvmbase')
 
     implementation 'com.willowtreeapps.spruce:spruce-android:1.0.1'
-
 }

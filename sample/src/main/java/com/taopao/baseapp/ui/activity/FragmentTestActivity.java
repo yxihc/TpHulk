@@ -25,9 +25,15 @@ public class FragmentTestActivity extends BaseMVVMActivity<ActivityFragmentTestB
     public void initView() {
         super.initView();
         showNormalView();
+
+        TestFragment testFragment = new TestFragment();
+
         mTransaction = getSupportFragmentManager().beginTransaction();
-        mTransaction.add(R.id.fl_content, new TestFragment());
+        mTransaction.add(R.id.fl_content, testFragment);
         mTransaction.commit();
+        mTransaction.hide(testFragment);
+
+        mTransaction.show(testFragment);
     }
 
 

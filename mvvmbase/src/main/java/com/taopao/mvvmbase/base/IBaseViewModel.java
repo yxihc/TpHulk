@@ -33,4 +33,5 @@ public interface IBaseViewModel {
 
     void initParam(Bundle bundle);
 
+
 }
