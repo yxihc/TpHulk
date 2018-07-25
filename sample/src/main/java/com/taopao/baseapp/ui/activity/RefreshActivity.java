@@ -22,7 +22,7 @@ public class RefreshActivity extends BaseMVVMActivity<ActivityRefreshBinding, Re
         super.initView();
         setTitle("RecycleView的各种设置");
     }
-
+ 
     @Override
     public void refreshView() {
         super.refreshView();
