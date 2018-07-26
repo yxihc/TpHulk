@@ -15,7 +15,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class LoginActivity extends BaseMVVMActivity<ActivityLoginBinding, LoginViewModel> {
     @Override
-    protected int getContentView() {
+    protected int getContentResId() {
         return R.layout.activity_login;
     }
 

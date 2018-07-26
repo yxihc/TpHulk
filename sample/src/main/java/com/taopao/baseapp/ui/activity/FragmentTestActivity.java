@@ -12,7 +12,7 @@ public class FragmentTestActivity extends BaseMVVMActivity<ActivityFragmentTestB
     private FragmentTransaction mTransaction;
 
     @Override
-    protected int getContentView() {
+    protected int getContentResId() {
         return R.layout.activity_fragment_test;
     }
 

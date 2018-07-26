@@ -8,7 +8,7 @@ import com.taopao.mvvmbase.base.BaseMVVMActivity;
 
 public class RefreshActivity extends BaseMVVMActivity<ActivityRefreshBinding, RefreshViewModel> {
     @Override
-    protected int getContentView() {
+    protected int getContentResId() {
         return R.layout.activity_refresh;
     }
 
@@ -22,7 +22,7 @@ public class RefreshActivity extends BaseMVVMActivity<ActivityRefreshBinding, Re
         super.initView();
         setTitle("RecycleView的各种设置");
     }
-    
+
     @Override
     public void refreshView() {
         super.refreshView();

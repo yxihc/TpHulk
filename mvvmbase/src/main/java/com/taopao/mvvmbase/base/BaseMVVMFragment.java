@@ -1,5 +1,6 @@
 package com.taopao.mvvmbase.base;
 
+import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -79,7 +80,7 @@ public abstract class BaseMVVMFragment<V extends ViewDataBinding, VM extends Bas
         mBaseBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_base, container, false);
 
         //初始化布局
-        mBinding = DataBindingUtil.inflate(inflater, getContentView(inflater, container), container, false);
+        mBinding = DataBindingUtil.inflate(inflater, getContentResId(inflater, container), container, false);
 
         // content
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -88,9 +89,9 @@ public abstract class BaseMVVMFragment<V extends ViewDataBinding, VM extends Bas
         mBinding.setVariable(initVariableId(), mViewModel = initViewModel());
 
 
-        if (getTopViewId(inflater, container) != -1) {
+        if (getTopResId(inflater, container) != -1) {
             //初始化布局
-            ViewDataBinding mTopBinding = DataBindingUtil.inflate(inflater, getTopViewId(inflater, container), container, false);
+            ViewDataBinding mTopBinding = DataBindingUtil.inflate(inflater, getTopResId(inflater, container), container, false);
             mBaseBinding.flContentTop.addView(mTopBinding.getRoot());
         } else {
             if (getTopView(inflater, container) != null) {
@@ -227,7 +228,7 @@ public abstract class BaseMVVMFragment<V extends ViewDataBinding, VM extends Bas
      *
      * @return 布局的id
      */
-    protected abstract int getContentView(LayoutInflater inflater, @Nullable ViewGroup container);
+    protected abstract int getContentResId(LayoutInflater inflater, @Nullable ViewGroup container);
 
     /**
      * 初始化ViewModel
@@ -255,6 +256,7 @@ public abstract class BaseMVVMFragment<V extends ViewDataBinding, VM extends Bas
     public View getTopView(LayoutInflater inflater, @Nullable ViewGroup container) {
         //设置你的ViewDataBinding
         //设置你的ViewModel
+
         return null;
     }
 
@@ -264,7 +266,7 @@ public abstract class BaseMVVMFragment<V extends ViewDataBinding, VM extends Bas
      *
      * @return 布局的id
      */
-    public int getTopViewId(LayoutInflater inflater, @Nullable ViewGroup container) {
+    public int getTopResId(LayoutInflater inflater, @Nullable ViewGroup container) {
         return -1;
     }
 

@@ -62,7 +62,6 @@ public class MainViewModel extends BaseMVVMViewModel {
                             mWanAndroid.clear();
                         }
                         List<WanAndroidResponse.DatasBean> datas = wanAndroidResponseBaseResponse.getData().getDatas();
-//
                         mWanAndroid.addAll(datas);
                         CheckUpPageOrAdapter(datas, mWanAndroidAdapter);
                     }

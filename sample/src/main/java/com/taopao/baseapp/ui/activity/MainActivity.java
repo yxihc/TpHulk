@@ -15,7 +15,7 @@ import com.taopao.mvvmbase.base.BaseMVVMActivity;
 
 public class MainActivity extends BaseMVVMActivity<ActivityMainBinding, MainViewModel> {
     @Override
-    protected int getContentView() {
+    protected int getContentResId() {
         return R.layout.activity_main;
     }
 

@@ -23,7 +23,7 @@ import com.taopao.mvvmbase.base.BaseMVVMViewModel;
  */
 public class TestFragment extends BaseMVVMFragment<FragmentTestBinding, BaseMVVMViewModel> {
     @Override
-    protected int getContentView(LayoutInflater inflater, @Nullable ViewGroup container) {
+    protected int getContentResId(LayoutInflater inflater, @Nullable ViewGroup container) {
         return R.layout.fragment_test;
     }
 
@@ -55,6 +55,11 @@ public class TestFragment extends BaseMVVMFragment<FragmentTestBinding, BaseMVVM
                 startActivity(MainActivity.class);
             }
         });
+
+
+//        getTopBinding(ActivityLoginBinding.class);
+
+
     }
 
     @Override

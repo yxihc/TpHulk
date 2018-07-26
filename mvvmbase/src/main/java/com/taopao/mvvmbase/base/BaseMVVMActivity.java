@@ -72,7 +72,7 @@ public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends Bas
 
         //DataBindingUtil类需要在project的build中配置 dataBinding {enabled true }, 同步后会自动关联android.databinding包
 
-        mBinding = DataBindingUtil.inflate(getLayoutInflater(), getContentView(), null, false);
+        mBinding = DataBindingUtil.inflate(getLayoutInflater(), getContentResId(), null, false);
 
         // content
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -84,10 +84,10 @@ public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends Bas
             mBinding.setVariable(initVariableId(), mViewModel);
         }
 
-        if (getTopViewId(getLayoutInflater(), null) != -1) {
+        if (getTopResId(getLayoutInflater(), null) != -1) {
             mBaseBinding.toolBar.setVisibility(View.GONE);
             //初始化布局
-            ViewDataBinding mTopBinding = DataBindingUtil.inflate(getLayoutInflater(), getTopViewId(getLayoutInflater(), null), null, false);
+            ViewDataBinding mTopBinding = DataBindingUtil.inflate(getLayoutInflater(), getTopResId(getLayoutInflater(), null), null, false);
             mBaseBinding.flContentTop.addView(mTopBinding.getRoot());
         } else {
             if (getTopView(getLayoutInflater(), null) != null) {
@@ -122,7 +122,7 @@ public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends Bas
      *
      * @return 布局的id
      */
-    public int getTopViewId(LayoutInflater inflater, @Nullable ViewGroup container) {
+    public int getTopResId(LayoutInflater inflater, @Nullable ViewGroup container) {
         return -1;
     }
 
@@ -132,7 +132,7 @@ public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends Bas
      *
      * @return 布局的id
      */
-    protected abstract int getContentView();
+    protected abstract int getContentResId();
 
     /**
      * 初始化ViewModel的id
