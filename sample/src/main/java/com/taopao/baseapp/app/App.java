@@ -2,10 +2,10 @@ package com.taopao.baseapp.app;
 
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
-import com.taopao.baseapp.ui.activity.MainActivity;
+import com.taopao.baseapp.R;
 import com.taopao.baseapp.ui.activity.SplashActivity;
+import com.taopao.crashhandle.CaocConfig;
 import com.taopao.mvvmbase.base.BaseApplication;
-import com.taopao.mvvmbase.crash.CaocConfig;
 
 /**
  * @Author：淘跑
@@ -33,7 +33,7 @@ public class App extends BaseApplication {
                 .showRestartButton(true) //是否显示重启按钮
                 .trackActivities(true) //是否跟踪Activity
                 .minTimeBetweenCrashesMs(2000) //崩溃的间隔时间(毫秒)
-                .errorDrawable(com.taopao.mvvmbase.R.drawable.customactivityoncrash_error_image) //错误图标
+                .errorDrawable(R.drawable.customactivityoncrash_error_image) //错误图标
                 .restartActivity(SplashActivity.class) //重新启动后的activity
 //                .errorActivity(YourCustomErrorActivity.class) //崩溃后的错误activity
 //                .eventListener(new YourCustomEventListener()) //崩溃后的错误监听

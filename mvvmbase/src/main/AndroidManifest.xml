@@ -1,17 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.taopao.mvvmbase">
-
-    <application>
-        <activity
-            android:name=".crash.DefaultErrorActivity"
-            android:process=":error_activity"
-            android:theme="@style/NoTitleDialog" />
-        <provider
-            android:name=".crash.CaocInitProvider"
-            android:authorities="${applicationId}.customactivityoncrashinitprovider"
-            android:exported="false"
-            android:initOrder="101" />
-    </application>
-
 </manifest>

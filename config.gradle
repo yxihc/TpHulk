@@ -37,7 +37,7 @@ ext {
 
             //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>design>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
             "support_annotations"            : "com.android.support:support-annotations:${android["androidSupportSdkVersion"]}",
-            "constraint_layout"              : "com.android.support.constraint:constraint-layout:1.1.1",
+            "constraint_layout"              : "com.android.support.constraint:constraint-layout:1.1.2",
             "appcompat_v7"                   : "com.android.support:appcompat-v7:${android["androidSupportSdkVersion"]}",
             "design"                         : "com.android.support:design:${android["androidSupportSdkVersion"]}",
             "support-v4"                     : "com.android.support:support-v4:${android["androidSupportSdkVersion"]}",
@@ -96,7 +96,7 @@ ext {
             //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Dialog<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
-            "shimmer"       : 'com.facebook.shimmer:shimmer:0.2.0',
+            "shimmer"                        : 'com.facebook.shimmer:shimmer:0.2.0',
 
             //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>下拉刷新上拉加载>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
             //下拉刷新上拉加载
@@ -184,7 +184,9 @@ ext {
             //仿58同城加载动画 我的github主页: https://github.com/404NotFuond
             "ShapeLoading"                   : 'com.github.404NotFuond:ShapeLoading:1.0.0',
             //安卓自定义DatePicker日期选择器
-            "RxDatePicker"                   : 'com.github.404NotFuond:RxDatePicker:1.0.1'
+            "RxDatePicker"                   : 'com.github.404NotFuond:RxDatePicker:1.0.1',
+
+            "CrashHandle"                    : 'com.github.404NotFuond:CrashHandle:1.0'
             //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<自己封装的库<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
     ]

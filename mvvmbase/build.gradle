@@ -37,6 +37,7 @@ dependencies {
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Support>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     api rootProject.ext.dependencies["constraint_layout"]
     api rootProject.ext.dependencies["support_annotations"]
+    api rootProject.ext.dependencies["support-v4"]
     api rootProject.ext.dependencies["appcompat_v7"]
     api rootProject.ext.dependencies["recyclerview"]
     api rootProject.ext.dependencies["design"]
@@ -61,9 +62,11 @@ dependencies {
     annotationProcessor rootProject.ext.dependencies["glide_compiler"]
     //日志
     api rootProject.ext.dependencies["logger"]
-
+    api rootProject.ext.dependencies["CrashHandle"]
     //沉浸式
     api rootProject.ext.dependencies["statusbarutil"]
+
+
 
     //material-dialogs
     api(rootProject.ext.dependencies["material_dialogs_core"])

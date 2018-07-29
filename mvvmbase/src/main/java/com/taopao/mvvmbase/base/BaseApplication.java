@@ -4,12 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 
-import com.airbnb.lottie.utils.Utils;
-import com.taopao.mvvmbase.R;
-import com.taopao.mvvmbase.crash.CaocConfig;
 
 /**
  * @Author： 淘跑
