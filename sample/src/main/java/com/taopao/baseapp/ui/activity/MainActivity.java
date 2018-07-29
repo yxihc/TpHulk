@@ -36,7 +36,7 @@ public class MainActivity extends BaseMVVMActivity<ActivityMainBinding, MainView
     public void initView() {
         super.initView();
         setTitle("网络加载方式");
-    }
+    } 
 
     @Override
     public void refreshView() {
