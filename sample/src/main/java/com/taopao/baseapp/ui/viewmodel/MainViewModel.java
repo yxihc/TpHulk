@@ -55,7 +55,7 @@ public class MainViewModel extends BaseMVVMViewModel {
                 .getHomeList(mPage, null)
                 .compose(RxUtils.<BaseResponse<WanAndroidResponse>>bindToLifecycle(mContext))
                 .compose(RxUtils.<BaseResponse<WanAndroidResponse>>schedulersTransformer())
-                .subscribe(new RxSubscriber<BaseResponse<WanAndroidResponse>>(mViewState, mEvent, hideDialog) {
+                .subscribe(new RxSubscriber<BaseResponse<WanAndroidResponse>>(mViewState, mEvent, hideDialogAndRefresh) {
                     @Override
                     public void onResult(BaseResponse<WanAndroidResponse> wanAndroidResponseBaseResponse) {
                         if (mPage == 1) {
@@ -106,7 +106,7 @@ public class MainViewModel extends BaseMVVMViewModel {
                     .getHomeListError("是的撒啊是的", null)
                     .compose(RxUtils.<BaseResponse<WanAndroidResponse>>bindToLifecycle(mContext))
                     .compose(RxUtils.<BaseResponse<WanAndroidResponse>>schedulersTransformer())
-                    .subscribe(new RxSubscriber<BaseResponse<WanAndroidResponse>>(mViewState, mEvent, hideDialog, true) {
+                    .subscribe(new RxSubscriber<BaseResponse<WanAndroidResponse>>(mViewState, mEvent, hideDialogAndRefresh, true) {
                         @Override
                         public void onResult(BaseResponse<WanAndroidResponse> wanAndroidResponseBaseResponse) {
                             if (mPage == 1) {

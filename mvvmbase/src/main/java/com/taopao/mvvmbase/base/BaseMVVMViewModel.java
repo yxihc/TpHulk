@@ -13,11 +13,9 @@ import android.databinding.PropertyChangeRegistry;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.taopao.mvvmbase.utils.MaterialDialogUtils;
 
 import java.util.List;
 
@@ -30,9 +28,8 @@ import java.util.List;
 public class BaseMVVMViewModel extends ViewModel implements Observable, IBaseViewModel {
 
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>常用的界面显示>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    public ObservableInt mViewState = new ObservableInt(ViewState.Loading_view);//界面的显示状态(默认是加载中)
-    public ObservableBoolean hideDialog = new ObservableBoolean(false);//关闭加载中动画
-    public final ObservableBoolean finishRefresh = new ObservableBoolean(false);//关闭刷新动画
+    public ObservableInt mViewState = new ObservableInt(ViewState.Loading_view);//界面的显示状态(默认是正常显示)
+    public ObservableBoolean hideDialogAndRefresh = new ObservableBoolean(false);//关闭加载中动画并且关闭下拉刷新
     public ObservableField<EventData> mEvent = new ObservableField<>(new EventData());//服务器常见的错误码
     //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<常用的界面显示<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -80,11 +77,10 @@ public class BaseMVVMViewModel extends ViewModel implements Observable, IBaseVie
 
     @Override
     public void onCreate() {
-        hideDialog.addOnPropertyChangedCallback(new OnPropertyChangedCallback() {
+        hideDialogAndRefresh.addOnPropertyChangedCallback(new OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable observable, int i) {
                 HideDialog();
-                finishRefresh.set(!finishRefresh.get());
             }
         });
 

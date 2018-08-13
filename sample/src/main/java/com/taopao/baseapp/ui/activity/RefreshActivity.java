@@ -5,7 +5,6 @@ import com.taopao.baseapp.databinding.ActivityRefreshBinding;
 import com.taopao.baseapp.ui.viewmodel.RefreshViewModel;
 import com.taopao.mvvmbase.base.BaseMVVMActivity;
 
-
 public class RefreshActivity extends BaseMVVMActivity<ActivityRefreshBinding, RefreshViewModel> {
     @Override
     protected int getContentResId() {
@@ -21,6 +20,7 @@ public class RefreshActivity extends BaseMVVMActivity<ActivityRefreshBinding, Re
     public void initView() {
         super.initView();
         setTitle("RecycleView的各种设置");
+        showLoadingView();
     }
 
     @Override

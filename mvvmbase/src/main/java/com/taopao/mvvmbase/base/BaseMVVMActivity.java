@@ -47,15 +47,19 @@ public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends Bas
         //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<页面间传值<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
         //注入绑定
         initViewDataBinding();
-        initView();
         //防止空指针异常
         if (mViewModel != null) {
+            if (savedInstanceState != null) {
+                mViewModel.initParam(savedInstanceState);
+            } else if (getIntent() != null && getIntent().getExtras() != null) {
+                mViewModel.initParam(getIntent().getExtras());
+            }
             mViewModel.onCreate();
             mViewModel.registerRxBus();
 
         }
+        initView();
         initData();
-
         if (mViewModel != null) {
             initViewObservable();
         }
@@ -243,7 +247,10 @@ public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends Bas
     public void initView() {
 
         //第一次加载界面显示加载中动画
-        showLoadingView();
+//        showLoadingView();
+
+        //默认显示正常的界面
+        showNormalView();
 
         //设置沉浸式状态栏
         setStatusBar();
@@ -332,7 +339,6 @@ public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends Bas
     @Override
     public void showNormalView() {
         setViewState(View.GONE, View.VISIBLE, View.GONE, View.GONE);
-
     }
 
     @Override
@@ -389,7 +395,6 @@ public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends Bas
 
     @Override
     public void showLoadingDialog() {
-        Log.i("TAG", "=================================显示弹出");
     }
 
 
@@ -400,7 +405,6 @@ public abstract class BaseMVVMActivity<V extends ViewDataBinding, VM extends Bas
 
     @Override
     public void hideLoadingDialog() {
-        Log.i("TAG", "=================================隐藏弹出");
     }
 
     //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<BaseView中的方法:需要时重写<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

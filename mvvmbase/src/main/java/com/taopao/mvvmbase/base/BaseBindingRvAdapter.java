@@ -24,7 +24,7 @@ import java.util.List;
  * @Date: 2018/7/14 16:02
  * @Use：
  */
-public abstract class BaseBindingRvAdapter<T> extends BaseQuickAdapter<T, BaseBindingRvAdapter.BindingViewHolder> {
+public  class BaseBindingRvAdapter<T> extends BaseQuickAdapter<T, BaseBindingRvAdapter.BindingViewHolder> {
 
     public Context mRvContext;
     public ObservableList<T> mTObservableList;
@@ -37,7 +37,9 @@ public abstract class BaseBindingRvAdapter<T> extends BaseQuickAdapter<T, BaseBi
         convert(helper, binding, item);
     }
 
-    protected abstract void convert(BindingViewHolder helper, ViewDataBinding binding, T item);
+    protected  void convert(BindingViewHolder helper, ViewDataBinding binding, T item){
+
+    }
 
     @Override
     protected View getItemView(int layoutResId, ViewGroup parent) {

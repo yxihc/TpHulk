@@ -2,9 +2,6 @@ package com.taopao.baseapp.ui.viewmodel;
 
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableList;
-import android.databinding.ViewDataBinding;
-import android.os.Handler;
-import android.os.Message;
 import android.widget.Toast;
 
 import com.taopao.baseapp.R;
@@ -12,12 +9,9 @@ import com.taopao.baseapp.http.Api;
 import com.taopao.baseapp.http.RetrofitProvider;
 import com.taopao.baseapp.http.RxSubscriber;
 import com.taopao.baseapp.model.BaseResponse;
-import com.taopao.baseapp.model.ImgListInfo;
 import com.taopao.baseapp.model.WanAndroidResponse;
 import com.taopao.baseapp.ui.activity.FragmentTestActivity;
 import com.taopao.baseapp.ui.activity.MainActivity;
-import com.taopao.baseapp.ui.activity.RefreshActivity;
-import com.taopao.baseapp.ui.adapter.RvGrilsAdapter;
 import com.taopao.mvvmbase.base.BaseBindingRvAdapter;
 import com.taopao.mvvmbase.base.BaseMVVMActivity;
 import com.taopao.mvvmbase.base.BaseMVVMViewModel;
@@ -28,7 +22,6 @@ import com.taopao.mvvmbase.binding.command.BindingConsumer;
 import com.taopao.mvvmbase.utils.RxUtils;
 
 import java.util.List;
-import java.util.Random;
 
 /**
  * @Author： 淘跑
@@ -41,11 +34,7 @@ public class RefreshViewModel extends BaseMVVMViewModel {
     }
 
     public ObservableList<WanAndroidResponse.DatasBean> mWanAndroid = new ObservableArrayList<>();
-    public BaseBindingRvAdapter<WanAndroidResponse.DatasBean> mWanAndroidAdapter = new BaseBindingRvAdapter<WanAndroidResponse.DatasBean>(R.layout.recycle_item_wanandroid, mWanAndroid, mContext) {
-        @Override
-        protected void convert(BindingViewHolder helper, ViewDataBinding binding, WanAndroidResponse.DatasBean item) {
-        }
-    };
+    public BaseBindingRvAdapter<WanAndroidResponse.DatasBean> mWanAndroidAdapter = new BaseBindingRvAdapter<WanAndroidResponse.DatasBean>(R.layout.recycle_item_wanandroid, mWanAndroid, mContext);
 
     @Override
     public void onCreate() {
@@ -86,7 +75,7 @@ public class RefreshViewModel extends BaseMVVMViewModel {
                 .getHomeListError(page, null)
                 .compose(RxUtils.<BaseResponse<WanAndroidResponse>>bindToLifecycle(mContext))
                 .compose(RxUtils.<BaseResponse<WanAndroidResponse>>schedulersTransformer())
-                .subscribe(new RxSubscriber<BaseResponse<WanAndroidResponse>>(mViewState, mEvent, hideDialog) {
+                .subscribe(new RxSubscriber<BaseResponse<WanAndroidResponse>>(mViewState, mEvent, hideDialogAndRefresh) {
                     @Override
                     public void onResult(BaseResponse<WanAndroidResponse> wanAndroidResponseBaseResponse) {
                         if (mPage == 1) {
@@ -98,6 +87,7 @@ public class RefreshViewModel extends BaseMVVMViewModel {
                         CheckUpPageOrAdapter(datas, mWanAndroidAdapter);
 
                         Toast.makeText(mContext, "下一次请求的页数: " + mPage, Toast.LENGTH_SHORT).show();
+//                        mViewState.set(ViewState.Normal_view);
                     }
 
                     @Override

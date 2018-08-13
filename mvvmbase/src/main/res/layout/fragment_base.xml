@@ -26,7 +26,8 @@
             <!--加载中..-->
             <include
                 android:id="@+id/loading_view"
-                layout="@layout/layout_loading_view"></include>
+                layout="@layout/layout_loading_view"
+                android:visibility="gone"></include>
         </RelativeLayout>
     </LinearLayout>
 </layout>

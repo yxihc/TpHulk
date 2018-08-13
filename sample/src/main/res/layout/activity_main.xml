@@ -17,7 +17,7 @@
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
 
         android:id="@+id/srl"
-        finishRefreshOrLoadMore="@{viewModel.finishRefresh}"
+        finishRefreshOrLoadMore="@{viewModel.hideDialogAndRefresh}"
         onLoadMoreCommand="@{viewModel.onLoadMore}"
         onRefreshCommand="@{viewModel.onRefresh}"
         android:layout_width="match_parent"
@@ -36,11 +36,11 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:textAllCaps="false"
                     onClickCommand="@{viewModel.fragment1}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Fragment" />
+                    android:text="Fragment"
+                    android:textAllCaps="false" />
 
                 <Button
                     isThrottleFirst="@{true}"
@@ -56,12 +56,12 @@
                     android:text="模拟加载数据为空" />
 
                 <Button
-                    android:textAllCaps="false"
                     isThrottleFirst="false"
                     onClickCommand="@{viewModel.refresh}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Refresh页面" />
+                    android:text="Refresh页面"
+                    android:textAllCaps="false" />
 
             </LinearLayout>
 

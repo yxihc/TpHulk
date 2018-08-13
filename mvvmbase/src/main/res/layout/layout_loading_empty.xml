@@ -16,6 +16,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:text="没有数据了,兄滴~~"
+        android:text="@string/error_nodata"
         android:textSize="15sp" />
 </LinearLayout>
