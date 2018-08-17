@@ -97,10 +97,5 @@ dependencies {
 //        exclude group: 'io.reactivex.rxjava2'
 //    }
 
-    //动画
-    api(rootProject.ext.dependencies["lottie"]) {
-        exclude group: 'com.android.support'
-        exclude group: 'com.google'
-    }
 
 }

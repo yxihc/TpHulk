@@ -24,7 +24,6 @@ import java.util.List;
  * @Date: 2018/7/7 12:42
  * @Use：
  */
-
 public class BaseMVVMViewModel extends ViewModel implements Observable, IBaseViewModel {
 
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>常用的界面显示>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -37,7 +36,6 @@ public class BaseMVVMViewModel extends ViewModel implements Observable, IBaseVie
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>通知刷新>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
     private PropertyChangeRegistry callbacks = new PropertyChangeRegistry();
-    private MaterialDialog mMaterialDialog;
 
     public void notifyChange() {
         callbacks.notifyCallbacks(this, 0, null);
@@ -92,21 +90,12 @@ public class BaseMVVMViewModel extends ViewModel implements Observable, IBaseVie
      * @param msg
      */
     public void showDialog(String msg) {
-        if (mMaterialDialog != null) {
-            mMaterialDialog.show();
-        } else {
-            MaterialDialog.Builder builder = MaterialDialogUtils.showIndeterminateProgressDialog(mContext, msg, true);
-            mMaterialDialog = builder.show();
-        }
     }
 
     /**
      * 隐藏dialog
      */
     public void HideDialog() {
-        if (mMaterialDialog != null && mMaterialDialog.isShowing()) {
-            mMaterialDialog.dismiss();
-        }
     }
 
     @Override

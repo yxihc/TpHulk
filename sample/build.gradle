@@ -30,5 +30,10 @@ dependencies {
     androidTestImplementation rootProject.ext.dependencies["espresso_core"]
     //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<通用<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     implementation project(':mvvmbase')
+    //动画
+    api(rootProject.ext.dependencies["lottie"]) {
+        exclude group: 'com.android.support'
+        exclude group: 'com.google'
+    }
 
 }

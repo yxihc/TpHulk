@@ -1,6 +1,5 @@
 package com.taopao.mvvmbase.base;
 
-import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -8,17 +7,13 @@ import android.databinding.Observable;
 import android.databinding.ViewDataBinding;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.internal.MDAdapter;
 import com.orhanobut.logger.Logger;
 import com.taopao.mvvmbase.BR;
 import com.taopao.mvvmbase.R;
@@ -273,10 +268,10 @@ public abstract class BaseMVVMFragment<V extends ViewDataBinding, VM extends Bas
 
     @Override
     public void initView() {
-
         //第一次加载界面显示加载中动画
         showLoadingView();
-
+        //设置沉浸式状态栏
+        setStatusBar();
         mBaseBinding.errorRefreshView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
