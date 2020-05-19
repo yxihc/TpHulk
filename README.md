@@ -1,6 +1,6 @@
-# BaseApp
-快速开发一个app基类
-##### 一些效果图
-![模拟登陆界面.png](https://upload-images.jianshu.io/upload_images/10151120-225cab99896ff26e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+# TpHulk
 
-![recycleview界面.png](https://upload-images.jianshu.io/upload_images/10151120-3d25dff7c063d9e9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+# 架构调整旧版请看此次提交
+项目采取的是MVVM+DataBinding架构开发，采用RxJava+Retrofit+RxLife+Glide等开源库。可以快速开发一个App
+
+https://github.com/TaoPaox/TpHulk/tree/b47307c50f4861a8e24aaad8872304bfe00fd492

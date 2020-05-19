@@ -1,1 +1,6 @@
-include ':sample', ':mvvmbase'
+rootProject.name='TpHulk'
+include ':app'
+include ':hulkmvp'
+include ':hulkmvvm'
+include ':hulkbase'
+include ':hulkimg'
