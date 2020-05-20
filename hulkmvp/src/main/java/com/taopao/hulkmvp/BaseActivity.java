@@ -1,20 +1,33 @@
 package com.taopao.hulkmvp;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-
+import android.view.InflateException;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewbinding.ViewBinding;
 
-public  class BaseActivity<VB extends ViewBinding> extends AppCompatActivity {
-
-    protected VB mViewBinding;
+public  abstract class BaseActivity extends AppCompatActivity implements IActivity {
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
-
-
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        try {
+//            两个都有的话优先使用viewbinding
+            ViewBinding viewBinding = setViewBinding(getLayoutInflater());
+            if (viewBinding!=null){
+                setContentView(viewBinding.getRoot());
+            }else{
+                int layoutResID = getLayoutRes();
+                //如果getLayoutRes返回0,框架则不会调用setContentView()
+                if (layoutResID != 0) {
+                    setContentView(layoutResID);
+                }
+            }
+        } catch (Exception e) {
+            if (e instanceof InflateException) throw e;
+            e.printStackTrace();
+        }
+        initView(savedInstanceState);
+        initData(savedInstanceState);
+        initListener(savedInstanceState);
     }
 }

@@ -1,6 +1,7 @@
 package com.taopao.tphulk;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.taopao.tphulk.databinding.ActivityMainBinding;
@@ -10,10 +11,8 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.viewbinding.ViewBinding;
 
 public class MainActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
 //        ActivityMainBinding
 
-
+        LayoutInflater layoutInflater = getLayoutInflater();
     }
 
 }

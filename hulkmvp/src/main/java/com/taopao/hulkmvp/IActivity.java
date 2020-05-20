@@ -2,6 +2,7 @@ package com.taopao.hulkmvp;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import androidx.annotation.LayoutRes;
@@ -19,7 +20,15 @@ import androidx.viewbinding.ViewBinding;
  * <p>
  * ================================================
  */
-public interface IActivity<VB extends ViewBinding> {
+public interface IActivity {
+
+    default  int getLayoutRes(){
+        return 0;
+    }
+
+    default ViewBinding setViewBinding(@Nullable LayoutInflater layoutInflater){
+        return null;
+    }
     /**
      * 初始化 View,
      *
@@ -29,12 +38,6 @@ public interface IActivity<VB extends ViewBinding> {
     default void initView(@Nullable Bundle savedInstanceState) {
 
     }
-
-    @LayoutRes
-    int getLayoutRes();
-
-    View setViewBinding();
-
     /**
      * 初始化数据
      *
@@ -43,7 +46,13 @@ public interface IActivity<VB extends ViewBinding> {
     default void initData(@Nullable Bundle savedInstanceState) {
 
     }
+    /**
+     * 初始化监听
+     * @param savedInstanceState
+     */
+    default void initListener(@Nullable Bundle savedInstanceState) {
 
+    }
     /**
      * 页面传值
      *
@@ -54,10 +63,6 @@ public interface IActivity<VB extends ViewBinding> {
     }
 
 
-    @Nullable
-    default VB obtainPresenter() {
-        return null;
-    }
 
-    void setPresenter(@Nullable VB presenter);
+
 }
