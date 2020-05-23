@@ -8,7 +8,12 @@
  */
 package com.taopao.tphulk;
 
-import com.taopao.hulkbase.app.BaseApplication;
+import com.taopao.hulkbase.config.ConfigModule;
+import com.taopao.hulkbase.delegate.app.BaseApplication;
+import com.taopao.tphulk.init.MyConfigModule;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -18,8 +23,11 @@ import com.taopao.hulkbase.app.BaseApplication;
  * @Description: java类作用描述
  */
 public class HulkApplication extends BaseApplication {
+    @Override
+    public List<ConfigModule> getConfigModules() {
+        List<ConfigModule> configModules = new ArrayList<>();
+        configModules.add(new MyConfigModule());
+        return configModules;
 
-
-
-
+    }
 }
