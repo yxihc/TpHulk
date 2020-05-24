@@ -32,6 +32,9 @@ public class AppDelegate implements App,AppLifecycles{
     private List<Application.ActivityLifecycleCallbacks> mActivityLifecycles = new ArrayList<>();
     public AppDelegate(Context context, List<ConfigModule> configModules) {
         this.mModules = configModules;
+        if (mModules==null){
+            return;
+        }
         for (ConfigModule module : mModules) {
             //将框架外部, 开发者实现的 Application 的生命周期回调 (AppLifecycles) 存入 mAppLifecycles 集合 (此时还未注册回调)
             module.injectAppLifecycle(context, mAppLifecycles);
@@ -51,7 +54,7 @@ public class AppDelegate implements App,AppLifecycles{
     public void onCreate(@NonNull Application application) {
         this.mApplication = application;
 
-        mActivityLifecycle=new ActivityLifecycle(application,this.mModules);
+        mActivityLifecycle=new ActivityLifecycle(application);
         //注册框架内部已实现的 Activity 生命周期逻辑
         mApplication.registerActivityLifecycleCallbacks(mActivityLifecycle);
 

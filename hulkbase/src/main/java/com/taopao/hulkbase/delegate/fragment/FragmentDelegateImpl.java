@@ -10,8 +10,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.taopao.hulkbase.HLog;
-
 /**
  * {@link FragmentDelegate} 默认实现类
  */
