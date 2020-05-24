@@ -44,8 +44,4 @@ public class BaseApplication extends Application implements App{
             this.mAppDelegate.onTerminate(this);
         }
     }
-
-
-
-
 }

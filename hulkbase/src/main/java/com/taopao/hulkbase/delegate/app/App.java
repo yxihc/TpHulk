@@ -1,5 +1,7 @@
 package com.taopao.hulkbase.delegate.app;
 
+import android.app.Application;
+
 import com.taopao.hulkbase.config.ConfigModule;
 
 import java.util.ArrayList;
@@ -12,7 +14,12 @@ import java.util.List;
  * @Description: 作用描述
  */
 public interface App {
-    default List<ConfigModule> getConfigModules(){
+     default  List<ConfigModule> getConfigModules(){
         return new ArrayList<>();
     }
+
+
+
+
+
 }
