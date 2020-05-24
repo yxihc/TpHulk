@@ -17,4 +17,12 @@
 
 
     </Button>
+    <Button
+        android:text="MVVM-DEMO"
+        android:id="@+id/btn_demomvvm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+    </Button>
 </LinearLayout>
