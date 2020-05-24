@@ -2,7 +2,13 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/AndroidStudioProjects-TpHulk.iml" filepath="$PROJECT_DIR$/AndroidStudioProjects-TpHulk.iml" group="TpHulk" />
       <module fileurl="file://$PROJECT_DIR$/TpHulk.iml" filepath="$PROJECT_DIR$/TpHulk.iml" group="TpHulk" />
+      <module fileurl="file://$PROJECT_DIR$/app/TpHulk-app.iml" filepath="$PROJECT_DIR$/app/TpHulk-app.iml" group="TpHulk/app" />
+      <module fileurl="file://$PROJECT_DIR$/hulkbase/TpHulk-hulkbase.iml" filepath="$PROJECT_DIR$/hulkbase/TpHulk-hulkbase.iml" group="TpHulk/hulkbase" />
+      <module fileurl="file://$PROJECT_DIR$/hulkimg/TpHulk-hulkimg.iml" filepath="$PROJECT_DIR$/hulkimg/TpHulk-hulkimg.iml" group="TpHulk/hulkimg" />
+      <module fileurl="file://$PROJECT_DIR$/hulkmvp/TpHulk-hulkmvp.iml" filepath="$PROJECT_DIR$/hulkmvp/TpHulk-hulkmvp.iml" group="TpHulk/hulkmvp" />
+      <module fileurl="file://$PROJECT_DIR$/hulkmvvm/TpHulk-hulkmvvm.iml" filepath="$PROJECT_DIR$/hulkmvvm/TpHulk-hulkmvvm.iml" group="TpHulk/hulkmvvm" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="TpHulk/app" />
       <module fileurl="file://$PROJECT_DIR$/hulkbase/hulkbase.iml" filepath="$PROJECT_DIR$/hulkbase/hulkbase.iml" group="TpHulk/hulkbase" />
       <module fileurl="file://$PROJECT_DIR$/hulkimg/hulkimg.iml" filepath="$PROJECT_DIR$/hulkimg/hulkimg.iml" group="TpHulk/hulkimg" />
