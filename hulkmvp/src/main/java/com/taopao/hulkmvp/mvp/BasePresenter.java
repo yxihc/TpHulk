@@ -1,11 +1,13 @@
 package com.taopao.hulkmvp.mvp;
 
+import androidx.lifecycle.LifecycleObserver;
+
 import com.taopao.hulkbase.utils.Preconditions;
 import com.taopao.hulkmvp.mvp.IModel;
 import com.taopao.hulkmvp.mvp.IPresenter;
 import com.taopao.hulkmvp.mvp.IView;
 
-public abstract class BasePresenter<M extends IModel,V extends IView> implements IPresenter {
+public abstract class BasePresenter<M extends IModel,V extends IView> implements IPresenter, LifecycleObserver {
     private V mRootView=null;
     private M mModel=null;
     public BasePresenter(V rootView) {

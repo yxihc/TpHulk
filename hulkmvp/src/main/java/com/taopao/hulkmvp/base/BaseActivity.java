@@ -4,11 +4,13 @@ import android.os.Bundle;
 import android.view.InflateException;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.viewbinding.ViewBinding;
 
 import com.taopao.hulkmvp.mvp.IPresenter;
 
-public  abstract class BaseActivity<P extends IPresenter> extends AppCompatActivity implements IActivity<P> {
+public  abstract class BaseActivity<P extends IPresenter> extends AppCompatActivity implements IActivity<P>  {
     protected P mPresenter = null;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,6 +40,13 @@ public  abstract class BaseActivity<P extends IPresenter> extends AppCompatActiv
 
         //  初始presenter
         setPresenter(obtainPresenter());
+
+        //将 LifecycleObserver 注册给 LifecycleOwner 后 @OnLifecycleEvent 才可以正常使用
+        if (this instanceof LifecycleOwner
+                && mPresenter != null && mPresenter instanceof LifecycleObserver) {
+            getLifecycle().addObserver((LifecycleObserver) mPresenter);
+        }
+
         initView(savedInstanceState);
         initData(savedInstanceState);
         initListener(savedInstanceState);
