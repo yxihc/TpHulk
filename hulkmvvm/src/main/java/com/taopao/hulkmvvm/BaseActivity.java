@@ -22,7 +22,6 @@ public abstract class BaseActivity<DB extends ViewDataBinding,VM extends ViewMod
             initParam(getIntent().getExtras());
         }
 
-
         try {
             int layoutResID = getLayoutRes();
             //如果getLayoutRes返回0,框架则不会调用setContentView()
@@ -34,11 +33,8 @@ public abstract class BaseActivity<DB extends ViewDataBinding,VM extends ViewMod
             e.printStackTrace();
         }
 
-
         initView(savedInstanceState);
         initData(savedInstanceState);
         initListener(savedInstanceState);
-
-
     }
 }

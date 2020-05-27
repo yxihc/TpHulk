@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleObserver;
 import androidx.viewbinding.ViewBinding;
 
 import com.taopao.hulkmvp.mvp.IPresenter;
@@ -24,6 +25,25 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
     public void setPresenter(@Nullable P presenter) {
         this.mPresenter = presenter;
     }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            initParam(savedInstanceState);
+        } else if (getArguments() != null) {
+            initParam(getArguments());
+        }
+        if (mPresenter == null) {
+            mPresenter = obtainPresenter();
+        }
+
+        //将 LifecycleObserver 注册给 LifecycleOwner 后 @OnLifecycleEvent 才可以正常使用
+        if (mPresenter != null && mPresenter instanceof LifecycleObserver) {
+            getLifecycle().addObserver((LifecycleObserver) mPresenter);
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
