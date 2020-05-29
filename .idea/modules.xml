@@ -14,6 +14,7 @@
       <module fileurl="file://$PROJECT_DIR$/hulkimg/hulkimg.iml" filepath="$PROJECT_DIR$/hulkimg/hulkimg.iml" group="TpHulk/hulkimg" />
       <module fileurl="file://$PROJECT_DIR$/hulkmvp/hulkmvp.iml" filepath="$PROJECT_DIR$/hulkmvp/hulkmvp.iml" group="TpHulk/hulkmvp" />
       <module fileurl="file://$PROJECT_DIR$/hulkmvvm/hulkmvvm.iml" filepath="$PROJECT_DIR$/hulkmvvm/hulkmvvm.iml" group="TpHulk/hulkmvvm" />
+      <module fileurl="file://$PROJECT_DIR$/network/network.iml" filepath="$PROJECT_DIR$/network/network.iml" group="TpHulk/network" />
     </modules>
   </component>
 </project>

@@ -15,6 +15,7 @@
             <option value="$PROJECT_DIR$/hulkimg" />
             <option value="$PROJECT_DIR$/hulkmvp" />
             <option value="$PROJECT_DIR$/hulkmvvm" />
+            <option value="$PROJECT_DIR$/network" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

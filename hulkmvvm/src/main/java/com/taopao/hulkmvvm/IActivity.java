@@ -14,7 +14,6 @@ import androidx.viewbinding.ViewBinding;
  * @Date: 2020/4/17 10:17
  * @Use： 框架要求框架中的每个 {@link AppCompatActivity} 都需要实现此类,以满足规范
  * @see BaseActivity
- * <p>
  * ================================================
  */
 public interface IActivity {
@@ -25,6 +24,9 @@ public interface IActivity {
     default ViewBinding obtainViewBinding(@Nullable LayoutInflater layoutInflater){
         return null;
     }
+
+     int variableId();
+
     /**
      * 初始化 View,
      *
