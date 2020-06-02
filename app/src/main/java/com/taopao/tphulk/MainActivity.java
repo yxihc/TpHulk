@@ -1,10 +1,12 @@
 package com.taopao.tphulk;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.taopao.tphulk.databinding.ActivityMainBinding;
+import com.taopao.tphulk.init.InitService;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -30,6 +32,11 @@ public class MainActivity extends AppCompatActivity {
 //        ActivityMainBinding
 
         LayoutInflater layoutInflater = getLayoutInflater();
+
+
+//        Intent intent = new Intent(this, InitService.class);
+//        startService(intent);
+
     }
 
 }
