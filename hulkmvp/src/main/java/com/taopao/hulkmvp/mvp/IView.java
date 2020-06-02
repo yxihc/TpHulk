@@ -9,13 +9,9 @@ import static com.taopao.hulkbase.utils.Preconditions.checkNotNull;
 
 
 /**
- * ================================================
- *
  * @Author：淘跑
  * @Date: 2019/4/17 15:33
  * @Use： 框架要求框架中的每个 View 都需要实现此类, 以满足规范
- * <p>
- * ================================================
  */
 public interface IView {
 

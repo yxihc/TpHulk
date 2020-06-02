@@ -8,15 +8,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewbinding.ViewBinding;
 
 /**
- * ================================================
  *
  * @Author：淘跑
  * @Date: 2020/4/17 10:17
- * @Use： 框架要求框架中的每个 {@link AppCompatActivity} 都需要实现此类,以满足规范
- * @see BaseActivity
- * ================================================
+ * @See {@link BaseActivity}
+ * @Use：
+ * ----------------------------------------------------------------------------------
+ * 1、框架要求框架中的每个 {@link AppCompatActivity} 都需要实现此类,以满足规范、
+ * 2、写在这里的方法都是子类可以重写的，如果不想让子类重写该方法，那方法就不应该写在这里
+ *
  */
-public interface IActivity {
+public interface IActivity<VM extends BaseViewModel> {
 
       int getLayoutRes();
 
@@ -26,7 +28,9 @@ public interface IActivity {
     }
 
      int variableId();
+     default void initViewDataBinding(){
 
+    }
     /**
      * 初始化 View,
      *
@@ -59,11 +63,15 @@ public interface IActivity {
     default void initParam(Bundle bundle) {
 
     }
-
-//    @Nullable
-//    default P obtainPresenter() {
-//        return null;
-//    }
+    /**
+     * 初始化ViewModel
+     *
+     * @return 继承BaseViewModel的ViewModel
+     */
+    @Nullable
+    default VM obtainViewModel() {
+        return null;
+    }
 //
 //    void setPresenter(@Nullable P presenter);
 

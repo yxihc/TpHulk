@@ -20,7 +20,9 @@ import java.util.List;
  * @Copyright (C), 2017-2020
  * @Author: TaoPao
  * @Date: 2020/5/22 下午3:20
- * @Description: java类作用描述
+ * @Description: ⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️
+ * --------------------------------------------------------
+ *
  */
 public class HulkApplication extends BaseApplication {
     @Override
@@ -28,10 +30,5 @@ public class HulkApplication extends BaseApplication {
         List<ConfigModule> configModules = new ArrayList<>();
         configModules.add(new MyConfigModule());
         return configModules;
-
     }
-
-
-
-
 }

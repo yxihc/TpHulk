@@ -6,12 +6,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
-public abstract class BaseActivity<DB extends ViewDataBinding,VM extends IViewModel> extends AppCompatActivity implements IActivity {
-
+public abstract class BaseActivity<DB extends ViewDataBinding,VM extends BaseViewModel> extends AppCompatActivity implements IActivity<VM> {
     public DB mBinding;
     public VM mViewModel;
     @Override
@@ -25,7 +26,7 @@ public abstract class BaseActivity<DB extends ViewDataBinding,VM extends IViewMo
         }
         try {
             int layoutResID = getLayoutRes();
-            //如果getLayoutRes返回0,框架则不会调用setContentView()
+            //  如果getLayoutRes返回0,框架则不会调用setContentView()
             if (layoutResID != 0) {
                 mBinding = DataBindingUtil.setContentView(this, layoutResID);
             }
@@ -33,32 +34,38 @@ public abstract class BaseActivity<DB extends ViewDataBinding,VM extends IViewMo
             if (e instanceof InflateException) throw e;
             e.printStackTrace();
         }
-        createViewModel();
+        initViewDataBinding();
+
+        initView(savedInstanceState);
+        initData(savedInstanceState);
+        initListener(savedInstanceState);
+    }
+    @Override
+    public void initViewDataBinding() {
+        mViewModel=obtainViewModel();
+        if (mViewModel == null) {
+            mViewModel = (VM) initViewModel(this);
+        }
         if (mViewModel!=null){
             //让ViewModel拥有View的生命周期感应
             getLifecycle().addObserver(mViewModel);
             mBinding.setVariable(variableId(),mViewModel);
             mBinding.setLifecycleOwner(this);
         }
-        initView(savedInstanceState);
-        initData(savedInstanceState);
-        initListener(savedInstanceState);
     }
 
 
-
-    public void  createViewModel(){
-        if (mViewModel == null) {
-            Class modelClass;
-            Type type = getClass().getGenericSuperclass();
-            if (type instanceof ParameterizedType) {
-                modelClass = (Class) ((ParameterizedType) type).getActualTypeArguments()[1];
-            } else {
-                //如果没有指定泛型参数，则默认使用BaseViewModel
-                modelClass = BaseViewModel.class;
-            }
-            mViewModel = (VM) new ViewModelProvider(this).get(modelClass);
+    private ViewModel initViewModel(FragmentActivity activity){
+        Class modelClass;
+        Type type = getClass().getGenericSuperclass();
+        if (type instanceof ParameterizedType) {
+            modelClass = (Class) ((ParameterizedType) type).getActualTypeArguments()[1];
+        } else {
+            //如果没有指定泛型参数，则默认使用BaseViewModel
+            modelClass = BaseViewModel.class;
         }
+        ViewModel viewModel =  new ViewModelProvider(activity).get(modelClass);
+        return viewModel;
     }
 
 }
