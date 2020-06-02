@@ -44,7 +44,7 @@ public abstract class BaseActivity<DB extends ViewDataBinding,VM extends BaseVie
     public void initViewDataBinding() {
         mViewModel=obtainViewModel();
         if (mViewModel == null) {
-            mViewModel = (VM) initViewModel(this);
+            mViewModel = (VM) initViewModel();
         }
         if (mViewModel!=null){
             //让ViewModel拥有View的生命周期感应
@@ -55,7 +55,7 @@ public abstract class BaseActivity<DB extends ViewDataBinding,VM extends BaseVie
     }
 
 
-    private ViewModel initViewModel(FragmentActivity activity){
+    private ViewModel initViewModel(){
         Class modelClass;
         Type type = getClass().getGenericSuperclass();
         if (type instanceof ParameterizedType) {
@@ -64,7 +64,7 @@ public abstract class BaseActivity<DB extends ViewDataBinding,VM extends BaseVie
             //如果没有指定泛型参数，则默认使用BaseViewModel
             modelClass = BaseViewModel.class;
         }
-        ViewModel viewModel =  new ViewModelProvider(activity).get(modelClass);
+        ViewModel viewModel =  new ViewModelProvider(this).get(modelClass);
         return viewModel;
     }
 
